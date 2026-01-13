@@ -1,0 +1,239 @@
+/* Login Page Styles */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--secondary-blue);
+    background-image: radial-gradient(circle at 10% 20%, rgba(220, 20, 60, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(74, 144, 164, 0.05) 0%, transparent 20%);
+    padding: var(--spacing-m);
+}
+
+.login-container {
+    display: flex;
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-hover);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 600px;
+    animation: slideUp 0.6s ease-out;
+}
+
+/* Left Side - Illustration/Info */
+.login-visual {
+    flex: 1;
+    background-color: var(--primary-red);
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.visual-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.visual-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-m);
+    color: white;
+}
+
+.visual-content p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* Right Side - Form */
+.login-form-section {
+    flex: 1;
+    padding: var(--spacing-xl) var(--spacing-xxl);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.login-header h1 {
+    font-size: 2rem;
+    color: var(--neutral-dark);
+    margin-bottom: var(--spacing-xs);
+}
+
+.login-header p {
+    color: var(--neutral-gray);
+}
+
+.form-group {
+    margin-bottom: var(--spacing-l);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--neutral-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--neutral-light);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    background-color: var(--secondary-white);
+}
+
+.form-input:focus {
+    border-color: var(--primary-red);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+}
+
+.form-input.error {
+    border-color: var(--error-red);
+}
+
+.error-message {
+    color: var(--error-red);
+    font-size: 0.85rem;
+    margin-top: var(--spacing-xs);
+    display: block;
+}
+
+/* Role Selector */
+.role-tabs {
+    display: flex;
+    background: var(--secondary-blue);
+    padding: 4px;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.role-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    background: transparent;
+    border-radius: var(--radius-md);
+    color: var(--neutral-gray);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.role-tab.active {
+    background: white;
+    color: var(--primary-red);
+    box-shadow: var(--shadow-sm);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-l);
+    font-size: 0.9rem;
+}
+
+.forgot-link {
+    color: var(--primary-red);
+    font-weight: 500;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.btn-primary {
+    background-color: var(--primary-red);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(220, 20, 60, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-red-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(220, 20, 60, 0.3);
+}
+
+.btn-primary:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.register-text {
+    text-align: center;
+    margin-top: var(--spacing-l);
+    color: var(--neutral-gray);
+    font-size: 0.95rem;
+}
+
+.register-link {
+    color: var(--primary-red);
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .login-container {
+        flex-direction: column;
+        max-width: 500px;
+        min-height: auto;
+    }
+
+    .login-visual {
+        display: none;
+        /* Hide visual on mobile to prioritize form */
+    }
+
+    .login-form-section {
+        padding: var(--spacing-xl);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

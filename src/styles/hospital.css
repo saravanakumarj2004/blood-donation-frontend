@@ -1,0 +1,229 @@
+/* Hospital Dashboard Theme - Professional & Serious */
+
+:root {
+    --hospital-primary: #0F4C75;
+    /* Deep Medical Blue */
+    --hospital-secondary: #3282B8;
+    /* Secondary Blue */
+    --hospital-accent: #BBE1FA;
+    /* Light Blue Accent */
+    --hospital-danger: #D32F2F;
+    /* Alert Red */
+    --hospital-warning: #FFA000;
+    /* Warning Amber */
+    --hospital-success: #388E3C;
+    /* Medical Green */
+    --hospital-bg: #F0F2F5;
+    /* Clinical Grey/White */
+    --hospital-text: #263238;
+    /* Dark Grey Text */
+    --hospital-border: #CFD8DC;
+    /* Table Borders */
+}
+
+/* Scoped Wrapper (optional) or Global Hospital Styles */
+
+.hospital-container {
+    padding: 0;
+    color: var(--hospital-text);
+}
+
+/* KPI Cards - Dense & Info heavy */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.kpi-card {
+    background: white;
+    border: 1px solid var(--hospital-border);
+    border-radius: 8px;
+    /* Sharper corners than donor dash */
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--hospital-secondary);
+}
+
+.kpi-card.alert {
+    border-left-color: var(--hospital-danger);
+    background-color: #FFF5F5;
+}
+
+.kpi-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--hospital-primary);
+    line-height: 1.2;
+}
+
+.kpi-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #546E7A;
+    margin-top: 4px;
+}
+
+.kpi-icon {
+    font-size: 1.8rem;
+    opacity: 0.7;
+    color: var(--hospital-secondary);
+}
+
+/* Data Tables - The core of the inventory system */
+.table-container {
+    background: white;
+    border: 1px solid var(--hospital-border);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.hospital-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.hospital-table thead {
+    background-color: #ECEFF1;
+    border-bottom: 2px solid var(--hospital-border);
+}
+
+.hospital-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 700;
+    color: var(--hospital-primary);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.hospital-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--hospital-border);
+    vertical-align: middle;
+}
+
+.hospital-table tr:hover {
+    background-color: #F5F7FA;
+}
+
+.stock-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    min-width: 40px;
+    text-align: center;
+}
+
+.stock-high {
+    background-color: #E8F5E9;
+    color: var(--hospital-success);
+}
+
+.stock-med {
+    background-color: #E3F2FD;
+    color: var(--hospital-secondary);
+}
+
+.stock-low {
+    background-color: #FFEBEE;
+    color: var(--hospital-danger);
+    border: 1px solid #FFCDD2;
+}
+
+/* Dashboard Sections */
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--hospital-border);
+    padding-bottom: 0.5rem;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--hospital-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Quick Actions Panel */
+.action-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.action-btn {
+    background: white;
+    border: 1px solid var(--hospital-secondary);
+    color: var(--hospital-secondary);
+    padding: 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-btn:hover {
+    background: var(--hospital-secondary);
+    color: white;
+}
+
+.action-btn.primary {
+    background: var(--hospital-primary);
+    color: white;
+    border-color: var(--hospital-primary);
+}
+
+.action-btn.primary:hover {
+    background: #0A3655;
+}
+
+/* Search Results for Nearby Hospitals */
+.hospital-result-card {
+    background: white;
+    border: 1px solid var(--hospital-border);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.limit-badge {
+    font-size: 0.75rem;
+    background: #FFF3E0;
+    color: #E65100;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+}
+
+/* Modals/Forms (Simple Override) */
+.form-group label {
+    font-weight: 600;
+    color: var(--hospital-primary);
+    font-size: 0.9rem;
+}
