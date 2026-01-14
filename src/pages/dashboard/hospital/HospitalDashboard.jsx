@@ -63,7 +63,7 @@ const HospitalDashboard = () => {
 
                 const appointments = await hospitalAPI.getAppointments(user.id);
                 setAppointmentCount(appointments.length);
-                setIncompleteApptCount(appointments.filter(a => a.status === 'Scheduled').length);
+                setIncompleteApptCount(appointments.filter(a => a.status === 'Scheduled' || a.status === 'Pending').length);
 
                 const allRequests = requests.sort((a, b) => new Date(b.date || b.timestamp) - new Date(a.date || a.timestamp));
                 const recentFive = allRequests.slice(0, 5);

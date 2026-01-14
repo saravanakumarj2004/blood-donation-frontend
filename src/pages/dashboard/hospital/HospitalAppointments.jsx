@@ -166,7 +166,7 @@ const HospitalAppointments = () => {
                                                 </div>
                                             ) : (
                                                 <div className="space-x-2">
-                                                    {apt.status === 'Scheduled' && (
+                                                    {(apt.status === 'Scheduled' || apt.status === 'Pending') && (
                                                         <>
                                                             <button
                                                                 onClick={() => handleStatusUpdate(apt.id, 'Accepted', apt.donorId)}
