@@ -16,9 +16,10 @@ const NearbyRequests = () => {
             if (!user?.id) return;
             try {
                 const data = await donorAPI.getUrgentRequests(user.id);
-                setRequests(data);
+                setRequests(Array.isArray(data) ? data : []);
             } catch (error) {
                 console.error("Failed to fetch requests", error);
+                setRequests([]);
             } finally {
                 setLoading(false);
             }
@@ -76,12 +77,6 @@ const NearbyRequests = () => {
                 location: location || 'Unknown'
             });
             setModalOpen(false);
-
-
-
-            setModalOpen(false);
-
-            // Optimistically update list to show "Accepted" state immediately
             // Instead of removing, we update the status locally to trigger the "Accepted Card" view
             setRequests(prev => prev.map(r =>
                 r.id === selectedReq.id
