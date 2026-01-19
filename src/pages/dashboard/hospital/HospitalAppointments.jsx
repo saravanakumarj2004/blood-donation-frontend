@@ -129,7 +129,7 @@ const HospitalAppointments = () => {
                                                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-rose-600 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-primary/20">
                                                     <User size={18} />
                                                 </div>
-                                                <span className="font-bold text-neutral-700">{apt.reason || 'Donor'}</span>
+                                                <span className="font-bold text-neutral-700">{apt.donorName || 'Donor'}</span>
                                             </div>
                                         </td>
                                         <td className="px-8 py-6">

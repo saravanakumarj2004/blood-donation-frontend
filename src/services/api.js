@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://blood-donation-backend-csc2.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 const api = axios.create({
     baseURL: API_URL,
@@ -45,8 +45,9 @@ export const donorAPI = {
         const response = await api.post('/donor/history/', data);
         return response.data;
     },
-    getUrgentRequests: async () => {
-        const response = await api.get('/donor/active-requests/');
+    getUrgentRequests: async (userId) => {
+        const url = userId ? `/donor/active-requests/?userId=${userId}` : '/donor/active-requests/';
+        const response = await api.get(url);
         return response.data;
     },
     getHospitals: async () => {
@@ -57,6 +58,10 @@ export const donorAPI = {
         const response = await api.post('/donor/respond-alert/', data);
         return response.data;
     },
+    ignoreRequest: async (requestId, userId) => {
+        const response = await api.post('/donor/ignore-request/', { requestId, userId });
+        return response.data;
+    },
     getNotifications: async (userId) => {
         const response = await api.get(`/notifications/?userId=${userId}`);
         return response.data;
@@ -64,49 +69,33 @@ export const donorAPI = {
     updateNotificationStatus: async (id, status) => {
         const response = await api.put('/notifications/', { id, status });
         return response.data;
+    },
+    // New Feature: P2P
+    createRequest: (data) => api.post('/donor/requests/', data).then(res => res.data),
+    completeRequest: (requestId) => api.post('/donor/requests/complete/', { requestId }).then(res => res.data),
+    getActiveLocations: async () => { // New Endpoint
+        const response = await api.get('/locations/active/');
+        return response.data;
+    },
+    getMyRequests: async (userId) => {
+        const response = await api.get(`/donor/my-requests/?userId=${userId}`);
+        return response.data;
+    },
+    getDonorCount: async (cities, bloodGroup) => { // Updated to accept bloodGroup
+        const params = new URLSearchParams();
+        if (Array.isArray(cities)) {
+            cities.forEach(c => params.append('city', c));
+        } else {
+            params.append('city', cities);
+        }
+        if (bloodGroup) params.append('bloodGroup', bloodGroup);
+
+        const response = await api.get(`/locations/count/?${params.toString()}`);
+        return response.data;
     }
 };
 
-export const adminAPI = {
-    getStats: async () => {
-        const response = await api.get('/admin/stats/');
-        return response.data;
-    },
-    getUsers: async (role) => {
-        const response = await api.get(`/admin/users/?role=${role}`);
-        return response.data;
-    },
-    deleteUser: async (id) => {
-        const response = await api.delete(`/admin/users/?id=${id}`);
-        return response.data;
-    },
-    getAlerts: async () => {
-        const response = await api.get('/admin/alerts/');
-        return response.data;
-    },
-    searchDonors: async (bloodGroup, eligibleOnly = false) => {
-        let url = `/admin/search-donors/?bloodGroup=${encodeURIComponent(bloodGroup || '')}`;
-        if (eligibleOnly) url += '&eligibleOnly=true';
-        const response = await api.get(url);
-        return response.data;
-    },
-    getGlobalInventory: async () => {
-        const response = await api.get('/admin/inventory/');
-        return response.data;
-    },
-    notifyDonors: async (notifications) => {
-        const response = await api.post('/notifications/', { notifications });
-        return response.data;
-    },
-    getDonationHistory: async () => {
-        const response = await api.get('/admin/history/');
-        return response.data;
-    },
-    getAnalytics: async () => {
-        const response = await api.get('/admin/analytics/');
-        return response.data;
-    }
-};
+
 
 export const hospitalAPI = {
     getInventory: async (userId) => {
@@ -129,6 +118,10 @@ export const hospitalAPI = {
         const response = await api.put('/hospital/requests/', data);
         return response.data;
     },
+    deleteRequest: async (requestId) => {
+        const response = await api.delete(`/hospital/requests/?id=${requestId}`);
+        return response.data;
+    },
     searchBlood: async (bloodGroup, lat, lng) => {
         let url = `/hospital/search/?bloodGroup=${encodeURIComponent(bloodGroup)}`;
         if (lat && lng) {
@@ -143,6 +136,50 @@ export const hospitalAPI = {
     },
     updateAppointment: async (data) => {
         const response = await api.post('/hospital/appointments/', data);
+        return response.data;
+    },
+    // New Features
+    getDonors: async () => {
+        const response = await api.get('/hospital/donors/');
+        return response.data;
+    },
+    // Search Eligible Donors for P2P Broadcast
+    searchDonors: async (bloodGroup, city) => {
+        const params = new URLSearchParams();
+        if (bloodGroup) params.append('bloodGroup', bloodGroup);
+
+        if (Array.isArray(city)) {
+            city.forEach(c => params.append('city', c));
+        } else if (city) {
+            params.append('city', city);
+        }
+
+        const response = await api.get(`/hospital/donors/?${params.toString()}`);
+        return response.data;
+    },
+    getReports: async () => {
+        const response = await api.get('/hospital/reports/');
+        return response.data;
+    },
+    dispatchBlood: async (data) => {
+        const response = await api.post('/hospital/dispatch/', data);
+        return response.data;
+    },
+    receiveBlood: async (data) => {
+        const response = await api.post('/hospital/receive/', data);
+        return response.data;
+    },
+    // Batch Management
+    createBatch: async (data) => {
+        const response = await api.post('/hospital/batches/', data);
+        return response.data;
+    },
+    getBatches: async (hospitalId) => {
+        const response = await api.get(`/hospital/batches/?hospitalId=${hospitalId}`);
+        return response.data;
+    },
+    useBatchUnit: async (batchId, quantity = 1) => {
+        const response = await api.post('/hospital/batches/action/', { batchId, action: 'use_unit', quantity });
         return response.data;
     }
 };

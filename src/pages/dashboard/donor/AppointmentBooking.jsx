@@ -118,7 +118,8 @@ const AppointmentBooking = () => {
             });
         } catch (error) {
             console.error(error);
-            alert("Booking failed");
+            const msg = error.response?.data?.error || "Booking failed. Please try again.";
+            alert(msg);
         } finally {
             setIsLoading(false);
         }

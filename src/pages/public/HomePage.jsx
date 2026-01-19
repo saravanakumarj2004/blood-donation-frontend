@@ -15,7 +15,8 @@ import {
     Award,
     ChevronRight,
     MapPin,
-    Bell
+    Bell,
+    Building2
 } from 'lucide-react';
 import Footer from '../../components/common/Footer';
 import Navbar from '../../components/common/Navbar';
@@ -113,7 +114,7 @@ const HomePage = () => {
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.6 }}
-                            className="absolute -top-4 right-4 lg:-right-4 bg-white/90 backdrop-blur-xl p-4 pr-6 rounded-2xl shadow-xl shadow-neutral-200/50 border border-white flex items-center gap-4 animate-float"
+                            className="absolute -top-4 right-4 lg:-right-4 z-20 bg-white/90 backdrop-blur-xl p-4 pr-6 rounded-2xl shadow-xl shadow-neutral-200/50 border border-white flex items-center gap-4 animate-float"
                         >
                             <div className="w-14 h-14 bg-gradient-to-br from-rose-100 to-rose-200 rounded-xl flex items-center justify-center text-primary shadow-inner">
                                 <Heart className="fill-current" size={26} />
@@ -128,7 +129,7 @@ const HomePage = () => {
                             initial={{ y: -20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.8 }}
-                            className="absolute -bottom-8 left-4 lg:-left-8 bg-white/90 backdrop-blur-xl p-4 pr-6 rounded-2xl shadow-xl shadow-neutral-200/50 border border-white flex items-center gap-4 animate-float-delayed"
+                            className="absolute -bottom-8 left-4 lg:-left-8 z-20 bg-white/90 backdrop-blur-xl p-4 pr-6 rounded-2xl shadow-xl shadow-neutral-200/50 border border-white flex items-center gap-4 animate-float-delayed"
                         >
                             <div className="w-14 h-14 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-xl flex items-center justify-center text-emerald-600 shadow-inner">
                                 <Activity size={26} />
@@ -286,5 +287,4 @@ const HomePage = () => {
         </div>
     );
 };
-import { Building2 } from 'lucide-react'; // Added missing import
 export default HomePage;

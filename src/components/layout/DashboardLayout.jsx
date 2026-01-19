@@ -14,7 +14,13 @@ import {
     Box,
     Users,
     Building2,
-    Inbox
+    Inbox,
+    MapPin,
+    HeartPulse,
+    ArrowDownLeft,
+    Package,
+    PlusCircle,
+    FileText
 } from 'lucide-react';
 import api from '../../services/api';
 
@@ -29,12 +35,29 @@ const DashboardLayout = () => {
     const [isNotifOpen, setIsNotifOpen] = useState(false);
     const unreadCount = notifications.filter(n => n.status === 'UNREAD').length;
 
+    // Popup State
+    const [popupNotif, setPopupNotif] = useState(null);
+    const prevCountRef = React.useRef(0);
+
     // Fetch Notifications
     const fetchNotifications = async () => {
         if (!user?.id) return;
         try {
             const response = await api.get(`/notifications/?userId=${user.id}`);
-            setNotifications(response.data);
+            const data = response.data;
+
+            // Detect new notifications
+            if (data.length > prevCountRef.current && prevCountRef.current > 0) {
+                const newNotifs = data.filter(n => n.status === 'UNREAD'); // Simple filter
+                if (newNotifs.length > 0) {
+                    // Show the latest one
+                    setPopupNotif(newNotifs[0]);
+                    // Auto hide after 5s
+                    setTimeout(() => setPopupNotif(null), 5000);
+                }
+            }
+            prevCountRef.current = data.length;
+            setNotifications(data);
         } catch (error) {
             console.error("Failed to fetch notifications", error);
         }
@@ -65,25 +88,26 @@ const DashboardLayout = () => {
             case 'donor':
                 return [
                     { path: '/dashboard/donor', label: 'Overview', icon: LayoutDashboard },
+                    { path: '/dashboard/donor/request', label: 'Find Donors', icon: Users },
+                    { path: '/dashboard/donor/my-requests', label: 'My Requests', icon: Inbox }, // New Link
+                    { path: '/dashboard/donor/nearby', label: 'Nearby Requests', icon: MapPin }, // MapPin missing import check
                     { path: '/dashboard/donor/history', label: 'Donation History', icon: History },
                     { path: '/dashboard/donor/appointments', label: 'Appointments', icon: Calendar },
+                    { path: '/dashboard/donor/eligibility', label: 'Eligibility Check', icon: Droplet },
                     { path: '/dashboard/donor/profile', label: 'My Profile', icon: User },
                 ];
             case 'hospital':
                 return [
                     { path: '/dashboard/hospital', label: 'Overview', icon: LayoutDashboard },
-                    { path: '/dashboard/hospital/stock', label: 'Blood Stock', icon: Droplet },
-                    { path: '/dashboard/hospital/request', label: 'Request Units', icon: Box },
-                    { path: '/dashboard/hospital/incoming-requests', label: 'Incoming Requests', icon: Inbox },
+                    { path: '/dashboard/hospital/request', label: 'Request Blood', icon: HeartPulse },
+                    { path: '/dashboard/hospital/incoming-requests', label: 'Incoming Requests', icon: ArrowDownLeft },
+                    { path: '/dashboard/hospital/stock', label: 'Stock Manager', icon: Droplet },
+                    { path: '/dashboard/hospital/batches', label: 'Batch Management', icon: Package }, // Swapped
+                    { path: '/dashboard/hospital/stock-entry', label: 'Stock Entry', icon: PlusCircle },
                     { path: '/dashboard/hospital/appointments', label: 'Appointments', icon: Calendar },
+                    { path: '/dashboard/hospital/reports', label: 'Reports', icon: FileText }
                 ];
-            case 'admin':
-                return [
-                    { path: '/dashboard/admin', label: 'Overview', icon: LayoutDashboard },
-                    { path: '/dashboard/admin/donors', label: 'Manage Donors', icon: Users },
-                    { path: '/dashboard/admin/hospitals', label: 'Manage Hospitals', icon: Building2 },
-                    { path: '/dashboard/admin/inventory', label: 'Global Inventory', icon: Box },
-                ];
+
             default:
                 return [];
         }
@@ -107,7 +131,7 @@ const DashboardLayout = () => {
             >
                 <div className="h-full flex flex-col bg-gradient-to-b from-white/50 to-white/30">
                     {/* Brand */}
-                    <div className="h-24 flex items-center gap-3 px-8 border-b border-neutral-100/50">
+                    <div className="h-24 flex items-center gap-3 px-8 border-b border-neutral-100/50 shrink-0">
                         <div className="w-10 h-10 bg-gradient-to-br from-primary to-rose-600 rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center text-white transform hover:rotate-12 transition-transform duration-300">
                             <Droplet size={20} className="fill-current" />
                         </div>
@@ -117,7 +141,7 @@ const DashboardLayout = () => {
                     </div>
 
                     {/* Navigation */}
-                    <nav className="flex-1 px-4 py-8 space-y-2 overflow-y-auto custom-scrollbar">
+                    <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                         {links.map((link) => (
                             <NavLink
                                 key={link.path}
@@ -136,12 +160,12 @@ const DashboardLayout = () => {
                                             <div className="absolute inset-0 bg-gradient-to-r from-primary to-rose-600 -z-10" />
                                         )}
 
-                                        <link.icon size={22} className={`transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-white fill-white/20' : ''}`} />
+                                        <link.icon size={20} className={`transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-white fill-white/20' : ''}`} />
                                         <span className="tracking-wide">{link.label}</span>
 
                                         {/* Active Indicator Dot */}
                                         {isActive && (
-                                            <div className="absolute right-4 w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                                            <div className="absolute right-3 w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                                         )}
                                     </>
                                 )}
@@ -150,35 +174,37 @@ const DashboardLayout = () => {
                     </nav>
 
                     {/* User Profile */}
-                    <div className="p-6 border-t border-neutral-100/50 backdrop-blur-md bg-white/40 m-4 rounded-3xl shadow-sm border border-white/60">
+                    <div className="p-4 border-t border-neutral-100/50 backdrop-blur-md bg-white/40 m-3 rounded-2xl shadow-sm border border-white/60 shrink-0">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-neutral-100 to-neutral-200 border-2 border-white shadow-inner flex items-center justify-center text-neutral-500">
-                                <User size={24} />
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neutral-100 to-neutral-200 border-2 border-white shadow-inner flex items-center justify-center text-neutral-500">
+                                <User size={20} />
                             </div>
                             <div className="flex-1 min-w-0">
                                 <div className="text-sm font-bold text-neutral-900 truncate">{user?.name || 'User'}</div>
-                                <div className="text-xs font-medium text-neutral-400 capitalize bg-neutral-100 px-2 py-0.5 rounded-full w-fit mt-1">
+                                <div className="text-[10px] font-medium text-neutral-400 capitalize bg-neutral-100 px-2 py-0.5 rounded-full w-fit mt-0.5">
                                     {user?.role} Access
                                 </div>
                             </div>
                         </div>
                         <button
                             onClick={handleLogout}
-                            className="mt-4 w-full py-2.5 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-xl transition-all duration-300 border border-neutral-200 hover:border-neutral-900 hover:shadow-lg"
+                            className="mt-3 w-full py-2 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-lg transition-all duration-300 border border-neutral-200 hover:border-neutral-900 hover:shadow-lg"
                         >
-                            <LogOut size={16} /> Sign Out
+                            <LogOut size={14} /> Sign Out
                         </button>
                     </div>
                 </div>
             </aside>
 
             {/* Overlay */}
-            {isMobileMenuOpen && (
-                <div
-                    className="fixed inset-0 bg-black/20 z-30 lg:hidden backdrop-blur-sm"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                />
-            )}
+            {
+                isMobileMenuOpen && (
+                    <div
+                        className="fixed inset-0 bg-black/20 z-30 lg:hidden backdrop-blur-sm"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    />
+                )
+            }
 
             {/* Main Content */}
             <main className="flex-1 lg:ml-72 flex flex-col min-h-screen relative z-0">
@@ -224,7 +250,24 @@ const DashboardLayout = () => {
                                             notifications.map(n => (
                                                 <div
                                                     key={n.id}
-                                                    onClick={() => handleMarkAsRead(n)}
+                                                    onClick={() => {
+                                                        handleMarkAsRead(n);
+                                                        // Navigation Logic
+                                                        if (n.type === 'EMERGENCY_ALERT' || n.type === 'URGENT_REQUEST') {
+                                                            if (user?.role === 'hospital') {
+                                                                navigate('/dashboard/hospital/incoming-requests');
+                                                            } else {
+                                                                navigate('/dashboard/donor/nearby');
+                                                            }
+                                                        } else if (n.type === 'REQUEST_ACCEPTED') {
+                                                            if (user?.role === 'hospital') {
+                                                                navigate('/dashboard/hospital/incoming-requests'); // To "My Outgoing"
+                                                            } else {
+                                                                navigate('/dashboard/donor/my-requests');
+                                                            }
+                                                        }
+                                                        setIsNotifOpen(false);
+                                                    }}
                                                     className={`p-4 border-b border-neutral-50 hover:bg-neutral-50 cursor-pointer transition-colors ${(n.status || 'UNREAD').toUpperCase() === 'UNREAD' ? 'bg-blue-50/50' : 'opacity-75'
                                                         }`}
                                                 >
@@ -255,8 +298,37 @@ const DashboardLayout = () => {
                 <div className="flex-1 p-4 lg:p-8 overflow-y-auto">
                     <Outlet />
                 </div>
+
+                {/* Global Notification Popup */}
+                {popupNotif && (
+                    <div className="fixed top-24 right-6 z-[100] animate-slide-in-right">
+                        <div className="bg-white/90 backdrop-blur-xl border border-red-100 p-5 rounded-[1.5rem] shadow-2xl w-80 flex items-start gap-4">
+                            <div className="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center shrink-0">
+                                <Bell size={24} className="fill-current animate-wiggle" />
+                            </div>
+                            <div className="flex-1">
+                                <h4 className="font-black text-neutral-900 text-sm">New Alert!</h4>
+                                <p className="text-sm font-bold text-neutral-600 mt-1 leading-snug">
+                                    {popupNotif.message}
+                                </p>
+                                <button
+                                    onClick={() => {
+                                        setPopupNotif(null);
+                                        navigate('/dashboard/donor/nearby');
+                                    }}
+                                    className="mt-3 text-xs font-black text-red-600 hover:text-red-700 uppercase tracking-wide"
+                                >
+                                    View Request →
+                                </button>
+                            </div>
+                            <button onClick={() => setPopupNotif(null)} className="text-neutral-400 hover:text-neutral-600">
+                                <X size={16} />
+                            </button>
+                        </div>
+                    </div>
+                )}
             </main>
-        </div>
+        </div >
     );
 };
 

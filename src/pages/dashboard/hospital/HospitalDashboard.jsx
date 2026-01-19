@@ -15,6 +15,9 @@ import {
     Search,
     Filter,
     HeartPulse,
+    X,
+    Shield,
+    Minus,
     Thermometer,
     Users
 } from 'lucide-react';
@@ -263,7 +266,7 @@ const HospitalDashboard = () => {
                                     <th className="px-8 py-6">Blood Group</th>
                                     <th className="px-8 py-6">Availability</th>
                                     <th className="px-8 py-6">Status</th>
-                                    <th className="px-8 py-6 text-right">Actions</th>
+                                    <th className="px-8 py-6 text-right">Batch Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-neutral-100/50">
@@ -299,9 +302,22 @@ const HospitalDashboard = () => {
                                             </span>
                                         </td>
                                         <td className="px-8 py-5 text-right">
-                                            <button onClick={() => navigate('/dashboard/hospital/request')} className="p-3 text-neutral-400 hover:text-white hover:bg-primary rounded-xl transition-all shadow-sm hover:shadow-lg hover:shadow-primary/30">
-                                                <Plus size={20} />
-                                            </button>
+                                            <div className="flex items-center justify-end gap-3">
+                                                <button
+                                                    onClick={() => navigate(`/dashboard/hospital/batches?bloodGroup=${encodeURIComponent(group)}`)}
+                                                    className="w-10 h-10 rounded-xl bg-white border border-neutral-200 text-neutral-400 hover:border-red-500 hover:text-red-500 hover:bg-red-50 hover:shadow-lg hover:shadow-red-500/20 active:scale-95 transition-all flex items-center justify-center group/btn"
+                                                    title="Manage Batches (Remove/Use)"
+                                                >
+                                                    <Minus size={20} className="stroke-[3px]" />
+                                                </button>
+                                                <button
+                                                    onClick={() => navigate('/dashboard/hospital/stock-entry')}
+                                                    className="w-10 h-10 rounded-xl bg-neutral-900 text-white shadow-lg hover:bg-black hover:shadow-xl hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center group/btn"
+                                                    title="Add New Stock"
+                                                >
+                                                    <Plus size={20} className="stroke-[3px]" />
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -349,61 +365,7 @@ const HospitalDashboard = () => {
                         </div>
                     )}
 
-                    {/* Activity Feed */}
-                    <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-xl shadow-neutral-100/50 p-8 h-fit">
-                        <div className="flex items-center justify-between mb-8">
-                            <h3 className="text-xl font-bold text-neutral-900 flex items-center gap-3">
-                                <div className="p-2 bg-violet-100 rounded-xl text-violet-600">
-                                    <Activity size={24} />
-                                </div>
-                                Activity
-                            </h3>
-                            <button className="text-xs font-bold text-neutral-400 hover:text-primary transition-colors">VIEW ALL</button>
-                        </div>
 
-                        <div className="space-y-8 relative">
-                            {/* Timeline Line */}
-                            <div className="absolute left-[19px] top-4 bottom-4 w-0.5 bg-neutral-100 rounded-full" />
-
-                            {recentActivity.length > 0 ? recentActivity.map((item, idx) => (
-                                <div key={idx} className="relative pl-12">
-                                    {/* Timeline Dot */}
-                                    <div className={`absolute left-0 top-0 w-10 h-10 rounded-2xl border-4 border-white shadow-md flex items-center justify-center z-10 ${item.status === 'completed' ? 'bg-emerald-500' : 'bg-blue-500'}`}>
-                                        {item.isOutgoing ? <ArrowRight size={16} className="text-white -rotate-45" /> : <ArrowRight size={16} className="text-white rotate-135" />}
-                                    </div>
-
-                                    <div className="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-lg hover:shadow-neutral-200/50 transition-all duration-300 hover:-translate-y-1 group">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <span className={`text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-lg ${item.isOutgoing ? 'bg-blue-50 text-blue-600 group-hover:bg-blue-100' : 'bg-purple-50 text-purple-600 group-hover:bg-purple-100'
-                                                } transition-colors`}>
-                                                {item.isOutgoing ? 'Outgoing' : 'Incoming'}
-                                            </span>
-                                            <span className="text-[10px] font-bold text-neutral-400">{item.time}</span>
-                                        </div>
-                                        <p className="text-sm font-bold text-neutral-800 leading-relaxed">
-                                            {item.isOutgoing ? `Requested ${item.units} Units` : `Request from ${item.hospitalName}`}
-                                        </p>
-
-                                        {/* Status Indicator */}
-                                        <div className="mt-3 flex items-center gap-2">
-                                            <div className={`w-2 h-2 rounded-full ${item.status === 'pending' ? 'bg-yellow-400' : 'bg-emerald-500'}`} />
-                                            <span className="text-xs font-medium text-neutral-500 capitalize">{item.status}</span>
-                                        </div>
-
-                                        <div className="mt-4 flex gap-2">
-                                            {item.isOutgoing && item.status === 'accepted' && (
-                                                <button onClick={() => triggerConfirm(item.id)} className="w-full py-2 bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:bg-emerald-600 hover:shadow-emerald-500/30 transition-all">
-                                                    Confirm Receipt
-                                                </button>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            )) : (
-                                <div className="text-center text-neutral-400 text-sm py-8 font-medium bg-neutral-50 rounded-2xl border border-neutral-100">No recent activity</div>
-                            )}
-                        </div>
-                    </div>
                 </div>
             </div>
             {/* Confirmation Dialog */}

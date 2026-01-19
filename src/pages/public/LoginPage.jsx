@@ -82,8 +82,7 @@ const LoginPage = () => {
             if (result.success) {
                 const dashboardMap = {
                     donor: '/dashboard/donor',
-                    hospital: '/dashboard/hospital',
-                    admin: '/dashboard/admin'
+                    hospital: '/dashboard/hospital'
                 };
                 navigate(dashboardMap[role]);
             } else {
@@ -118,7 +117,6 @@ const LoginPage = () => {
     const roles = [
         { id: 'donor', label: 'Donor', icon: User },
         { id: 'hospital', label: 'Hospital', icon: Building2 },
-        { id: 'admin', label: 'Admin', icon: ShieldCheck },
     ];
 
     return (
@@ -170,7 +168,7 @@ const LoginPage = () => {
                     </div>
 
                     {/* Role Selector */}
-                    <div className="grid grid-cols-3 gap-2 p-1 bg-neutral-100/50 rounded-xl border border-neutral-100">
+                    <div className="grid grid-cols-2 gap-2 p-1 bg-neutral-100/50 rounded-xl border border-neutral-100">
                         {roles.map((r) => (
                             <button
                                 key={r.id}

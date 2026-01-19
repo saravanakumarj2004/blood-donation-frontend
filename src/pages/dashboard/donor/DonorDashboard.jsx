@@ -46,7 +46,8 @@ const DonorDashboard = () => {
                     setStats({ ...statsData, nextDonationDate: nextDate });
                     setHistory(historyData.slice(0, 3));
 
-                    const requestsData = await donorAPI.getUrgentRequests();
+                    // Pass user.id to filter out own requests and check eligibility properly
+                    const requestsData = await donorAPI.getUrgentRequests(user.id);
                     setUrgentNeeds(requestsData.length > 0 ? requestsData : []);
 
                 } catch (e) {
@@ -145,7 +146,17 @@ const DonorDashboard = () => {
                             {notifications.filter(n => n.status === 'UNREAD').map(notif => {
                                 const isExpired = notif.expiresAt && new Date(notif.expiresAt) < new Date();
                                 return (
-                                    <div key={notif.id} className="p-4 rounded-xl border flex items-start justify-between gap-4 bg-white/50 border-red-100">
+                                    <div
+                                        key={notif.id}
+                                        onClick={() => {
+                                            if (notif.type === 'REQUEST_ACCEPTED') {
+                                                navigate('/dashboard/donor/my-requests');
+                                            } else {
+                                                navigate('/dashboard/donor/nearby');
+                                            }
+                                        }}
+                                        className="p-4 rounded-xl border flex items-start justify-between gap-4 bg-white/50 border-red-100 cursor-pointer hover:bg-white transition-colors"
+                                    >
                                         <div>
                                             <p className="font-bold text-neutral-800 text-sm leading-relaxed">{notif.message}</p>
                                             <div className="flex items-center gap-2 mt-2">
@@ -159,7 +170,10 @@ const DonorDashboard = () => {
                                         </div>
                                         {notif.type === 'EMERGENCY_ALERT' && !isExpired && (
                                             <button
-                                                onClick={() => handleRespondToAlert(notif.id, 'ACCEPTED')}
+                                                onClick={(e) => {
+                                                    e.stopPropagation(); // Prevent double navigation
+                                                    handleRespondToAlert(notif.id, 'ACCEPTED');
+                                                }}
                                                 className="px-5 py-2.5 bg-neutral-900 text-white text-xs font-bold rounded-xl hover:bg-black shadow-lg shadow-neutral-900/20 active:scale-95 transition-all whitespace-nowrap flex items-center gap-1.5"
                                             >
                                                 <CheckCircle size={14} /> I Can Donate
@@ -211,6 +225,48 @@ const DonorDashboard = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            {/* Quick Actions Grid */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <button onClick={() => navigate('/dashboard/donor/request')} className="group p-6 bg-white/60 hover:bg-white backdrop-blur-md rounded-[2rem] border border-white/60 shadow-lg hover:shadow-xl transition-all text-left">
+                    <div className="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <Heart size={24} className="fill-current" />
+                    </div>
+                    <div className="font-black text-neutral-900 text-lg">Find Donors</div>
+                    <div className="text-sm font-bold text-neutral-400 mt-1">Request P2P Help</div>
+                </button>
+
+                <button onClick={() => navigate('/dashboard/donor/nearby')} className="group p-6 bg-white/60 hover:bg-white backdrop-blur-md rounded-[2rem] border border-white/60 shadow-lg hover:shadow-xl transition-all text-left relative overflow-hidden">
+                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <MapPin size={24} className="fill-current" />
+                    </div>
+                    <div className="font-black text-neutral-900 text-lg flex items-center gap-2">
+                        Nearby Help
+                        {urgentNeeds.length > 0 && (
+                            <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse shadow-lg shadow-red-500/20">
+                                {urgentNeeds.length}
+                            </span>
+                        )}
+                    </div>
+                    <div className="text-sm font-bold text-neutral-400 mt-1">Respond to Requests</div>
+                </button>
+
+                <button onClick={() => navigate('/dashboard/donor/eligibility')} className="group p-6 bg-white/60 hover:bg-white backdrop-blur-md rounded-[2rem] border border-white/60 shadow-lg hover:shadow-xl transition-all text-left">
+                    <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <CheckCircle size={24} className="fill-current" />
+                    </div>
+                    <div className="font-black text-neutral-900 text-lg">Check Eligibility</div>
+                    <div className="text-sm font-bold text-neutral-400 mt-1">Am I safe to donate?</div>
+                </button>
+
+                <button onClick={() => navigate('/dashboard/donor/history')} className="group p-6 bg-white/60 hover:bg-white backdrop-blur-md rounded-[2rem] border border-white/60 shadow-lg hover:shadow-xl transition-all text-left">
+                    <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <Clock size={24} className="fill-current" />
+                    </div>
+                    <div className="font-black text-neutral-900 text-lg">History</div>
+                    <div className="text-sm font-bold text-neutral-400 mt-1">Track your impact</div>
+                </button>
             </div>
 
             {/* Stats Grid */}
@@ -267,7 +323,7 @@ const DonorDashboard = () => {
                                         </div>
                                     </div>
                                     <button
-                                        onClick={() => navigate('/dashboard/donor/appointments')}
+                                        onClick={() => navigate('/dashboard/donor/nearby')}
                                         className="w-full md:w-auto px-6 py-3 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2"
                                     >
                                         Donate Now <ChevronRight size={16} />
@@ -342,8 +398,8 @@ const DonorDashboard = () => {
             {feedback && (
                 <div className="fixed bottom-6 right-6 z-50 animate-slide-in-right">
                     <div className={`px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 border ${feedback.type === 'success' ? 'bg-white border-emerald-100 text-emerald-800' :
-                            feedback.type === 'error' ? 'bg-white border-red-100 text-red-800' :
-                                'bg-white border-blue-100 text-blue-800'
+                        feedback.type === 'error' ? 'bg-white border-red-100 text-red-800' :
+                            'bg-white border-blue-100 text-blue-800'
                         }`}>
                         {feedback.type === 'success' ? <CheckCircle className="text-emerald-500" size={24} /> :
                             feedback.type === 'error' ? <AlertCircle className="text-red-500" size={24} /> :

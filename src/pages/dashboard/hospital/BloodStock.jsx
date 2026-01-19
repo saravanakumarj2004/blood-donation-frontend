@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import { hospitalAPI } from '../../../services/api';
-import { Download, Plus, AlertTriangle, ArrowUp, ArrowDown } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { Download, AlertTriangle, ArrowUp, ArrowDown } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
  * BloodStock
@@ -13,6 +13,7 @@ import { useLocation } from 'react-router-dom';
 const BloodStock = () => {
     const { user } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [showExpiringOnly, setShowExpiringOnly] = useState(false);
     const [showLowOnly, setShowLowOnly] = useState(false);
@@ -76,31 +77,7 @@ const BloodStock = () => {
         }
     }, [location]);
 
-    // Handler to update stock via API
-    const handleUpdate = async (type, change) => {
-        // Find current value
-        const currentItem = inventory.find(i => i.type === type);
-        if (!currentItem) return;
 
-        const newTotal = Math.max(0, currentItem.total + change);
-
-        // Optimistic UI Update
-        setInventory(prev => prev.map(item =>
-            item.type === type ? { ...item, total: newTotal } : item
-        ));
-
-        try {
-            await hospitalAPI.updateInventory({
-                hospitalId: user.id,
-                [type]: newTotal
-            });
-        } catch (error) {
-            console.error("Failed to update inventory", error);
-            // Revert on failure
-            fetchData(); // Use fetchData to restore correct source/count
-            alert("Failed to update stock. Please try again.");
-        }
-    };
 
     const handleViewExpiring = () => {
         const newState = !showExpiringOnly;
@@ -142,7 +119,13 @@ const BloodStock = () => {
                     </h2>
                     <p className="text-neutral-500 font-medium mt-1 ml-12">Manage and monitor blood units in real-time.</p>
                 </div>
-                {/* Removed Export/Add Buttons as per feedback */}
+                <button
+                    onClick={() => navigate('/dashboard/hospital/batches')}
+                    className="flex items-center gap-2 px-6 py-3 bg-white text-neutral-700 font-bold rounded-2xl shadow-sm hover:shadow-lg hover:text-primary transition-all active:scale-95 border border-white/60"
+                >
+                    <Download size={20} className="stroke-2" />
+                    Manage Batches
+                </button>
             </div>
 
             {/* Active Filters Banner */}
@@ -163,73 +146,60 @@ const BloodStock = () => {
                 </div>
             )}
 
-            <div id="inventory-table" className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-xl shadow-neutral-100/50 border border-white/60 overflow-hidden transition-all duration-300">
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead className="bg-neutral-50/80 text-neutral-400 text-xs font-bold uppercase tracking-wider">
-                            <tr>
-                                <th className="px-8 py-6">Blood Group</th>
-                                <th className="px-8 py-6">Total Units</th>
-                                {/* Removed Expiring Column as per feedback */}
-                                <th className="px-8 py-6">Source</th>
-                                <th className="px-8 py-6">Last Updated</th>
-                                <th className="px-8 py-6 text-right">Quick Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-neutral-100/50">
-                            {filteredInventory.length > 0 ? (
-                                filteredInventory.map((item) => (
-                                    <tr key={item.type} className="hover:bg-blue-50/30 transition-colors group">
-                                        <td className="px-8 py-5">
-                                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-white to-red-50 border border-red-100 flex items-center justify-center text-lg font-black text-primary shadow-sm group-hover:scale-110 transition-transform">
-                                                {item.type}
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-5">
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-2xl font-bold text-neutral-800">{item.total}</span>
-                                                {item.total < 10 && (
-                                                    <span className="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-red-100 text-error animate-pulse">LOW</span>
-                                                )}
-                                            </div>
-                                        </td>
-                                        {/* Removed Expiring Cell */}
-                                        <td className="px-8 py-5 text-sm font-semibold text-neutral-600">
-                                            {item.source === 'Internal & External' ? (
-                                                <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-lg">
-                                                    Internal & External
-                                                </span>
-                                            ) : (
-                                                <span className="text-neutral-500">Internal</span>
-                                            )}
-                                        </td>
-                                        <td className="px-8 py-5 text-sm font-medium text-neutral-500">{item.lastUpdated}</td>
-                                        <td className="px-8 py-5 text-right">
-                                            <div className="flex items-center justify-end gap-3">
-                                                <button
-                                                    onClick={() => handleUpdate(item.type, 1)}
-                                                    className="w-10 h-10 flex items-center justify-center rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-500 hover:text-white transition-all shadow-sm hover:shadow-blue-200"
-                                                    title="Add Unit"
-                                                >
-                                                    <Plus size={18} />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleUpdate(item.type, -1)}
-                                                    className="w-10 h-10 flex items-center justify-center rounded-xl bg-red-50 text-error hover:bg-error hover:text-white transition-all shadow-sm hover:shadow-red-200"
-                                                    title="Remove Unit"
-                                                >
-                                                    <div className="w-3 h-0.5 bg-current rounded-full" />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr><td colSpan="5" className="text-center py-12 text-neutral-400 font-medium">No units found matching criteria.</td></tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+            <div id="inventory-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {filteredInventory.length > 0 ? (
+                    filteredInventory.map((item) => (
+                        <div
+                            key={item.type}
+                            onClick={() => navigate(`/dashboard/hospital/batches?bloodGroup=${encodeURIComponent(item.type)}`)}
+                            className="cursor-pointer bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 shadow-lg hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden"
+                        >
+                            {/* Decorative Background Blob */}
+                            <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${item.type.includes('+') ? 'from-red-500/10 to-rose-500/10' : 'from-blue-500/10 to-indigo-500/10'} rounded-bl-full opacity-50 group-hover:scale-110 transition-transform duration-500`} />
+
+                            <div className="flex items-start justify-between relative z-10">
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black shadow-sm group-hover:scale-110 transition-transform duration-300 ${item.type.includes('+') ? 'bg-gradient-to-br from-red-50 to-rose-100 text-rose-600 border border-rose-200' : 'bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-600 border border-blue-200'
+                                        }`}>
+                                        {item.type}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-base font-bold text-neutral-900">Blood Group</h3>
+                                        <p className="text-xs font-medium text-neutral-400">
+                                            {item.source === 'Internal & External' ? 'Mixed Sources' : 'Internal Stock'}
+                                        </p>
+                                    </div>
+                                </div>
+                                {item.total < 10 && (
+                                    <span className="px-2 py-1 rounded-lg text-[10px] font-black bg-red-100 text-red-600 animate-pulse border border-red-200 shadow-sm uppercase tracking-wide">
+                                        Low Stock
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className="mt-6 flex items-end justify-between relative z-10">
+                                <div>
+                                    <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-1">Available Units</p>
+                                    <div className="flex items-baseline gap-1.5">
+                                        <span className="text-4xl font-black text-neutral-800 tracking-tight">{item.total}</span>
+                                        <span className="text-sm font-bold text-neutral-400">Bags</span>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-[10px] font-bold text-neutral-400 mb-1">Last Updated</p>
+                                    <p className="text-xs font-bold text-neutral-600 bg-neutral-100 px-2 py-1 rounded-lg">
+                                        {item.lastUpdated}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="col-span-full py-12 text-center text-neutral-400 font-bold bg-white/50 rounded-3xl border border-dashed border-neutral-200">
+                        No units found matching criteria.
+                    </div>
+                )
+                }
             </div>
 
             {/* Expiring Units Alert - Only show if there are expiring units */}
