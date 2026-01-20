@@ -123,134 +123,142 @@ const NearbyRequests = () => {
                             <p className="text-neutral-400">You're a hero in waiting!</p>
                         </div>
                     ) : (
-                        requests.map(req => {
-                            const isAcceptedByMe = req.acceptedBy === user?.id;
+                        requests
+                            .filter(req => {
+                                // FCFS: Hide if accepted by someone else
+                                if ((req.status === 'Accepted' || req.status === 'Donated') && req.acceptedBy !== user?.id) {
+                                    return false;
+                                }
+                                return true;
+                            })
+                            .map(req => {
+                                const isAcceptedByMe = req.acceptedBy === user?.id;
 
-                            if (isAcceptedByMe) {
+                                if (isAcceptedByMe) {
+                                    return (
+                                        <div key={req.id} className="bg-gradient-to-br from-neutral-900 to-neutral-800 text-white p-8 rounded-[2rem] shadow-2xl relative overflow-hidden animate-slide-up">
+                                            <div className="absolute top-0 right-0 p-32 bg-white/5 rounded-bl-[100%] pointer-events-none" />
+
+                                            <div className="relative z-10">
+                                                <div className="flex items-center justify-between mb-6">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-500/40 animate-pulse">
+                                                            <CheckCircle size={24} />
+                                                        </div>
+                                                        <div>
+                                                            <h3 className="text-lg font-bold text-green-400">Accepted & Active</h3>
+                                                            <p className="text-neutral-400 text-sm">You are the hero for this request.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <div className="text-3xl font-black">{req.bloodGroup}</div>
+                                                        <div className="text-sm font-bold text-neutral-400">{req.units} Units</div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="grid md:grid-cols-2 gap-8 mb-8">
+                                                    <div className="space-y-4">
+                                                        <h4 className="text-neutral-400 font-bold uppercase text-xs tracking-wider border-b border-neutral-700/50 pb-2">Patient Details</h4>
+                                                        <div>
+                                                            <label className="text-neutral-500 text-sm">Patient Name</label>
+                                                            <p className="text-xl font-bold">{req.patientName}</p>
+                                                        </div>
+                                                        {req.patientNumber && (
+                                                            <div>
+                                                                <label className="text-neutral-500 text-sm">Patient Phone</label>
+                                                                <p className="text-xl font-bold">{req.patientNumber}</p>
+                                                            </div>
+                                                        )}
+                                                        <div>
+                                                            <label className="text-neutral-500 text-sm">Hospital</label>
+                                                            <p className="text-lg font-bold text-white/90">{req.hospitalName}</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="space-y-4">
+                                                        {req.location && (
+                                                            <div>
+                                                                <label className="text-neutral-500 text-sm">Location</label>
+                                                                <p className="text-sm font-bold text-neutral-300 flex items-center gap-2">
+                                                                    <MapPin size={14} /> {req.location}
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                <div className="bg-white/10 rounded-xl p-4 flex items-center gap-4 border border-white/5">
+                                                    <div className="flex-1">
+                                                        <p className="text-sm font-bold text-neutral-300">
+                                                            Please proceed to the hospital immediately.
+                                                        </p>
+                                                        <p className="text-xs text-neutral-500 mt-1">
+                                                            The requester has been notified of your arrival.
+                                                        </p>
+                                                    </div>
+                                                    <button className="px-6 py-2 bg-white text-neutral-900 rounded-lg font-bold text-sm hover:bg-neutral-200 transition-colors">
+                                                        Call Contact
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                }
+
                                 return (
-                                    <div key={req.id} className="bg-gradient-to-br from-neutral-900 to-neutral-800 text-white p-8 rounded-[2rem] shadow-2xl relative overflow-hidden animate-slide-up">
-                                        <div className="absolute top-0 right-0 p-32 bg-white/5 rounded-bl-[100%] pointer-events-none" />
-
-                                        <div className="relative z-10">
-                                            <div className="flex items-center justify-between mb-6">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-500/40 animate-pulse">
-                                                        <CheckCircle size={24} />
-                                                    </div>
-                                                    <div>
-                                                        <h3 className="text-lg font-bold text-green-400">Accepted & Active</h3>
-                                                        <p className="text-neutral-400 text-sm">You are the hero for this request.</p>
-                                                    </div>
-                                                </div>
-                                                <div className="text-right">
-                                                    <div className="text-3xl font-black">{req.bloodGroup}</div>
-                                                    <div className="text-sm font-bold text-neutral-400">{req.units} Units</div>
-                                                </div>
-                                            </div>
-
-                                            <div className="grid md:grid-cols-2 gap-8 mb-8">
-                                                <div className="space-y-4">
-                                                    <h4 className="text-neutral-400 font-bold uppercase text-xs tracking-wider border-b border-neutral-700/50 pb-2">Patient Details</h4>
-                                                    <div>
-                                                        <label className="text-neutral-500 text-sm">Patient Name</label>
-                                                        <p className="text-xl font-bold">{req.patientName}</p>
-                                                    </div>
-                                                    {req.patientNumber && (
-                                                        <div>
-                                                            <label className="text-neutral-500 text-sm">Patient Phone</label>
-                                                            <p className="text-xl font-bold">{req.patientNumber}</p>
-                                                        </div>
-                                                    )}
-                                                    <div>
-                                                        <label className="text-neutral-500 text-sm">Hospital</label>
-                                                        <p className="text-lg font-bold text-white/90">{req.hospitalName}</p>
-                                                    </div>
-                                                </div>
-
-                                                <div className="space-y-4">
-                                                    {req.location && (
-                                                        <div>
-                                                            <label className="text-neutral-500 text-sm">Location</label>
-                                                            <p className="text-sm font-bold text-neutral-300 flex items-center gap-2">
-                                                                <MapPin size={14} /> {req.location}
-                                                            </p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            <div className="bg-white/10 rounded-xl p-4 flex items-center gap-4 border border-white/5">
-                                                <div className="flex-1">
-                                                    <p className="text-sm font-bold text-neutral-300">
-                                                        Please proceed to the hospital immediately.
-                                                    </p>
-                                                    <p className="text-xs text-neutral-500 mt-1">
-                                                        The requester has been notified of your arrival.
-                                                    </p>
-                                                </div>
-                                                <button className="px-6 py-2 bg-white text-neutral-900 rounded-lg font-bold text-sm hover:bg-neutral-200 transition-colors">
-                                                    Call Contact
-                                                </button>
-                                            </div>
+                                    <div key={req.id} className="bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl border border-white/60 flex flex-col md:flex-row items-center gap-6 group hover:scale-[1.01] transition-transform">
+                                        <div className="w-20 h-20 rounded-2xl bg-red-50 text-red-600 flex flex-col items-center justify-center shrink-0 border border-red-100 shadow-inner">
+                                            <span className="text-2xl font-black">{req.bloodGroup}</span>
+                                            <span className="text-xs font-bold uppercase">{req.units} Units</span>
                                         </div>
-                                    </div>
-                                );
-                            }
 
-                            return (
-                                <div key={req.id} className="bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl border border-white/60 flex flex-col md:flex-row items-center gap-6 group hover:scale-[1.01] transition-transform">
-                                    <div className="w-20 h-20 rounded-2xl bg-red-50 text-red-600 flex flex-col items-center justify-center shrink-0 border border-red-100 shadow-inner">
-                                        <span className="text-2xl font-black">{req.bloodGroup}</span>
-                                        <span className="text-xs font-bold uppercase">{req.units} Units</span>
-                                    </div>
+                                        <div className="flex-1 text-center md:text-left space-y-2">
+                                            <div>
+                                                <h3 className="text-xl font-black text-neutral-900">{req.hospitalName || 'Unknown Hospital'}</h3>
+                                                <div className="flex flex-wrap gap-x-4 gap-y-1 items-center justify-center md:justify-start">
+                                                    {req.patientName && (
+                                                        <p className="text-sm font-bold text-neutral-600 flex items-center gap-1">
+                                                            <span className="text-neutral-400">Patient:</span> {req.patientName}{req.patientNumber && <span className="text-neutral-400 font-normal">({req.patientNumber})</span>}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
 
-                                    <div className="flex-1 text-center md:text-left space-y-2">
-                                        <div>
-                                            <h3 className="text-xl font-black text-neutral-900">{req.hospitalName || 'Unknown Hospital'}</h3>
-                                            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center justify-center md:justify-start">
-                                                {req.patientName && (
-                                                    <p className="text-sm font-bold text-neutral-600 flex items-center gap-1">
-                                                        <span className="text-neutral-400">Patient:</span> {req.patientName}{req.patientNumber && <span className="text-neutral-400 font-normal">({req.patientNumber})</span>}
-                                                    </p>
+                                            <div className="space-y-1 text-sm font-medium text-neutral-500">
+                                                <div className="flex items-center justify-center md:justify-start gap-1">
+                                                    <MapPin size={16} className="shrink-0" />
+                                                    <span>{req.location || 'Unknown Location'}</span>
+                                                </div>
+
+                                                {req.attenderName && (
+                                                    <div className="text-xs text-neutral-400 flex items-center justify-center md:justify-start gap-1">
+                                                        <span>Contact details hidden until accepted</span>
+                                                    </div>
                                                 )}
+
+                                                <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs uppercase font-bold bg-red-100 text-red-600 w-fit mt-2`}>
+                                                    {req.urgency || 'Urgent'}
+                                                </span>
                                             </div>
                                         </div>
 
-                                        <div className="space-y-1 text-sm font-medium text-neutral-500">
-                                            <div className="flex items-center justify-center md:justify-start gap-1">
-                                                <MapPin size={16} className="shrink-0" />
-                                                <span>{req.location || 'Unknown Location'}</span>
-                                            </div>
-
-                                            {req.attenderName && (
-                                                <div className="text-xs text-neutral-400 flex items-center justify-center md:justify-start gap-1">
-                                                    <span>Contact details hidden until accepted</span>
-                                                </div>
-                                            )}
-
-                                            <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs uppercase font-bold bg-red-100 text-red-600 w-fit mt-2`}>
-                                                {req.urgency || 'Urgent'}
-                                            </span>
+                                        <div className="flex items-center gap-3 w-full md:w-auto">
+                                            <button
+                                                onClick={() => handleIgnore(req.id)}
+                                                className="flex-1 md:flex-none px-6 py-3 rounded-xl border-2 border-neutral-200 font-bold text-neutral-400 hover:text-neutral-600 hover:border-neutral-300 transition-colors"
+                                            >
+                                                Ignore
+                                            </button>
+                                            <button
+                                                onClick={() => handleAccept(req)}
+                                                className="flex-1 md:flex-none px-8 py-3 bg-red-600 text-white font-bold rounded-xl shadow-lg shadow-red-500/30 hover:bg-red-700 hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                                            >
+                                                <Navigation size={18} /> I'm Coming
+                                            </button>
                                         </div>
                                     </div>
-
-                                    <div className="flex items-center gap-3 w-full md:w-auto">
-                                        <button
-                                            onClick={() => handleIgnore(req.id)}
-                                            className="flex-1 md:flex-none px-6 py-3 rounded-xl border-2 border-neutral-200 font-bold text-neutral-400 hover:text-neutral-600 hover:border-neutral-300 transition-colors"
-                                        >
-                                            Ignore
-                                        </button>
-                                        <button
-                                            onClick={() => handleAccept(req)}
-                                            className="flex-1 md:flex-none px-8 py-3 bg-red-600 text-white font-bold rounded-xl shadow-lg shadow-red-500/30 hover:bg-red-700 hover:shadow-xl transition-all flex items-center justify-center gap-2"
-                                        >
-                                            <Navigation size={18} /> I'm Coming
-                                        </button>
-                                    </div>
-                                </div>
-                            )
-                        })
+                                )
+                            })
                     )}
                 </div>
             )}

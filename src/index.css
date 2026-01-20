@@ -2,6 +2,39 @@
 @config "./../tailwind.config.js";
 
 @layer base {
+  :root {
+    /* Brand Colors */
+    --primary-red: #F75369;
+    --primary-red-dark: #D43E52;
+    --secondary-blue: #1E40AF;
+
+    /* Neural System (Zinc) */
+    --neutral-dark: #27272A;
+    /* Zinc 800 */
+    --neutral-gray: #71717A;
+    /* Zinc 500 */
+    --neutral-light: #E4E4E7;
+    /* Zinc 200 */
+    --secondary-white: #FAFAFA;
+    /* Zinc 50 */
+    --error-red: #DC2626;
+
+    /* Spacing & Structure (Backwards Compatibility) */
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 1rem;
+
+    --spacing-xs: 0.5rem;
+    --spacing-s: 0.75rem;
+    --spacing-m: 1rem;
+    --spacing-l: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-xxl: 3rem;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  }
+
   body {
     @apply bg-neutral-50 text-neutral-800 antialiased font-sans;
   }
@@ -49,12 +82,14 @@ select option {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d4; /* neutral-300 */
+  background: #d4d4d4;
+  /* neutral-300 */
   border-radius: 99px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #a3a3a3; /* neutral-400 */
+  background-color: #a3a3a3;
+  /* neutral-400 */
 }
