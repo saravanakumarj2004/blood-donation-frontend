@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import { hospitalAPI } from '../../../services/api';
-import { Inbox, CheckCircle, XCircle, Clock, Baby, AlertCircle, MapPin, Trash2 } from 'lucide-react';
+import { Inbox, CheckCircle, XCircle, Clock, Baby, AlertCircle, MapPin, Trash2, Truck } from 'lucide-react';
 
 /**
  * IncomingRequests
@@ -277,11 +277,12 @@ const IncomingRequests = () => {
                                                     </div>
                                                 )}
 
-                                                {/* ACCEPTED STATE */}
-                                                {req.status === 'Accepted' && (
+                                                {/* ACCEPTED / DISPATCHED STATE */}
+                                                {(req.status === 'Accepted' || req.status === 'Dispatched') && (
                                                     <div className="flex flex-col items-end gap-3 w-full">
-                                                        <div className="px-5 py-2 bg-emerald-50 text-emerald-700 text-sm font-black uppercase tracking-wide rounded-xl flex items-center gap-2 border border-emerald-100">
-                                                            <CheckCircle size={16} className="fill-emerald-200" /> Accepted
+                                                        <div className={`px-5 py-2 text-sm font-black uppercase tracking-wide rounded-xl flex items-center gap-2 border ${req.status === 'Dispatched' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                                                            }`}>
+                                                            {req.status === 'Dispatched' ? <><Truck size={16} /> Dispatched & On Way</> : <><CheckCircle size={16} /> Accepted</>}
                                                         </div>
                                                         <button
                                                             onClick={() => triggerConfirm(req.id, 'Completed')}

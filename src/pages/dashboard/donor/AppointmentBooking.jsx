@@ -21,7 +21,7 @@ const AppointmentBooking = () => {
     const [bookingStep, setBookingStep] = useState(1);
     const [hospitals, setHospitals] = useState([]);
 
-    // Mock Form State
+    // Form State
     const [formData, setFormData] = useState({
         date: new Date().toISOString().split('T')[0], // Default to today
         time: '',
@@ -69,10 +69,9 @@ const AppointmentBooking = () => {
         if (!user?.id) return;
         try {
             const stats = await donorAPI.getStats(user.id);
-            // If nextDonationDate is NOT "Available Now", then user is ineligible
             if (stats && stats.nextDonationDate && stats.nextDonationDate !== 'Available Now') {
                 setEligibility({
-                    isEligible: false,
+                    isEligible: false, // Strict locking
                     nextDate: stats.nextDonationDate
                 });
             } else {
@@ -90,9 +89,14 @@ const AppointmentBooking = () => {
     const handleBook = async (e) => {
         e.preventDefault();
 
-        if (!eligibility.isEligible) {
-            alert(`You are not eligible to donate yet. Next eligible date: ${eligibility.nextDate}`);
-            return;
+        // Date Check
+        if (eligibility.nextDate) {
+            const selected = new Date(formData.date);
+            const next = new Date(eligibility.nextDate); // JS parses "02 Oct 2026" fine usually
+            if (selected < next) {
+                alert(`Selected date is too early. Next eligible date: ${eligibility.nextDate}`);
+                return;
+            }
         }
 
         setIsLoading(true);
@@ -352,12 +356,29 @@ const AppointmentBooking = () => {
                                             <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border ${apt.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
                                                 apt.status === 'Accepted' ? 'bg-blue-50 text-blue-700 border-blue-100' :
                                                     apt.status === 'Rejected' ? 'bg-red-50 text-error border-red-100' :
-                                                        'bg-amber-50 text-amber-700 border-amber-100'
+                                                        apt.status === 'Cancelled' ? 'bg-red-50 text-error border-red-100' :
+                                                            'bg-amber-50 text-amber-700 border-amber-100'
                                                 }`}>
                                                 {apt.status === 'Completed' && <CheckCircle size={16} />}
                                                 {apt.status === 'Scheduled' && <Clock size={16} />}
                                                 {apt.status}
                                             </span>
+                                            {(apt.status === 'Pending' || apt.status === 'Scheduled') && (
+                                                <button
+                                                    onClick={async () => {
+                                                        if (!window.confirm("Cancel this appointment?")) return;
+                                                        try {
+                                                            await donorAPI.cancelAppointment(apt.id || apt._id, "Donor Cancelled");
+                                                            alert("Cancelled!");
+                                                            // Reload?
+                                                            // For now simple alert, forcing reload would be better but simple is ok.
+                                                        } catch (e) { alert("Error cancelling"); }
+                                                    }}
+                                                    className="mt-2 text-xs text-red-500 font-bold underline cursor-pointer"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 ))}

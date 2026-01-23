@@ -18,24 +18,17 @@ const EmergencyDonorCall = () => {
         e.preventDefault();
         setIsSearching(true);
         setHasSearched(true);
+        setResults([]);
 
-        // Mock search logic using the API wrapper
         try {
-            // In a real app, this would pass location etc to backend geo-search
-            const data = await hospitalAPI.searchDonors(searchParams.bloodGroup, true);
-            // Mocking logic: filter based on params visually if API returns all
+            // Real Backend Search (Strict Logic Moved to Server)
+            // Passing location as 'city' param roughly (splitting by comma if needed, or simple string)
+            // Note: Our backend expects 'city' matches 'location' field.
+            const data = await hospitalAPI.searchDonors(searchParams.bloodGroup, searchParams.location);
             setResults(data);
         } catch (e) {
-            // Fallback Mock
-            setTimeout(() => {
-                setResults([
-                    { id: 1, name: 'Alex Johnson', bloodGroup: searchParams.bloodGroup || 'O+', distance: '2.5 km', mobile: '555-0101', status: 'Active' },
-                    { id: 2, name: 'Sarah Connor', bloodGroup: searchParams.bloodGroup || 'O+', distance: '4.1 km', mobile: '555-0102', status: 'Active' },
-                    { id: 3, name: 'Kyle Reese', bloodGroup: 'O-', distance: '5.0 km', mobile: '555-0103', status: 'Online' },
-                ]);
-                setIsSearching(false);
-            }, 1000);
-            return;
+            console.error("Search failed", e);
+            // No mock fallback anymore - strict consistency
         }
         setIsSearching(false);
     };

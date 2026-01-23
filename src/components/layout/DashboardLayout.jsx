@@ -5,6 +5,7 @@ import {
     LayoutDashboard,
     History,
     Calendar,
+    Truck,
     User,
     LogOut,
     Bell,
@@ -101,11 +102,13 @@ const DashboardLayout = () => {
                     { path: '/dashboard/hospital', label: 'Overview', icon: LayoutDashboard },
                     { path: '/dashboard/hospital/request', label: 'Request Blood', icon: HeartPulse },
                     { path: '/dashboard/hospital/incoming-requests', label: 'Incoming Requests', icon: ArrowDownLeft },
+                    { path: '/dashboard/hospital/dispatch', label: 'Dispatch Blood', icon: Truck },
                     { path: '/dashboard/hospital/stock', label: 'Stock Manager', icon: Droplet },
                     { path: '/dashboard/hospital/batches', label: 'Batch Management', icon: Package }, // Swapped
                     { path: '/dashboard/hospital/stock-entry', label: 'Stock Entry', icon: PlusCircle },
                     { path: '/dashboard/hospital/appointments', label: 'Appointments', icon: Calendar },
-                    { path: '/dashboard/hospital/reports', label: 'Reports', icon: FileText }
+                    { path: '/dashboard/hospital/reports', label: 'Reports', icon: FileText },
+                    { path: '/dashboard/hospital/profile', label: 'Profile & Settings', icon: User }
                 ];
 
             default:
@@ -265,6 +268,8 @@ const DashboardLayout = () => {
                                                             } else {
                                                                 navigate('/dashboard/donor/my-requests');
                                                             }
+                                                        } else if (n.type === 'P2P_REQUEST') {
+                                                            navigate('/dashboard/donor/nearby');
                                                         }
                                                         setIsNotifOpen(false);
                                                     }}

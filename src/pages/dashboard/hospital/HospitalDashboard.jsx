@@ -26,7 +26,7 @@ import { useNavigate } from 'react-router-dom';
 const HospitalDashboard = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(true);
+    // Removed unused isLoading
 
     const [stock, setStock] = useState({
         'A+': { units: 0, status: 'low' },
@@ -40,24 +40,24 @@ const HospitalDashboard = () => {
     });
 
     const [requestCount, setRequestCount] = useState(0);
-    const [appointmentCount, setAppointmentCount] = useState(0);
     const [incompleteApptCount, setIncompleteApptCount] = useState(0);
-    const [recentActivity, setRecentActivity] = useState([]);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             if (!user?.id) return;
             try {
-                setIsLoading(true);
                 const inventoryData = await hospitalAPI.getInventory(user.id);
 
                 const transformedStock = {};
                 ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'].forEach(group => {
-                    const units = inventoryData[group] || 0;
-                    let status = 'med';
-                    if (units < 10) status = 'low';
-                    if (units > 50) status = 'high';
-                    transformedStock[group] = { units, status };
+                    transformedStock[group] = { units: 0, status: 'good' };
+                });
+
+                inventoryData.forEach(item => {
+                    transformedStock[item.type] = {
+                        units: item.total,
+                        status: item.status.toLowerCase()
+                    };
                 });
                 setStock(transformedStock);
 
@@ -65,58 +65,20 @@ const HospitalDashboard = () => {
                 setRequestCount(requests.filter(r => r.status === 'Pending' || r.status === 'Active').length);
 
                 const appointments = await hospitalAPI.getAppointments(user.id);
-                setAppointmentCount(appointments.length);
                 setIncompleteApptCount(appointments.filter(a => a.status === 'Scheduled' || a.status === 'Pending').length);
-
-                const allRequests = requests.sort((a, b) => new Date(b.date || b.timestamp) - new Date(a.date || a.timestamp));
-                const recentFive = allRequests.slice(0, 5);
-
-                const mappedActivity = recentFive.map(req => {
-                    const dateObj = new Date(req.date || req.timestamp);
-                    const time = dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) +
-                        ' ' + dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                    if (req.isOutgoing) {
-                        return {
-                            id: req.id || req._id,
-                            action: req.status,
-                            type: req.type === 'EMERGENCY_ALERT' ? 'Emergency' : 'Standard',
-                            units: req.units,
-                            recipient: req.status === 'Accepted' ? 'Donor Found' : 'Pending',
-                            time,
-                            status: req.status.toLowerCase(),
-                            donorName: req.donorName,
-                            isOutgoing: true
-                        };
-                    } else {
-                        return {
-                            id: req.id || req._id,
-                            hospitalName: req.hospitalName,
-                            bloodGroup: req.bloodGroup,
-                            units: req.units,
-                            status: req.status,
-                            time,
-                            isOutgoing: false
-                        };
-                    }
-                });
-
-                setRecentActivity(mappedActivity);
 
             } catch (error) {
                 console.error("Failed to fetch dashboard data", error);
-            } finally {
-                setIsLoading(false);
             }
         };
 
         fetchDashboardData();
         const interval = setInterval(fetchDashboardData, 5000);
         return () => clearInterval(interval);
-    }, [user]);
+    }, [user?.id]); // Fix dependency
 
     const totalUnits = Object.values(stock).reduce((acc, curr) => acc + curr.units, 0);
-    const lowStockCount = Object.values(stock).filter(item => item.status === 'low').length;
+    const lowStockCount = Object.values(stock).filter(item => ['low', 'critical'].includes(item.status)).length;
 
     const handleExport = () => {
         let sc = "data:text/csv;charset=utf-8,Blood Group,Units,Status\n";
@@ -135,10 +97,6 @@ const HospitalDashboard = () => {
     const showFeedback = (type, message) => {
         setFeedback({ type, message });
         setTimeout(() => setFeedback(null), 4000);
-    };
-
-    const triggerConfirm = (reqId) => {
-        setConfirmAction({ id: reqId });
     };
 
     const handleConfirmReceipt = async () => {
@@ -287,17 +245,16 @@ const HospitalDashboard = () => {
                                             {/* Progress Bar */}
                                             <div className="w-32 h-2 bg-neutral-100 rounded-full mt-3 overflow-hidden shadow-inner">
                                                 <div
-                                                    className={`h-full rounded-full ${data.status === 'low' ? 'bg-error' : data.status === 'high' ? 'bg-emerald-500' : 'bg-blue-500'}`}
+                                                    className={`h-full rounded-full ${['low', 'critical'].includes(data.status) ? 'bg-error' : 'bg-emerald-500'}`}
                                                     style={{ width: `${Math.min(data.units * 2, 100)}%` }}
                                                 />
                                             </div>
                                         </td>
                                         <td className="px-8 py-5">
-                                            <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold border backdrop-blur-md shadow-sm ${data.status === 'low' ? 'bg-red-50 text-error border-red-100 shadow-red-100' :
-                                                data.status === 'high' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-emerald-100' :
-                                                    'bg-blue-50 text-blue-600 border-blue-100 shadow-blue-100'
+                                            <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold border backdrop-blur-md shadow-sm ${['low', 'critical'].includes(data.status) ? 'bg-red-50 text-error border-red-100 shadow-red-100' :
+                                                'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-emerald-100'
                                                 }`}>
-                                                <span className={`w-2 h-2 rounded-full ${data.status === 'low' ? 'bg-error animate-pulse' : data.status === 'high' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
+                                                <span className={`w-2 h-2 rounded-full ${['low', 'critical'].includes(data.status) ? 'bg-error animate-pulse' : 'bg-emerald-500'}`} />
                                                 {data.status.toUpperCase()}
                                             </span>
                                         </td>

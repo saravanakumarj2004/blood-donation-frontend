@@ -14,50 +14,24 @@ const BloodStock = () => {
     const { user } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(true);
+    // Removed unused isLoading
     const [showExpiringOnly, setShowExpiringOnly] = useState(false);
     const [showLowOnly, setShowLowOnly] = useState(false);
 
-    // Extended Mock Data Structure (API only provides total counts)
-    const [inventory, setInventory] = useState([
-        { type: 'A+', total: 0, expiring: 0, source: 'Internal', lastUpdated: 'Today' },
-        { type: 'A-', total: 0, expiring: 0, source: 'Internal', lastUpdated: 'Today' },
-        { type: 'B+', total: 0, expiring: 0, source: 'Internal', lastUpdated: 'Today' },
-        { type: 'B-', total: 0, expiring: 0, source: 'Internal', lastUpdated: 'Today' },
-        { type: 'O+', total: 0, expiring: 0, source: 'Internal', lastUpdated: 'Today' },
-        { type: 'O-', total: 0, expiring: 0, source: 'Internal', lastUpdated: 'Today' },
-        { type: 'AB+', total: 0, expiring: 0, source: 'Internal', lastUpdated: 'Today' },
-        { type: 'AB-', total: 0, expiring: 0, source: 'Internal', lastUpdated: 'Today' },
-    ]);
+    // Inventory State
+    const [inventory, setInventory] = useState([]);
 
     const fetchData = async () => {
         if (!user?.id) return;
         try {
-            setIsLoading(true);
-            const [inventoryData, requests] = await Promise.all([
-                hospitalAPI.getInventory(user.id),
-                hospitalAPI.getRequests(user.id)
-            ]);
-
-            // Determine sources based on COMPLETED P2P requests (Outgoing = I requested it)
-            // If I requested blood and received it (Completed), then I have External source.
-            const externalSources = new Set();
-            requests.forEach(req => {
-                if (req.isOutgoing && req.status === 'Completed') {
-                    externalSources.add(req.bloodGroup);
-                }
-            });
-
-            setInventory(prev => prev.map(item => ({
+            const inventoryData = await hospitalAPI.getInventory(user.id);
+            setInventory(inventoryData.map(item => ({
                 ...item,
-                total: inventoryData[item.type] || 0,
-                source: externalSources.has(item.type) ? 'Internal & External' : 'Internal'
+                source: 'Internal'
             })));
 
         } catch (error) {
             console.error("Failed to fetch data", error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -79,17 +53,7 @@ const BloodStock = () => {
 
 
 
-    const handleViewExpiring = () => {
-        const newState = !showExpiringOnly;
-        setShowExpiringOnly(newState);
-
-        // If enabling filter, scroll to table
-        if (newState) {
-            setTimeout(() => {
-                document.getElementById('inventory-table')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 100);
-        }
-    };
+    // Removed unused handleViewExpiring
 
     const toggleLowFilter = () => {
         const newState = !showLowOnly;
@@ -98,7 +62,8 @@ const BloodStock = () => {
 
     const filteredInventory = inventory.filter(item => {
         if (showExpiringOnly && item.expiring === 0) return false;
-        if (showLowOnly && item.total >= 10) return false;
+        // Logic Moved: Use backend status
+        if (showLowOnly && item.status !== 'Low' && item.status !== 'Critical') return false;
         return true;
     });
 
@@ -170,9 +135,9 @@ const BloodStock = () => {
                                         </p>
                                     </div>
                                 </div>
-                                {item.total < 10 && (
+                                {(item.status === 'Low' || item.status === 'Critical') && (
                                     <span className="px-2 py-1 rounded-lg text-[10px] font-black bg-red-100 text-red-600 animate-pulse border border-red-200 shadow-sm uppercase tracking-wide">
-                                        Low Stock
+                                        {item.status} Stock
                                     </span>
                                 )}
                             </div>

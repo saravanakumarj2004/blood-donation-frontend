@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { donorAPI } from '../../../services/api';
-import { User, MapPin, Phone, Heart, CheckCircle, AlertTriangle } from 'lucide-react';
+import { User, MapPin, Phone, Heart, CheckCircle, AlertTriangle, Clock } from 'lucide-react';
 import CustomSelect from '../../../components/CustomSelect';
 import MultiSelect from '../../../components/MultiSelect';
 
@@ -19,7 +19,8 @@ const DonorRequest = () => {
         patientName: '',
         patientNumber: '',
         attenderName: '',
-        attenderNumber: ''
+        attenderNumber: '',
+        requiredTime: '24 Hours'
     });
     const [feedback, setFeedback] = useState(null);
     const [showLocationModal, setShowLocationModal] = useState(false);
@@ -52,7 +53,7 @@ const DonorRequest = () => {
             setFeedback({ type: 'success', message: 'Request Broadcasted! Donors in selected areas notified.' });
             setForm({
                 bloodGroup: '', units: '', urgency: 'Normal', city: '', cities: [], hospitalName: '', location: '',
-                patientName: '', patientNumber: '', attenderName: '', attenderNumber: ''
+                patientName: '', patientNumber: '', attenderName: '', attenderNumber: '', requiredTime: '24 Hours'
             });
             setShowLocationModal(false);
             setSelectedCities([]);
@@ -134,15 +135,28 @@ const DonorRequest = () => {
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-bold text-neutral-700 mb-2">Units Required</label>
-                        <input
-                            type="number"
-                            className="w-full px-4 py-3 rounded-xl bg-neutral-50 border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-none font-bold transition-all"
-                            value={form.units}
-                            onChange={e => setForm({ ...form, units: e.target.value })}
-                            required
-                        />
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-sm font-bold text-neutral-700 mb-2">Units Required</label>
+                            <input
+                                type="number"
+                                className="w-full px-4 py-3 rounded-xl bg-neutral-50 border border-neutral-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 outline-none font-bold transition-all"
+                                value={form.units}
+                                onChange={e => setForm({ ...form, units: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-bold text-neutral-700 mb-2">Time Required</label>
+                            <CustomSelect
+                                options={['30 mins', '1 Hour', '2 Hours', '4 Hours', 'Today', '24 Hours']}
+                                value={form.requiredTime}
+                                onChange={v => setForm({ ...form, requiredTime: v })}
+                                placeholder="When do you need it?"
+                                icon={Clock}
+                                required
+                            />
+                        </div>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-6">

@@ -62,16 +62,20 @@ export const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             const result = await authAPI.login(credentials);
-            if (result.success) {
-                localStorage.setItem('bloodDonationUser', JSON.stringify(result.user));
-                setUser(result.user);
+            if (result.success || result.token) {
+                // Backend returns user data flattened, not nested in 'user'
+                const userData = { ...result };
+                localStorage.setItem('bloodDonationUser', JSON.stringify(userData));
+                setUser(userData);
                 setIsAuthenticated(true);
-                return { success: true, user: result.user };
+                return { success: true, user: userData };
             }
             return { success: false, message: result.message };
         } catch (error) {
             console.error("Login Error:", error);
-            return { success: false, message: error.message || 'Login failed' };
+            // Check for error.error (Backend) or error.message (Network/JS)
+            const msg = error.error || error.message || 'Login failed';
+            return { success: false, message: msg };
         }
     };
 

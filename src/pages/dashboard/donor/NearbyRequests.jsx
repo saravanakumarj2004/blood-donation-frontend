@@ -124,13 +124,7 @@ const NearbyRequests = () => {
                         </div>
                     ) : (
                         requests
-                            .filter(req => {
-                                // FCFS: Hide if accepted by someone else
-                                if ((req.status === 'Accepted' || req.status === 'Donated') && req.acceptedBy !== user?.id) {
-                                    return false;
-                                }
-                                return true;
-                            })
+
                             .map(req => {
                                 const isAcceptedByMe = req.acceptedBy === user?.id;
 

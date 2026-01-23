@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { donorAPI } from '../../../services/api';
 import { useAuth } from '../../../hooks/useAuth';
-import { Clock, MapPin, User, CheckCircle, Phone, Navigation, AlertTriangle } from 'lucide-react';
+import { Clock, MapPin, User, CheckCircle, Phone, Navigation, AlertTriangle, Truck } from 'lucide-react';
 
 const MyRequests = () => {
     const { user } = useAuth();
@@ -26,6 +26,7 @@ const MyRequests = () => {
     const getStatusColor = (status) => {
         switch (status) {
             case 'Accepted': return 'bg-green-100 text-green-700 border-green-200';
+            case 'Dispatched': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
             case 'Completed': return 'bg-blue-100 text-blue-700 border-blue-200';
             case 'Expired': return 'bg-neutral-100 text-neutral-500 border-neutral-200';
             default: return 'bg-yellow-100 text-yellow-700 border-yellow-200';
@@ -64,9 +65,10 @@ const MyRequests = () => {
                     ) : (
                         requests.map(req => (
                             <div key={req.id} className="bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl border border-white/60 flex flex-col gap-6 relative overflow-hidden">
-                                {req.status === 'Accepted' && (
-                                    <div className="absolute top-0 right-0 p-4 bg-green-500/10 rounded-bl-[2rem] text-green-600 font-bold flex items-center gap-2">
-                                        <CheckCircle size={20} /> Request Accepted!
+                                {(req.status === 'Accepted' || req.status === 'Dispatched') && (
+                                    <div className={`absolute top-0 right-0 p-4 rounded-bl-[2rem] font-bold flex items-center gap-2 ${req.status === 'Dispatched' ? 'bg-indigo-500/10 text-indigo-600' : 'bg-green-500/10 text-green-600'
+                                        }`}>
+                                        {req.status === 'Dispatched' ? <><Truck size={20} /> On the Way!</> : <><CheckCircle size={20} /> Request Accepted!</>}
                                     </div>
                                 )}
 
@@ -96,7 +98,7 @@ const MyRequests = () => {
                                 </div>
 
                                 {/* Acceptance Details Section */}
-                                {req.status === 'Accepted' && req.acceptedBy && (
+                                {(req.status === 'Accepted' || req.status === 'Dispatched') && req.acceptedBy && (
                                     <div className="mt-4 p-6 bg-green-50 rounded-2xl border border-green-100 space-y-4 animate-scale-in">
                                         <h4 className="font-bold text-green-800 flex items-center gap-2">
                                             <User size={20} /> Donor Details (Coming to Help)
@@ -137,6 +139,17 @@ const MyRequests = () => {
                                                         >
                                                             Open in Maps ({req.responderLocation})
                                                         </a>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Dispatch Note */}
+                                            {req.status === 'Dispatched' && (
+                                                <div className="md:col-span-2 bg-indigo-50 p-4 rounded-xl border border-indigo-100 shadow-sm flex items-center gap-3">
+                                                    <Truck className="text-indigo-600" />
+                                                    <div>
+                                                        <p className="font-bold text-indigo-900">Vehicle Dispatched</p>
+                                                        <p className="text-xs text-indigo-700">The hospital has dispatched the units. They should arrive shortly.</p>
                                                     </div>
                                                 </div>
                                             )}

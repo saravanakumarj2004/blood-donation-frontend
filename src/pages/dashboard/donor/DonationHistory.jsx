@@ -69,8 +69,8 @@ const DonationHistory = () => {
                     <button
                         onClick={toggleFilter}
                         className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold shadow-sm transition-all ${filterType !== 'All'
-                                ? 'bg-primary text-white border-primary shadow-primary/30 hover:bg-primary-dark'
-                                : 'bg-white/80 border-white/50 text-neutral-600 hover:bg-white'
+                            ? 'bg-primary text-white border-primary shadow-primary/30 hover:bg-primary-dark'
+                            : 'bg-white/80 border-white/50 text-neutral-600 hover:bg-white'
                             }`}
                     >
                         <Filter size={18} /> {filterType === 'All' ? 'Filter Type' : filterType}
@@ -110,6 +110,17 @@ const DonationHistory = () => {
                                         'bg-neutral-50 text-neutral-600 border-neutral-100'}`}>
                                         <CheckCircle size={16} /> {donation.status}
                                     </span>
+                                    {(donation.status === 'Pending' || donation.status === 'Scheduled') && (
+                                        <button
+                                            onClick={async () => {
+                                                if (confirm("Cancel appointment?")) {
+                                                    await donorAPI.cancelAppointment(donation.id || donation._id, "Web Cancel");
+                                                    window.location.reload();
+                                                }
+                                            }}
+                                            className="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold hover:bg-red-200"
+                                        >Cancel</button>
+                                    )}
                                 </div>
 
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-dashed border-neutral-200 relative z-10">

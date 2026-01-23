@@ -45,6 +45,10 @@ export const donorAPI = {
         const response = await api.post('/donor/history/', data);
         return response.data;
     },
+    cancelAppointment: async (id, reason) => {
+        const response = await api.put('/donor/history/', { id, status: 'Cancelled', reason });
+        return response.data;
+    },
     getUrgentRequests: async (userId) => {
         const url = userId ? `/donor/active-requests/?userId=${userId}` : '/donor/active-requests/';
         const response = await api.get(url);
@@ -106,8 +110,8 @@ export const hospitalAPI = {
         const response = await api.post('/hospital/inventory/', data);
         return response.data;
     },
-    getRequests: async (userId) => {
-        const response = await api.get(`/hospital/requests/?userId=${userId}`);
+    getRequests: async (userId, filter = 'all', search = '') => {
+        const response = await api.get(`/hospital/requests/?userId=${userId}&filter=${filter}&search=${encodeURIComponent(search)}`);
         return response.data;
     },
     createRequest: async (data) => {
@@ -122,8 +126,8 @@ export const hospitalAPI = {
         const response = await api.delete(`/hospital/requests/?id=${requestId}`);
         return response.data;
     },
-    searchBlood: async (bloodGroup, lat, lng) => {
-        let url = `/hospital/search/?bloodGroup=${encodeURIComponent(bloodGroup)}`;
+    searchBlood: async (bloodGroup, units, userId, lat, lng) => {
+        let url = `/hospital/search/?bloodGroup=${encodeURIComponent(bloodGroup)}&units=${units}&userId=${userId}`;
         if (lat && lng) {
             url += `&lat=${lat}&lng=${lng}`;
         }
@@ -139,8 +143,8 @@ export const hospitalAPI = {
         return response.data;
     },
     // New Features
-    getDonors: async () => {
-        const response = await api.get('/hospital/donors/');
+    getDonors: async (search = '') => {
+        const response = await api.get(`/hospital/donors/?search=${encodeURIComponent(search)}`);
         return response.data;
     },
     // Search Eligible Donors for P2P Broadcast
@@ -178,8 +182,12 @@ export const hospitalAPI = {
         const response = await api.get(`/hospital/batches/?hospitalId=${hospitalId}`);
         return response.data;
     },
-    useBatchUnit: async (batchId, quantity = 1) => {
-        const response = await api.post('/hospital/batches/action/', { batchId, action: 'use_unit', quantity });
+    useBatchUnit: async (batchId, hospitalId, quantity = 1) => {
+        const response = await api.post('/hospital/batches/action/', { batchId, hospitalId, action: 'use_unit', quantity });
+        return response.data;
+    },
+    discardBatchUnit: async (batchId, hospitalId, quantity = 1) => {
+        const response = await api.post('/hospital/batches/action/', { batchId, hospitalId, action: 'discard_unit', quantity });
         return response.data;
     }
 };

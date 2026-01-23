@@ -19,8 +19,9 @@ const RequestHistory = () => {
     useEffect(() => {
         const fetchHistory = async () => {
             if (!user?.id) return;
+            setIsLoading(true);
             try {
-                const data = await hospitalAPI.getRequests(user.id);
+                const data = await hospitalAPI.getRequests(user.id, filter, searchTerm);
                 setRequests(data);
             } catch (error) {
                 console.error("Failed to fetch history", error);
@@ -28,29 +29,23 @@ const RequestHistory = () => {
                 setIsLoading(false);
             }
         };
-        fetchHistory();
-    }, [user]);
 
-    const filteredRequests = requests.filter(req => {
-        // 1. Tab Filter
-        if (filter === 'sent' && !req.isOutgoing) return false;
-        if (filter === 'received' && req.isOutgoing) return false;
+        const timeoutId = setTimeout(() => {
+            fetchHistory();
+        }, 500);
 
-        // 2. Search Filter
-        if (searchTerm) {
-            const term = searchTerm.toLowerCase();
-            const partyName = (req.hospitalName || req.requesterName || '').toLowerCase();
-            const type = (req.bloodGroup || '').toLowerCase();
-            return partyName.includes(term) || type.includes(term) || req.status.toLowerCase().includes(term);
-        }
-        return true;
-    });
+        return () => clearTimeout(timeoutId);
+    }, [user, filter, searchTerm]);
+
+    // Client-side filtering removed - now handled by backend
+    const filteredRequests = requests;
 
     const getStatusColor = (status) => {
         switch (status.toLowerCase()) {
             case 'completed': return 'bg-emerald-50 text-emerald-700 border-emerald-100';
             case 'rejected': return 'bg-red-50 text-error border-red-100';
             case 'accepted': return 'bg-blue-50 text-blue-700 border-blue-100';
+            case 'dispatched': return 'bg-indigo-50 text-indigo-700 border-indigo-100';
             default: return 'bg-neutral-100 text-neutral-600 border-neutral-200';
         }
     };

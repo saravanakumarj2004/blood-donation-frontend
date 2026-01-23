@@ -79,7 +79,7 @@ const LoginPage = () => {
                 role: role
             });
 
-            if (result.success) {
+            if (result.token || result.success) {
                 const dashboardMap = {
                     donor: '/dashboard/donor',
                     hospital: '/dashboard/hospital'
@@ -89,7 +89,7 @@ const LoginPage = () => {
                 setGeneralError(result.message || 'Login failed');
             }
         } catch (err) {
-            setGeneralError('An unexpected error occurred');
+            setGeneralError(err.error || err.message || 'An unexpected error occurred');
             console.error(err);
         } finally {
             setIsLoading(false);

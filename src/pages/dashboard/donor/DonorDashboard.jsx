@@ -32,18 +32,8 @@ const DonorDashboard = () => {
                     const historyData = await donorAPI.getHistory(user.id);
 
                     // Calculate Next Eligible Date (3 months from last donation)
-                    let nextDate = 'Available Now';
-                    if (historyData.length > 0) {
-                        const lastDonation = new Date(historyData[0].date); // Assuming sorted desc
-                        const eligibleDate = new Date(lastDonation);
-                        eligibleDate.setMonth(eligibleDate.getMonth() + 3);
-
-                        if (eligibleDate > new Date()) {
-                            nextDate = eligibleDate.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
-                        }
-                    }
-
-                    setStats({ ...statsData, nextDonationDate: nextDate });
+                    // Use Backend-provided Date (Source of Truth)
+                    setStats(statsData);
                     setHistory(historyData.slice(0, 3));
 
                     // Pass user.id to filter out own requests and check eligibility properly

@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { hospitalAPI } from '../../../services/api';
 import { Truck, Package, Calendar, User, CheckCircle, AlertTriangle } from 'lucide-react';
 import CustomSelect from '../../../components/CustomSelect';
+import { useAuth } from '../../../hooks/useAuth';
 
 const BloodDispatch = () => {
-    // Mock accepted requests that need dispatch
-    const [pendingDispatches, setPendingDispatches] = useState([
-        { id: 101, hospital: 'City General', bloodGroup: 'O+', units: 5, date: '2025-01-20' },
-        { id: 102, hospital: 'St. Marys', bloodGroup: 'A-', units: 2, date: '2025-01-21' }
-    ]);
+    const { user } = useAuth();
+    // State for dispatches
+    const [pendingDispatches, setPendingDispatches] = useState([]);
+
+    useEffect(() => {
+        const fetchDispatches = async () => {
+            if (!user?.id) return;
+            try {
+                // Fetch requests where I am the responder (Hospital) and status is 'Accepted' (Ready to Dispatch)
+                // We reuse getRequests which we know returns requests related to the user.
+                const allRequests = await hospitalAPI.getRequests(user.id);
+                // Filter: Incoming requests (I am responder) that I have accepted.
+                const pending = allRequests.filter(r => !r.isOutgoing && r.status === 'Accepted');
+                setPendingDispatches(pending);
+            } catch (e) {
+                console.error("Failed to fetch dispatches", e);
+            }
+        };
+        fetchDispatches();
+    }, [user]);
 
     const [selectedReq, setSelectedReq] = useState(null);
     const [form, setForm] = useState({
@@ -22,12 +38,16 @@ const BloodDispatch = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await hospitalAPI.dispatchBlood({ reqId: selectedReq.id, ...form });
+            await hospitalAPI.dispatchBlood({
+                reqId: selectedReq.id || selectedReq._id,
+                hospitalId: user.id, // SENDER ID
+                ...form
+            });
             setFeedback({ type: 'success', message: 'Dispatch Logged Successfully!' });
             setPendingDispatches(prev => prev.filter(p => p.id !== selectedReq.id));
             setSelectedReq(null);
             setForm({ dispatchDate: '', transportMode: '', dispatchedBy: '', trackingId: '' });
-        } catch (e) {
+        } catch (error) {
             setFeedback({ type: 'error', message: 'Failed to log dispatch.' });
         }
     };

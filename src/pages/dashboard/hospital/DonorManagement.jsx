@@ -4,54 +4,39 @@ import { Search, Filter, Phone, Mail, User, CheckCircle, XCircle } from 'lucide-
 
 const DonorManagement = () => {
     const [selectedDonor, setSelectedDonor] = useState(null);
-    const [donors, setDonors] = useState([]);
+    // Removed unused donors state
     const [filteredDonors, setFilteredDonors] = useState([]);
     const [search, setSearch] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
+    // Removed unused isLoading state
 
     useEffect(() => {
         const fetchDonors = async () => {
+            setIsLoading(true);
             try {
-                // Mocking response if API fails in this implementation step
-                try {
-                    const data = await hospitalAPI.getDonors();
-                    if (Array.isArray(data)) {
-                        setDonors(data);
-                        setFilteredDonors(data);
-                    } else {
-                        console.error("API returned non-array data:", data);
-                        throw new Error("Invalid format");
-                    }
-                } catch (e) {
-                    console.warn("API Failed, using mock", e);
-                    // Fallback Mock Data
-                    const mock = [
-                        { id: 1, name: 'John Doe', bloodGroup: 'O+', lastDonation: '2023-11-01', eligible: true, mobile: '1234567890', email: 'john@example.com' },
-                        { id: 2, name: 'Jane Smith', bloodGroup: 'A-', lastDonation: '2024-01-10', eligible: false, mobile: '9876543210', email: 'jane@example.com' },
-                        { id: 3, name: 'Mike Ross', bloodGroup: 'B+', lastDonation: '2023-08-15', eligible: true, mobile: '5556667777', email: 'mike@example.com' },
-                    ];
-                    setDonors(mock);
-                    setFilteredDonors(mock);
-                }
-            } catch (err) {
-                console.error(err);
+                // Use the search endpoint we verified earlier (HospitalDonorSearchView)
+                // Assuming hospitalAPI.getDonors can accept params or we use a new method
+                // We'll update api.js to ensure getDonors passes 'search' param if needed. 
+                // Checks if api.js was updated? Let's assume we update api.js next if needed.
+                const data = await hospitalAPI.getDonors(search);
+                setDonors(data);
+                setFilteredDonors(data); // Backend does the filtering
+            } catch (error) {
+                console.error("Failed to fetch donors", error);
+                setDonors([]);
+                setFilteredDonors([]);
             } finally {
                 setIsLoading(false);
             }
         };
-        fetchDonors();
-    }, []);
 
-    useEffect(() => {
-        if (!donors || !Array.isArray(donors)) return;
-        const lower = search.toLowerCase();
-        const res = donors.filter(d =>
-            d.name?.toLowerCase().includes(lower) ||
-            d.bloodGroup?.toLowerCase().includes(lower) ||
-            d.mobile?.includes(lower)
-        );
-        setFilteredDonors(res);
-    }, [search, donors]);
+        const timeoutId = setTimeout(() => {
+            fetchDonors();
+        }, 500);
+
+        return () => clearTimeout(timeoutId);
+    }, [search]); // Re-fetch when search changes
+
+    // Client-side filtering removed.
 
     return (
         <div className="max-w-7xl mx-auto space-y-8 animate-fade-in relative">

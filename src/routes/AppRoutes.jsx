@@ -32,6 +32,7 @@ import EmergencyDonorCall from '../pages/dashboard/hospital/EmergencyDonorCall';
 import HospitalReports from '../pages/dashboard/hospital/HospitalReports';
 import BloodDispatch from '../pages/dashboard/hospital/BloodDispatch';
 import BatchManagement from '../pages/dashboard/hospital/BatchManagement';
+import HospitalProfile from '../pages/dashboard/hospital/HospitalProfile';
 
 
 
@@ -137,6 +138,14 @@ const AppRoutes = () => {
             />
 
             {/* Hospital Routes - Only accessible to role: 'hospital' */}
+            <Route
+              path="/dashboard/hospital/profile"
+              element={
+                <RoleRoute allowedRole="hospital">
+                  <HospitalProfile />
+                </RoleRoute>
+              }
+            />
             <Route
               path="/dashboard/hospital"
               element={

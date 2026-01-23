@@ -17,6 +17,7 @@ const RequestBlood = () => {
     const [isSearching, setIsSearching] = useState(false);
     const [results, setResults] = useState([]);
     const [hasSearched, setHasSearched] = useState(false);
+    const [hasSearchedDonors, setHasSearchedDonors] = useState(false); // Track strictly for Donor Search
 
     // Donor Search State (Fallback)
     const [showDonorSearch, setShowDonorSearch] = useState(false);
@@ -83,11 +84,17 @@ const RequestBlood = () => {
 
         const performSearch = async (lat = null, lng = null) => {
             try {
-                const data = await hospitalAPI.searchBlood(searchParams.type, lat, lng);
-                const filtered = data.filter(h =>
-                    h.id !== user.id &&
-                    (h.units || 0) >= parseInt(searchParams.units)
+                // Pass units and userId to Backend for strict filtering
+                const data = await hospitalAPI.searchBlood(
+                    searchParams.type,
+                    searchParams.units,
+                    user.id,
+                    lat,
+                    lng
                 );
+
+                // Backend now handles all filtering (units >= required, exclude self)
+                const filtered = data;
                 setResults(filtered);
 
                 if (filtered.length === 0) {
@@ -107,7 +114,7 @@ const RequestBlood = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => performSearch(position.coords.latitude, position.coords.longitude),
-                (error) => performSearch()
+                () => performSearch()
             );
         } else {
             performSearch();
@@ -121,6 +128,7 @@ const RequestBlood = () => {
             return;
         }
         setIsSearchingDonors(true);
+        setHasSearchedDonors(true); // Mark search as executed
         try {
             const donors = await hospitalAPI.searchDonors(searchParams.type, selectedCities);
             setEligibleDonors(donors);
@@ -147,7 +155,7 @@ const RequestBlood = () => {
                 bloodGroup: searchParams.type,
                 units: parseInt(searchParams.units),
                 status: 'Pending',
-                type: 'P2P',
+                type: 'EMERGENCY_ALERT',
                 city: selectedCities.join(', '),
                 cities: selectedCities,
 
@@ -457,7 +465,7 @@ const RequestBlood = () => {
                                     </div>
                                 </div>
                             ) : (
-                                hasSearched && selectedCities.length > 0 && !isSearchingDonors && (
+                                hasSearchedDonors && selectedCities.length > 0 && !isSearchingDonors && (
                                     <div className="text-center py-12 text-neutral-400 font-medium">
                                         No eligible donors found in selected cities matching the stricter criteria (60-day rule).
                                     </div>

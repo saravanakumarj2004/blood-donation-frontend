@@ -32,7 +32,7 @@ const HospitalAppointments = () => {
 
     useEffect(() => {
         fetchAppointments();
-    }, [user]);
+    }, [user?.id]);
 
     const handleStatusUpdate = async (id, status, donorId, reason = null) => {
         try {

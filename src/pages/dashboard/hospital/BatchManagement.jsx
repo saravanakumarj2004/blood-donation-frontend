@@ -27,20 +27,28 @@ const BatchManagement = () => {
 
     const handleUseUnit = async (batchId) => {
         try {
-            const res = await hospitalAPI.useBatchUnit(batchId, 1);
-            // Optimistic update
+            const res = await hospitalAPI.useBatchUnit(batchId, user.id, 1);
             setBatches(prev => prev.map(b =>
                 b._id === batchId || b.id === batchId
                     ? { ...b, units: res.remaining }
                     : b
-            ).filter(b => b.units > 0)); // Remove empty batches from view? Or keep them showing 0? User asked to remove/update count.
-
-            // If we want to remove empty batches immediately:
-            // .filter(b => b.units > 0) above does this on next render step from map result if we chained it optimally.
-            // But let's refine:
-
+            ).filter(b => b.units > 0));
         } catch (error) {
             alert("Failed to use unit");
+        }
+    };
+
+    const handleDiscardUnit = async (batchId) => {
+        if (!window.confirm("Are you sure you want to discard this unit? This cannot be undone.")) return;
+        try {
+            const res = await hospitalAPI.discardBatchUnit(batchId, user.id, 1);
+            setBatches(prev => prev.map(b =>
+                b._id === batchId || b.id === batchId
+                    ? { ...b, units: res.remaining }
+                    : b
+            ).filter(b => b.units > 0));
+        } catch (error) {
+            alert("Failed to discard unit");
         }
     };
 
@@ -145,6 +153,13 @@ const BatchManagement = () => {
                                                     className="px-6 py-3 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-black transition-colors flex items-center gap-2 active:scale-95"
                                                 >
                                                     <Droplet size={18} className="fill-current" /> Use Unit
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDiscardUnit(batch._id || batch.id)}
+                                                    className="px-6 py-3 bg-red-100 text-red-600 font-bold rounded-xl border border-red-200 hover:bg-red-200 transition-colors flex items-center gap-2 active:scale-95"
+                                                    title="Discard damaged or expired unit"
+                                                >
+                                                    <Archive size={18} /> Discard
                                                 </button>
                                             </div>
                                         </div>
