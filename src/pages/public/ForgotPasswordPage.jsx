@@ -6,15 +6,19 @@ import { authAPI } from '../../services/api';
 
 const ForgotPasswordPage = () => {
     const navigate = useNavigate();
-    const [step, setStep] = useState(1); // 1: Email, 4: Success (Steps 2 & 3 removed as backend handles email reset)
+    const [step, setStep] = useState(1); // 1: Email, 2: Security Question, 3: New Password, 4: Success
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
     // State for different steps
     const [email, setEmail] = useState('');
+    const [securityQuestion, setSecurityQuestion] = useState('');
+    const [securityAnswer, setSecurityAnswer] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    // STEP 1: Find Account & Request Reset
-    const handleFindAccount = async (e) => {
+    // STEP 1: Verify Email
+    const handleVerifyEmail = async (e) => {
         e.preventDefault();
         setError('');
 
@@ -25,20 +29,76 @@ const ForgotPasswordPage = () => {
 
         setIsLoading(true);
         try {
-            // Call Backend API
             const response = await authAPI.forgotPassword(email);
 
-            // Backend returns success even if email not found (security practice) OR detailed error
-            // Assuming 200 OK means we proceed.
-            if (response.success) {
-                setStep(4);
+            if (response.success && response.securityQuestion) {
+                setSecurityQuestion(response.securityQuestion);
+                setStep(2); // Move to security question step
             } else {
-                setError(response.message || 'Something went wrong. Please try again.');
+                setError(response.message || 'Unable to verify email');
             }
         } catch (err) {
-            console.error("Forgot Password Error:", err);
-            // If backend throws 400/404 explicitly:
-            setError(err.message || 'Unable to process request. Please check your connection.');
+            console.error("Email Verification Error:", err);
+            setError(err.error || err.message || 'Unable to find account with this email');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // STEP 2: Verify Security Answer
+    const handleVerifyAnswer = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        if (!securityAnswer.trim()) {
+            setError('Please enter your security answer');
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const response = await authAPI.verifySecurityAnswer(email, securityAnswer);
+
+            if (response.success && response.verified) {
+                setStep(3); // Move to password reset step
+            } else {
+                setError(response.message || 'Security verification failed');
+            }
+        } catch (err) {
+            console.error("Security Answer Error:", err);
+            setError(err.error || err.message || 'Incorrect security answer');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // STEP 3: Reset Password
+    const handleResetPassword = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        if (!newPassword || newPassword.length < 6) {
+            setError('Password must be at least 6 characters');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const response = await authAPI.resetPasswordWithVerification(email, newPassword);
+
+            if (response.success) {
+                setStep(4); // Success
+            } else {
+                setError(response.message || 'Failed to reset password');
+            }
+        } catch (err) {
+            console.error("Password Reset Error:", err);
+            setError(err.error || err.message || 'Unable to reset password');
         } finally {
             setIsLoading(false);
         }
@@ -49,7 +109,7 @@ const ForgotPasswordPage = () => {
         switch (step) {
             case 1:
                 return (
-                    <form onSubmit={handleFindAccount} className="space-y-6">
+                    <form onSubmit={handleVerifyEmail} className="space-y-6">
                         <div>
                             <label className="block text-sm font-medium text-neutral-700 mb-2">Email Address</label>
                             <div className="relative">
@@ -66,7 +126,75 @@ const ForgotPasswordPage = () => {
                             </div>
                         </div>
                         <button disabled={isLoading} className="w-full py-3.5 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2">
-                            {isLoading ? 'Sending Request...' : 'Reset Password'}
+                            {isLoading ? 'Verifying...' : 'Continue'}
+                            {!isLoading && <ArrowRight size={20} />}
+                        </button>
+                    </form>
+                );
+            case 2:
+                return (
+                    <form onSubmit={handleVerifyAnswer} className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Security Question</label>
+                            <div className="p-4 bg-purple-50 border border-purple-200 rounded-xl">
+                                <div className="flex items-start gap-3">
+                                    <HelpCircle size={20} className="text-purple-600 flex-shrink-0 mt-0.5" />
+                                    <p className="text-neutral-800 font-medium">{securityQuestion}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Your Answer</label>
+                            <input
+                                type="text"
+                                value={securityAnswer}
+                                onChange={(e) => setSecurityAnswer(e.target.value)}
+                                className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 bg-neutral-50 focus:bg-white outline-none transition-all"
+                                placeholder="Enter your answer"
+                                autoFocus
+                            />
+                        </div>
+                        <button disabled={isLoading} className="w-full py-3.5 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2">
+                            {isLoading ? 'Verifying...' : 'Verify Answer'}
+                            {!isLoading && <ArrowRight size={20} />}
+                        </button>
+                    </form>
+                );
+            case 3:
+                return (
+                    <form onSubmit={handleResetPassword} className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">New Password</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
+                                    <Lock size={20} />
+                                </div>
+                                <input
+                                    type="password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 bg-neutral-50 focus:bg-white outline-none transition-all"
+                                    placeholder="Enter new password"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Confirm Password</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
+                                    <Lock size={20} />
+                                </div>
+                                <input
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 bg-neutral-50 focus:bg-white outline-none transition-all"
+                                    placeholder="Re-enter new password"
+                                />
+                            </div>
+                        </div>
+                        <button disabled={isLoading} className="w-full py-3.5 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2">
+                            {isLoading ? 'Resetting Password...' : 'Reset Password'}
                             {!isLoading && <ArrowRight size={20} />}
                         </button>
                     </form>
@@ -77,14 +205,16 @@ const ForgotPasswordPage = () => {
                         <div className="w-20 h-20 bg-green-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
                             <CheckCircle size={40} />
                         </div>
-                        <h2 className="text-2xl font-bold text-neutral-900 mb-2">Check your Email</h2>
+                        <h2 className="text-2xl font-bold text-neutral-900 mb-2">Password Reset Successful!</h2>
                         <p className="text-neutral-500 mb-8 max-w-sm mx-auto">
-                            If an account exists with <strong>{email}</strong>, we have sent a secure password reset link to it.
-                            (For this Demo: Please contact admin if you need manual reset).
+                            Your password has been updated. You can now log in with your new credentials.
                         </p>
-                        <Link to="/login" className="block w-full py-3.5 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all">
+                        <button
+                            onClick={() => navigate('/login')}
+                            className="w-full py-3.5 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all"
+                        >
                             Back to Login
-                        </Link>
+                        </button>
                     </div>
                 );
             default:
@@ -128,7 +258,7 @@ const ForgotPasswordPage = () => {
                                 {step === 3 && 'Reset Password'}
                             </h2>
                             <p className="text-neutral-500 mt-2">
-                                {step === 1 && "Enter your email to find your account."}
+                                {step === 1 && "Enter your email to verify your account."}
                                 {step === 2 && "Answer your security question to continue."}
                                 {step === 3 && "Create a new password for your account."}
                             </p>

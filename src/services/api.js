@@ -31,8 +31,28 @@ export const authAPI = {
         return response.data;
     },
     forgotPassword: async (email) => {
-        const response = await api.post('/auth/forgot-password/', { email });
-        return response.data;
+        try {
+            const response = await api.post('/auth/forgot-password/', { email });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Network Error' };
+        }
+    },
+    verifySecurityAnswer: async (email, securityAnswer) => {
+        try {
+            const response = await api.post('/auth/forgot-password/', { email, securityAnswer });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Network Error' };
+        }
+    },
+    resetPasswordWithVerification: async (email, newPassword) => {
+        try {
+            const response = await api.post('/auth/forgot-password/', { email, newPassword, verified: true });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Network Error' };
+        }
     }
 };
 
