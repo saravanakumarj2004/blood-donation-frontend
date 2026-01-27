@@ -206,12 +206,22 @@ export const hospitalAPI = {
         const response = await api.get(`/hospital/batches/?hospitalId=${hospitalId}`);
         return response.data;
     },
-    useBatchUnit: async (batchId, hospitalId, quantity = 1) => {
-        const response = await api.post('/hospital/batches/action/', { batchId, hospitalId, action: 'use_unit', quantity });
+    useBatchUnit: async (batchId, hospitalId, quantity = 1, patientId = null, referenceId = null, ward = null, doctorName = null, issueDateTime = null) => {
+        const response = await api.post('/hospital/batches/action/', {
+            batchId, hospitalId, action: 'use_unit', quantity,
+            patientId, referenceId, ward, doctorName, issueDateTime
+        });
         return response.data;
     },
     discardBatchUnit: async (batchId, hospitalId, quantity = 1) => {
         const response = await api.post('/hospital/batches/action/', { batchId, hospitalId, action: 'discard_unit', quantity });
+        return response.data;
+    },
+    // Outgoing Batch Tracking
+    getOutgoingBatches: async (hospitalId, type = null) => {
+        let url = `/hospital/outgoing-batches/?hospitalId=${hospitalId}`;
+        if (type) url += `&type=${type}`;
+        const response = await api.get(url);
         return response.data;
     }
 };
