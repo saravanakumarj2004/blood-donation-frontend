@@ -55,14 +55,39 @@ const DonorProfile = () => {
 
     const handleSave = async () => {
         try {
-            // Map 'address' to 'location' to match Backend Schema
-            const payload = {
-                ...formData,
-                location: formData.address
-            };
-            await authAPI.updateProfile(user.id, payload);
+            // Calculate Changed Fields (Partial Update)
+            const changedData = {};
+
+            // Compare each field with initial user data
+            Object.keys(formData).forEach(key => {
+                let initialValue = user[key];
+                // Handle naming mismatch: formData.address vs user.location
+                if (key === 'address') initialValue = user.location;
+
+                // If value differs, add to payload
+                if (formData[key] !== initialValue) {
+                    changedData[key] = formData[key];
+                }
+            });
+
+            // Special handling: map 'address' back to 'location' for backend
+            if (changedData.address !== undefined) {
+                changedData.location = changedData.address;
+                delete changedData.address;
+            }
+
+            if (Object.keys(changedData).length === 0) {
+                setIsEditing(false);
+                return; // No changes
+            }
+
+            await authAPI.updateProfile(user.id, changedData);
             setIsEditing(false);
-            // Ideally trigger a user reload or toast
+
+            // Improve UX: Refresh data or show toast
+            // For now, we rely on the component re-rendering via Context update if implemented,
+            // or just local state matching. Ideally, fetchProfile again or update context.
+            // window.location.reload(); // Brute force refresh to sync Context
         } catch (e) {
             console.error("Failed to update profile", e);
             alert("Failed to update profile. Please try again.");

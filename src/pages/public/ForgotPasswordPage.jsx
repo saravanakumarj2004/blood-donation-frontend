@@ -2,20 +2,19 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, ArrowRight, CheckCircle, ShieldCheck, Lock, HelpCircle } from 'lucide-react';
 
+import { authAPI } from '../../services/api';
+
 const ForgotPasswordPage = () => {
     const navigate = useNavigate();
-    const [step, setStep] = useState(1); // 1: Email, 2: Security Question, 3: Reset Password, 4: Success
+    const [step, setStep] = useState(1); // 1: Email, 4: Success (Steps 2 & 3 removed as backend handles email reset)
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
     // State for different steps
     const [email, setEmail] = useState('');
-    const [foundUser, setFoundUser] = useState(null);
-    const [securityAnswer, setSecurityAnswer] = useState('');
-    const [passwords, setPasswords] = useState({ new: '', confirm: '' });
 
-    // STEP 1: Find Account
-    const handleFindAccount = (e) => {
+    // STEP 1: Find Account & Request Reset
+    const handleFindAccount = async (e) => {
         e.preventDefault();
         setError('');
 
@@ -25,73 +24,24 @@ const ForgotPasswordPage = () => {
         }
 
         setIsLoading(true);
-        setTimeout(() => {
-            const users = JSON.parse(localStorage.getItem('registered_users') || '[]');
-            const user = users.find(u => u.email === email);
+        try {
+            // Call Backend API
+            const response = await authAPI.forgotPassword(email);
 
-            if (user && user.securityQuestion) {
-                setFoundUser(user);
-                setStep(2);
-            } else if (user && !user.securityQuestion) {
-                setError('This account does not have security questions set up. Please contact support.');
+            // Backend returns success even if email not found (security practice) OR detailed error
+            // Assuming 200 OK means we proceed.
+            if (response.success) {
+                setStep(4);
             } else {
-                setError('No account found with this email address.');
+                setError(response.message || 'Something went wrong. Please try again.');
             }
+        } catch (err) {
+            console.error("Forgot Password Error:", err);
+            // If backend throws 400/404 explicitly:
+            setError(err.message || 'Unable to process request. Please check your connection.');
+        } finally {
             setIsLoading(false);
-        }, 1000);
-    };
-
-    // STEP 2: Verify Security Answer
-    const handleVerifyAnswer = (e) => {
-        e.preventDefault();
-        setError('');
-
-        if (!securityAnswer.trim()) {
-            setError('Please provide an answer');
-            return;
         }
-
-        setIsLoading(true);
-        setTimeout(() => {
-            // Case-insensitive check
-            if (foundUser.securityAnswer && securityAnswer.toLowerCase().trim() === foundUser.securityAnswer.toLowerCase().trim()) {
-                setStep(3);
-            } else {
-                setError('Incorrect answer. Please try again.');
-            }
-            setIsLoading(false);
-        }, 800);
-    };
-
-    // STEP 3: Reset Password
-    const handleResetPassword = (e) => {
-        e.preventDefault();
-        setError('');
-
-        if (passwords.new.length < 6) {
-            setError('Password must be at least 6 characters');
-            return;
-        }
-        if (passwords.new !== passwords.confirm) {
-            setError('Passwords do not match');
-            return;
-        }
-
-        setIsLoading(true);
-        setTimeout(() => {
-            // Update user in localStorage
-            const users = JSON.parse(localStorage.getItem('registered_users') || '[]');
-            const updatedUsers = users.map(u => {
-                if (u.email === foundUser.email) {
-                    return { ...u, password: passwords.new }; // In real app, hash this!
-                }
-                return u;
-            });
-
-            localStorage.setItem('registered_users', JSON.stringify(updatedUsers));
-            setStep(4);
-            setIsLoading(false);
-        }, 1000);
     };
 
     // Render Steps
@@ -116,74 +66,7 @@ const ForgotPasswordPage = () => {
                             </div>
                         </div>
                         <button disabled={isLoading} className="w-full py-3.5 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2">
-                            {isLoading ? 'Searching...' : 'Find Account'}
-                            {!isLoading && <ArrowRight size={20} />}
-                        </button>
-                    </form>
-                );
-            case 2:
-                return (
-                    <form onSubmit={handleVerifyAnswer} className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-300">
-                        <div className="bg-purple-50 p-4 rounded-xl border border-purple-100">
-                            <p className="text-xs font-bold text-purple-600 uppercase tracking-wide mb-1">Security Question</p>
-                            <p className="text-neutral-900 font-medium text-lg">{foundUser.securityQuestion}</p>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-700 mb-2">Your Answer</label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
-                                    <HelpCircle size={20} />
-                                </div>
-                                <input
-                                    type="text"
-                                    value={securityAnswer}
-                                    onChange={(e) => setSecurityAnswer(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 bg-neutral-50 focus:bg-white outline-none transition-all"
-                                    placeholder="Enter your answer"
-                                />
-                            </div>
-                        </div>
-                        <button disabled={isLoading} className="w-full py-3.5 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2">
-                            {isLoading ? 'Verifying...' : 'Verify Answer'}
-                            {!isLoading && <CheckCircle size={20} />}
-                        </button>
-                    </form>
-                );
-            case 3:
-                return (
-                    <form onSubmit={handleResetPassword} className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-300">
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-700 mb-2">New Password</label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
-                                    <Lock size={20} />
-                                </div>
-                                <input
-                                    type="password"
-                                    value={passwords.new}
-                                    onChange={(e) => setPasswords(p => ({ ...p, new: e.target.value }))}
-                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 bg-neutral-50 focus:bg-white outline-none transition-all"
-                                    placeholder="Min 6 characters"
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-700 mb-2">Confirm Password</label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
-                                    <Lock size={20} />
-                                </div>
-                                <input
-                                    type="password"
-                                    value={passwords.confirm}
-                                    onChange={(e) => setPasswords(p => ({ ...p, confirm: e.target.value }))}
-                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 bg-neutral-50 focus:bg-white outline-none transition-all"
-                                    placeholder="Re-enter password"
-                                />
-                            </div>
-                        </div>
-                        <button disabled={isLoading} className="w-full py-3.5 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all flex items-center justify-center gap-2">
-                            {isLoading ? 'Resetting...' : 'Reset Password'}
+                            {isLoading ? 'Sending Request...' : 'Reset Password'}
                             {!isLoading && <ArrowRight size={20} />}
                         </button>
                     </form>
@@ -194,9 +77,10 @@ const ForgotPasswordPage = () => {
                         <div className="w-20 h-20 bg-green-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
                             <CheckCircle size={40} />
                         </div>
-                        <h2 className="text-2xl font-bold text-neutral-900 mb-2">Password Reset!</h2>
+                        <h2 className="text-2xl font-bold text-neutral-900 mb-2">Check your Email</h2>
                         <p className="text-neutral-500 mb-8 max-w-sm mx-auto">
-                            Your password has been securely updated. You can now login with your new credentials.
+                            If an account exists with <strong>{email}</strong>, we have sent a secure password reset link to it.
+                            (For this Demo: Please contact admin if you need manual reset).
                         </p>
                         <Link to="/login" className="block w-full py-3.5 bg-neutral-900 text-white font-bold rounded-xl shadow-lg hover:bg-neutral-800 transition-all">
                             Back to Login
