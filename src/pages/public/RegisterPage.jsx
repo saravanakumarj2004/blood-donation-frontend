@@ -45,7 +45,16 @@ const RegisterPage = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        let { name, value } = e.target;
+
+        // Auto-Capitalization
+        if (name === 'name') {
+            value = value.replace(/\b\w/g, c => c.toUpperCase());
+        }
+        if (name === 'location' || name === 'securityAnswer') {
+            value = value.length > 0 ? value.charAt(0).toUpperCase() + value.slice(1) : value;
+        }
+
         setFormData(prev => ({ ...prev, [name]: value }));
         if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
     };

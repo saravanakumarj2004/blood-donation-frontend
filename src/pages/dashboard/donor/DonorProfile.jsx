@@ -46,7 +46,16 @@ const DonorProfile = () => {
     }, [user]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        let { name, value } = e.target;
+
+        // Auto-Capitalization
+        if (name === 'name' || name === 'occupation') {
+            value = value.replace(/\b\w/g, c => c.toUpperCase());
+        }
+        if (name === 'address' || name === 'bio') {
+            value = value.length > 0 ? value.charAt(0).toUpperCase() + value.slice(1) : value;
+        }
+
         setFormData(prev => ({
             ...prev,
             [name]: value

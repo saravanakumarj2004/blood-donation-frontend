@@ -165,7 +165,8 @@ const DonorRequest = () => {
                             <div className="relative">
                                 <User className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
                                 <input type="text" className="w-full pl-12 pr-4 py-3 rounded-xl bg-neutral-50 border border-neutral-200 font-bold outline-none"
-                                    value={form.patientName} onChange={e => setForm({ ...form, patientName: e.target.value })} required
+                                    value={form.patientName}
+                                    onChange={e => setForm({ ...form, patientName: e.target.value.replace(/\b\w/g, c => c.toUpperCase()) })} required
                                 />
                             </div>
                         </div>
@@ -186,7 +187,8 @@ const DonorRequest = () => {
                             <div className="relative">
                                 <AlertTriangle className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
                                 <input type="text" className="w-full pl-12 pr-4 py-3 rounded-xl bg-neutral-50 border border-neutral-200 font-bold outline-none"
-                                    value={form.hospitalName} onChange={e => setForm({ ...form, hospitalName: e.target.value })} required
+                                    value={form.hospitalName}
+                                    onChange={e => setForm({ ...form, hospitalName: e.target.value.length > 0 ? e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1) : e.target.value })} required
                                 />
                             </div>
                         </div>
@@ -196,7 +198,9 @@ const DonorRequest = () => {
                             <div className="relative">
                                 <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
                                 <input type="text" className="w-full pl-12 pr-4 py-3 rounded-xl bg-neutral-50 border border-neutral-200 font-bold outline-none"
-                                    value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} required placeholder="e.g. 123 Main St, Springfield"
+                                    value={form.location}
+                                    onChange={e => setForm({ ...form, location: e.target.value.length > 0 ? e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1) : e.target.value })}
+                                    required placeholder="e.g. 123 Main St, Springfield"
                                 />
                             </div>
                         </div>
@@ -208,7 +212,8 @@ const DonorRequest = () => {
                             <div className="relative">
                                 <User className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
                                 <input type="text" className="w-full pl-12 pr-4 py-3 rounded-xl bg-neutral-50 border border-neutral-200 font-bold outline-none"
-                                    value={form.attenderName} onChange={e => setForm({ ...form, attenderName: e.target.value })} required
+                                    value={form.attenderName}
+                                    onChange={e => setForm({ ...form, attenderName: e.target.value.replace(/\b\w/g, c => c.toUpperCase()) })} required
                                 />
                             </div>
                         </div>
