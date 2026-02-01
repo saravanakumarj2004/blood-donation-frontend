@@ -11,7 +11,8 @@ import {
     MapPin,
     CheckCircle,
     Phone,
-    Calendar
+    Calendar,
+    AlertCircle
 } from 'lucide-react';
 import CustomSelect from '../../components/CustomSelect';
 
@@ -144,10 +145,19 @@ const RegisterPage = () => {
             }
         } catch (error) {
             console.error("Registration failed", error);
+            // Extract specific backend error message
+            const backendError = error.response?.data?.error || error.response?.data?.message || error.message || 'Registration failed';
+
             setErrors(prev => ({
                 ...prev,
-                email: error.message || 'Registration failed'
+                // Assign to generic 'form' error or specific field if possible. 
+                // For now, alerting or setting a global error is better, but putting it adjacent to email/submit is fallback.
+                form: backendError
             }));
+
+            // Also show a toast/alert for immediate visibility
+            alert(backendError);
+
             setIsLoading(false);
         }
     };
@@ -223,6 +233,13 @@ const RegisterPage = () => {
                             </button>
                         ))}
                     </div>
+
+                    {errors.form && (
+                        <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-bold border border-red-100 flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
+                            <AlertCircle size={20} className="shrink-0" />
+                            {errors.form}
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div className="space-y-4">
