@@ -155,7 +155,18 @@ const MyRequests = () => {
                                                 {req.status}
                                             </span>
                                             <span className="text-neutral-400 text-sm font-medium flex items-center gap-1">
-                                                <Clock size={14} /> {new Date(req.date).toLocaleDateString()}
+                                                <Clock size={14} />
+                                                {(() => {
+                                                    try {
+                                                        const d = new Date(req.createdAt || req.date);
+                                                        if (isNaN(d.getTime())) return "Check Details";
+                                                        const now = new Date();
+                                                        const isToday = d.toDateString() === now.toDateString();
+                                                        return isToday
+                                                            ? `Today, ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                                                            : d.toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                                                    } catch (e) { return "Recent"; }
+                                                })()}
                                             </span>
                                         </div>
 

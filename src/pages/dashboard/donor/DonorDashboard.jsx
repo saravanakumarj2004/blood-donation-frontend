@@ -123,7 +123,7 @@ const DonorDashboard = () => {
                 <div className="absolute bottom-10 right-10 w-[600px] h-[600px] bg-blue-100/40 rounded-full blur-[100px]" />
             </div>
 
-            {/* Urgent Notifications Banner */}
+            {/* Notifications Banner */}
             {notifications.some(n => n.status === 'UNREAD') && (
                 <div className="backdrop-blur-xl bg-red-50/90 border border-red-200 rounded-[2rem] p-6 relative overflow-hidden shadow-xl shadow-red-500/10 animate-slide-in">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
@@ -132,14 +132,29 @@ const DonorDashboard = () => {
                             <Bell size={28} className="fill-current" />
                         </div>
                         <div className="flex-1 space-y-4">
-                            <h3 className="text-xl font-black text-neutral-900 mb-2">Urgent Request Nearby</h3>
+                            <h3 className="text-xl font-black text-neutral-900 mb-2">
+                                {notifications.some(n => n.type === 'EMERGENCY_ALERT' && n.status === 'UNREAD')
+                                    ? "Urgent Request Nearby"
+                                    : "New Updates"}
+                            </h3>
                             {notifications.filter(n => n.status === 'UNREAD').map(notif => {
                                 const isExpired = notif.expiresAt && new Date(notif.expiresAt) < new Date();
+                                const dateObj = new Date(notif.timestamp);
+                                const isToday = dateObj.toDateString() === new Date().toDateString();
+                                const dateString = isToday
+                                    ? `Today, ${dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                                    : dateObj.toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
                                 return (
                                     <div
                                         key={notif.id}
-                                        onClick={() => {
-                                            if (notif.type === 'REQUEST_ACCEPTED') {
+                                        onClick={async () => {
+                                            // Mark as READ immediately
+                                            try {
+                                                await handleRespondToAlert(notif.id, 'READ');
+                                            } catch (e) { } // coating failure shouldn't block nav
+
+                                            if (notif.type === 'REQUEST_ACCEPTED' || notif.type === 'REQUEST_REJECTED') {
                                                 navigate('/dashboard/donor/my-requests');
                                             } else {
                                                 navigate('/dashboard/donor/nearby');
@@ -151,7 +166,7 @@ const DonorDashboard = () => {
                                             <p className="font-bold text-neutral-800 text-sm leading-relaxed">{notif.message}</p>
                                             <div className="flex items-center gap-2 mt-2">
                                                 <span className="text-xs text-neutral-500 font-bold bg-white px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
-                                                    <Clock size={12} /> {new Date(notif.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    <Clock size={12} /> {dateString}
                                                 </span>
                                                 {isExpired && (
                                                     <span className="text-[10px] font-black uppercase text-neutral-400 bg-neutral-200 px-2 py-1 rounded-md">Expired</span>
