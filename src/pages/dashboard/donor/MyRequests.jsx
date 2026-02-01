@@ -28,6 +28,7 @@ const MyRequests = () => {
             case 'Accepted': return 'bg-green-100 text-green-700 border-green-200';
             case 'Dispatched': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
             case 'Completed': return 'bg-blue-100 text-blue-700 border-blue-200';
+            case 'Rejected': return 'bg-red-100 text-red-700 border-red-200';
             case 'Expired': return 'bg-neutral-100 text-neutral-500 border-neutral-200';
             default: return 'bg-yellow-100 text-yellow-700 border-yellow-200';
         }
@@ -97,8 +98,53 @@ const MyRequests = () => {
                                     </div>
                                 </div>
 
+                                {/* Donor Tracking Stats for Active/Rejected Requests */}
+                                {(req.status === 'Active' || req.status === 'Rejected') && (
+                                    <div className="mt-4 p-5 bg-gradient-to-br from-neutral-50 to-white rounded-2xl border border-neutral-200 shadow-sm">
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <User size={16} className="text-neutral-600" />
+                                            <h4 className="font-bold text-neutral-700 text-sm uppercase tracking-wide">Donor Tracking</h4>
+                                        </div>
+                                        <div className="grid grid-cols-3 gap-3">
+                                            <div className="p-4 bg-blue-50 rounded-xl border border-blue-100 text-center">
+                                                <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
+                                                    <span className="text-blue-600 font-black text-sm">{req.notifiedDonorCount || 0}</span>
+                                                </div>
+                                                <p className="text-xs font-bold text-blue-600 uppercase">Notified</p>
+                                            </div>
+                                            <div className="p-4 bg-red-50 rounded-xl border border-red-100 text-center">
+                                                <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-red-100 flex items-center justify-center">
+                                                    <span className="text-red-600 font-black text-sm">{req.rejectedCount || 0}</span>
+                                                </div>
+                                                <p className="text-xs font-bold text-red-600 uppercase">Rejected</p>
+                                            </div>
+                                            <div className={`p-4 rounded-xl border text-center ${req.status === 'Active' ? 'bg-yellow-50 border-yellow-100' : 'bg-neutral-50 border-neutral-200'
+                                                }`}>
+                                                <div className={`w-8 h-8 mx-auto mb-2 rounded-full flex items-center justify-center ${req.status === 'Active' ? 'bg-yellow-100' : 'bg-neutral-100'
+                                                    }`}>
+                                                    {req.status === 'Active' ? (
+                                                        <Clock size={14} className="text-yellow-600" />
+                                                    ) : (
+                                                        <AlertTriangle size={14} className="text-neutral-500" />
+                                                    )}
+                                                </div>
+                                                <p className={`text-xs font-bold uppercase ${req.status === 'Active' ? 'text-yellow-600' : 'text-neutral-500'
+                                                    }`}>{req.status}</p>
+                                            </div>
+                                        </div>
+                                        {req.status === 'Rejected' && (
+                                            <div className="mt-3 p-3 bg-red-50 rounded-xl border border-red-100 flex items-center gap-2">
+                                                <AlertTriangle size={16} className="text-red-600 shrink-0" />
+                                                <p className="text-xs text-red-700 font-medium">
+                                                    All notified donors were unable to help at this time. Consider creating a new request or contacting hospitals directly.
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
                                 {/* Acceptance Details Section */}
-                                {(req.status === 'Accepted' || req.status === 'Dispatched') && req.acceptedBy && (
+                                {(req.status === 'Accepted' || req.status === 'Dispatched') && (req.acceptedDonorName || req.responderName) && (
                                     <div className="mt-4 p-6 bg-green-50 rounded-2xl border border-green-100 space-y-4 animate-scale-in">
                                         <h4 className="font-bold text-green-800 flex items-center gap-2">
                                             <User size={20} /> Donor Details (Coming to Help)
@@ -110,7 +156,7 @@ const MyRequests = () => {
                                                 </div>
                                                 <div>
                                                     <p className="text-xs font-bold text-neutral-400 uppercase">Name</p>
-                                                    <p className="font-bold text-neutral-800">{req.responderName || 'Unknown Donor'}</p>
+                                                    <p className="font-bold text-neutral-800">{req.acceptedDonorName || req.responderName || 'Unknown Donor'}</p>
                                                 </div>
                                             </div>
 
@@ -120,11 +166,11 @@ const MyRequests = () => {
                                                 </div>
                                                 <div>
                                                     <p className="text-xs font-bold text-neutral-400 uppercase">Phone</p>
-                                                    <p className="font-bold text-neutral-800">{req.responderPhone || 'Hidden'}</p>
+                                                    <p className="font-bold text-neutral-800">{req.acceptedDonorPhone || req.responderPhone || 'Hidden'}</p>
                                                 </div>
                                             </div>
 
-                                            {req.responderLocation && (
+                                            {(req.acceptedDonorLocation || req.responderLocation) && (
                                                 <div className="md:col-span-2 bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
                                                     <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
                                                         <Navigation size={20} />
@@ -132,12 +178,12 @@ const MyRequests = () => {
                                                     <div className="flex-1">
                                                         <p className="text-xs font-bold text-neutral-400 uppercase">Live Location</p>
                                                         <a
-                                                            href={`https://www.google.com/maps/search/?api=1&query=${req.responderLocation}`}
+                                                            href={`https://www.google.com/maps/search/?api=1&query=${req.acceptedDonorLocation || req.responderLocation}`}
                                                             target="_blank"
                                                             rel="noreferrer"
                                                             className="font-bold text-blue-600 hover:underline break-all"
                                                         >
-                                                            Open in Maps ({req.responderLocation})
+                                                            Open in Maps ({req.acceptedDonorLocation || req.responderLocation})
                                                         </a>
                                                     </div>
                                                 </div>
