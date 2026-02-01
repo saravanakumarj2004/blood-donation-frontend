@@ -119,7 +119,7 @@ const DonorManagement = () => {
                         placeholder="Search donors by name, blood group, or phone..."
                         className="w-full pl-14 pr-6 py-4 rounded-2xl bg-white/80 border border-neutral-200 focus:ring-4 focus:ring-primary/10 outline-none transition-all font-bold text-neutral-700 shadow-sm"
                         value={search}
-                        onChange={e => setSearch(e.target.value)}
+                        onChange={e => setSearch(e.target.value.replace(/\b\w/g, c => c.toUpperCase()))}
                     />
                 </div>
                 <button className="px-6 py-4 bg-white/80 rounded-2xl border border-neutral-200 font-bold text-neutral-600 flex items-center gap-2 hover:bg-white transition-all shadow-sm">
