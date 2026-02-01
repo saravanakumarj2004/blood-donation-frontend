@@ -90,6 +90,10 @@ export const donorAPI = {
         const response = await api.post('/donor/ignore-request/', { requestId, userId });
         return response.data;
     },
+    acceptRequest: async (requestId, userId) => {
+        const response = await api.post('/donor/accept-request/', { requestId, userId });
+        return response.data;
+    },
     getNotifications: async (userId) => {
         const response = await api.get(`/notifications/?userId=${userId}`);
         return response.data;

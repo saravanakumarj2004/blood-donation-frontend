@@ -9,7 +9,7 @@ const NearbyRequests = () => {
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedReq, setSelectedReq] = useState(null);
-    const [eta, setEta] = useState('');
+
 
     useEffect(() => {
         const fetchRequests = async () => {
@@ -46,51 +46,23 @@ const NearbyRequests = () => {
     const confirmResponse = async () => {
         if (!user) return;
 
-        // Helper to get location
-        const getLocation = () => {
-            return new Promise((resolve, reject) => {
-                if (!navigator.geolocation) {
-                    reject(new Error("Geolocation not supported"));
-                } else {
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            resolve(`${position.coords.latitude},${position.coords.longitude}`);
-                        },
-                        (error) => {
-                            console.warn("Location access denied or failed", error);
-                            resolve(null); // Proceed even if location fails, or enforce it? User asked to "collect location". Let's try best effort.
-                        }
-                    );
-                }
-            });
-        };
-
         try {
-            const location = await getLocation();
-            // If location is critical we could block here: if(!location) return alert("Location access required!");
+            // Call the new accept-request endpoint
+            await donorAPI.acceptRequest(selectedReq.id, user.id);
 
-            await donorAPI.respondToAlert({
-                alertId: selectedReq.id,
-                donorId: user.id,
-                status: 'Accepted',
-                eta: eta,
-                location: location || 'Unknown'
-            });
             setModalOpen(false);
-            // Instead of removing, we update the status locally to trigger the "Accepted Card" view
+            // Update the status locally to show accepted card
             setRequests(prev => prev.map(r =>
                 r.id === selectedReq.id
                     ? { ...r, status: 'Accepted', acceptedBy: user.id }
                     : r
             ));
 
-            // Show Success Modal/Toast instead of alert
+            // Show success message with contact info
             const contactMsg = selectedReq.attenderNumber
                 ? `Thank you! Please contact ${selectedReq.attenderName || 'the attender'} at ${selectedReq.attenderNumber} for coordination.`
                 : `Thanks! ${selectedReq.patientName || 'The patient'} is waiting. Contact the hospital/attender immediately.`;
 
-            // We can use a simple overlay state here or assume the DashboardLayout's generic feedback can't be reached easily. 
-            // Let's use a local 'successModal' state.
             setSuccessMsg(contactMsg);
 
         } catch (error) {
@@ -167,6 +139,30 @@ const NearbyRequests = () => {
                                                             <label className="text-neutral-500 text-sm">Hospital</label>
                                                             <p className="text-lg font-bold text-white/90">{req.hospitalName}</p>
                                                         </div>
+                                                        {req.attenderName && (
+                                                            <div>
+                                                                <label className="text-neutral-500 text-sm">Attender Name</label>
+                                                                <p className="text-lg font-bold text-white/90">{req.attenderName}</p>
+                                                            </div>
+                                                        )}
+                                                        {req.attenderNumber && (
+                                                            <div>
+                                                                <label className="text-neutral-500 text-sm">Attender Contact</label>
+                                                                <p className="text-lg font-bold text-white/90">{req.attenderNumber}</p>
+                                                            </div>
+                                                        )}
+                                                        {req.requesterName && (
+                                                            <div>
+                                                                <label className="text-neutral-500 text-sm">Requester Name</label>
+                                                                <p className="text-lg font-bold text-white/90">{req.requesterName}</p>
+                                                            </div>
+                                                        )}
+                                                        {req.requiredTime && (
+                                                            <div>
+                                                                <label className="text-neutral-500 text-sm">Required Time</label>
+                                                                <p className="text-lg font-bold text-white/90">{req.requiredTime}</p>
+                                                            </div>
+                                                        )}
                                                     </div>
 
                                                     <div className="space-y-4">
@@ -270,13 +266,7 @@ const NearbyRequests = () => {
                         </p>
 
                         <div className="space-y-4">
-                            <input
-                                type="text"
-                                placeholder="ETA (e.g., 20 mins)"
-                                className="w-full px-4 py-3 rounded-xl bg-neutral-50 border border-neutral-200 font-bold outline-none"
-                                value={eta}
-                                onChange={e => setEta(e.target.value)}
-                            />
+
                             <div className="grid grid-cols-2 gap-4">
                                 <button onClick={() => setModalOpen(false)} className="py-3 rounded-xl font-bold text-neutral-500 hover:bg-neutral-50 transition-colors">Cancel</button>
                                 <button onClick={confirmResponse} className="py-3 bg-neutral-900 text-white rounded-xl font-bold shadow-lg hover:bg-black transition-colors">Confirm</button>
