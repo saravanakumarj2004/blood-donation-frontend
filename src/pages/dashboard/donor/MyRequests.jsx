@@ -35,8 +35,77 @@ const MyRequests = () => {
         }
     };
 
+    const [showConfirmModal, setShowConfirmModal] = useState(null); // stores reqId
+    const [toast, setToast] = useState(null); // { type: 'success'|'error', message: '' }
+
+    const handleConfirmClick = (reqId) => {
+        setShowConfirmModal(reqId);
+    };
+
+    const handleConfirmAction = async () => {
+        if (!showConfirmModal) return;
+        const reqId = showConfirmModal;
+        setProcessingId(reqId);
+        setShowConfirmModal(null);
+
+        try {
+            await donorAPI.completeRequest(reqId);
+            // Refresh list
+            const data = await donorAPI.getMyRequests(user.id);
+            setRequests(data);
+            setToast({ type: 'success', message: 'Donation verified successfully! History updated.' });
+        } catch (e) {
+            console.error("Failed to complete", e);
+            const errorMsg = e.response?.data?.error || e.message || "Unknown Error";
+            setToast({ type: 'error', message: `Failed: ${errorMsg}` });
+        } finally {
+            setProcessingId(null);
+            setTimeout(() => setToast(null), 3000);
+        }
+    };
+
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-fade-in pb-20">
+        <div className="max-w-4xl mx-auto space-y-8 animate-fade-in pb-20 relative">
+            {/* Toast Notification */}
+            {toast && (
+                <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-slide-in ${toast.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+                    }`}>
+                    {toast.type === 'success' ? <CheckCircle size={20} /> : <AlertTriangle size={20} />}
+                    <span className="font-bold">{toast.message}</span>
+                </div>
+            )}
+
+            {/* Confirmation Modal */}
+            {showConfirmModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white rounded-[2rem] p-8 max-w-md w-full shadow-2xl space-y-6">
+                        <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto">
+                            <CheckCircle size={32} />
+                        </div>
+                        <div className="text-center">
+                            <h3 className="text-2xl font-black text-neutral-900">Confirm Donation?</h3>
+                            <p className="text-neutral-500 font-medium mt-2">
+                                Please confirm that you have received the blood units from the donor. This will update the donor's history and verification stats.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <button
+                                onClick={() => setShowConfirmModal(null)}
+                                className="py-3 font-bold text-neutral-600 hover:bg-neutral-50 rounded-xl transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleConfirmAction}
+                                className="py-3 bg-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-200 hover:bg-green-700 hover:scale-105 transition-all"
+                            >
+                                Yes, Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 backdrop-blur-md bg-white/40 p-8 rounded-[2rem] border border-white/60 shadow-lg">
                 <div>
                     <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600 flex items-center gap-3">
@@ -204,24 +273,9 @@ const MyRequests = () => {
                                             <div className="md:col-span-2 pt-2">
                                                 <button
                                                     disabled={processingId === req.id}
-                                                    onClick={async (e) => {
+                                                    onClick={(e) => {
                                                         e.stopPropagation();
-                                                        if (!window.confirm("Confirm that you have received the blood donation?")) return;
-
-                                                        setProcessingId(req.id);
-                                                        try {
-                                                            await donorAPI.completeRequest(req.id);
-                                                            // Refresh list
-                                                            const data = await donorAPI.getMyRequests(user.id);
-                                                            setRequests(data);
-                                                            alert("Success! Donation verified and history updated.");
-                                                        } catch (e) {
-                                                            console.error("Failed to complete", e);
-                                                            const errorMsg = e.response?.data?.error || e.message || "Unknown Error";
-                                                            alert(`Failed: ${errorMsg}`);
-                                                        } finally {
-                                                            setProcessingId(null);
-                                                        }
+                                                        handleConfirmClick(req.id);
                                                     }}
                                                     className={`w-full py-4 font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 ${processingId === req.id
                                                         ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed shadow-none'
