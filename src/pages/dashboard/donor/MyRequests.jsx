@@ -7,6 +7,7 @@ const MyRequests = () => {
     const { user } = useAuth();
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [processingId, setProcessingId] = useState(null);
 
     useEffect(() => {
         const fetchRequests = async () => {
@@ -202,28 +203,36 @@ const MyRequests = () => {
 
                                             <div className="md:col-span-2 pt-2">
                                                 <button
+                                                    disabled={processingId === req.id}
                                                     onClick={async (e) => {
                                                         e.stopPropagation();
-                                                        console.log("DEBUG: Button Clicked for Request", req.id);
+                                                        if (!window.confirm("Confirm that you have received the blood donation?")) return;
 
+                                                        setProcessingId(req.id);
                                                         try {
-                                                            console.log("DEBUG: Calling API...");
                                                             await donorAPI.completeRequest(req.id);
-                                                            console.log("DEBUG: API Success");
-
                                                             // Refresh list
                                                             const data = await donorAPI.getMyRequests(user.id);
                                                             setRequests(data);
-                                                            alert("Success! Donation verified.");
+                                                            alert("Success! Donation verified and history updated.");
                                                         } catch (e) {
-                                                            console.error("DEBUG: Failed to complete", e);
+                                                            console.error("Failed to complete", e);
                                                             const errorMsg = e.response?.data?.error || e.message || "Unknown Error";
                                                             alert(`Failed: ${errorMsg}`);
+                                                        } finally {
+                                                            setProcessingId(null);
                                                         }
                                                     }}
-                                                    className="w-full py-4 bg-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-200 hover:bg-green-700 hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                                                    className={`w-full py-4 font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 ${processingId === req.id
+                                                        ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed shadow-none'
+                                                        : 'bg-green-600 text-white shadow-green-200 hover:bg-green-700 hover:shadow-xl'
+                                                        }`}
                                                 >
-                                                    <CheckCircle size={20} /> Confirm Donation Received
+                                                    {processingId === req.id ? (
+                                                        <><Clock size={20} className="animate-spin" /> Processing...</>
+                                                    ) : (
+                                                        <><CheckCircle size={20} /> Confirm Donation Received</>
+                                                    )}
                                                 </button>
                                             </div>
                                         </div>
