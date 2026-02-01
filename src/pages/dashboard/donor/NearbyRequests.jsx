@@ -236,6 +236,22 @@ const NearbyRequests = () => {
                                                 <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs uppercase font-bold bg-red-100 text-red-600 w-fit mt-2`}>
                                                     {req.urgency || 'Urgent'}
                                                 </span>
+                                                <span className="text-xs text-neutral-400 font-bold ml-3">
+                                                    {(() => {
+                                                        try {
+                                                            const d = new Date(req.createdAt || req.date);
+                                                            if (isNaN(d.getTime())) return "Recently";
+                                                            const now = new Date();
+                                                            const diffHrs = (now - d) / (1000 * 60 * 60);
+
+                                                            if (diffHrs < 24 && now.toDateString() === d.toDateString()) {
+                                                                return `Today, ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+                                                            } else {
+                                                                return d.toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                                                            }
+                                                        } catch (e) { return "Recently"; }
+                                                    })()}
+                                                </span>
                                             </div>
                                         </div>
 
