@@ -220,11 +220,18 @@ const NearbyRequests = () => {
                                                     <span>{req.location || 'Unknown Location'}</span>
                                                 </div>
 
-                                                {req.attenderName && (
-                                                    <div className="text-xs text-neutral-400 flex items-center justify-center md:justify-start gap-1">
-                                                        <span>Contact details hidden until accepted</span>
-                                                    </div>
-                                                )}
+                                                <div className="flex items-center gap-4 mt-2">
+                                                    {req.attenderName && (
+                                                        <div className="text-sm font-bold text-neutral-600 flex items-center gap-1">
+                                                            <span className="text-neutral-400">Attender:</span> {req.attenderName}
+                                                        </div>
+                                                    )}
+                                                    {req.attenderNumber && (
+                                                        <div className="text-sm font-bold text-neutral-600 flex items-center gap-1">
+                                                            <span className="text-neutral-400">Ph:</span> {req.attenderNumber}
+                                                        </div>
+                                                    )}
+                                                </div>
 
                                                 <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs uppercase font-bold bg-red-100 text-red-600 w-fit mt-2`}>
                                                     {req.urgency || 'Urgent'}
