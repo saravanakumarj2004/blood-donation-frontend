@@ -121,6 +121,41 @@ const DashboardLayout = () => {
         navigate('/login');
     };
 
+    const handleNotificationClick = (n) => {
+        handleMarkAsRead(n);
+        setIsNotifOpen(false);
+        setPopupNotif(null);
+
+        // Navigation Logic
+        if (n.type === 'EMERGENCY_ALERT' || n.type === 'URGENT_REQUEST') {
+            if (user?.role === 'hospital') {
+                navigate('/dashboard/hospital/request');
+            } else {
+                navigate('/dashboard/donor/nearby');
+            }
+        } else if (n.type === 'REQUEST_ACCEPTED') {
+            if (user?.role === 'hospital') {
+                navigate('/dashboard/hospital/incoming-requests');
+            } else {
+                navigate('/dashboard/donor/my-requests');
+            }
+        } else if (n.type === 'P2P_REQUEST') {
+            navigate('/dashboard/donor/nearby');
+        } else if (n.type === 'BLOOD_DISPATCHED') {
+            if (user?.role === 'hospital') {
+                navigate('/dashboard/hospital/incoming-requests');
+            } else {
+                navigate('/dashboard/donor/my-requests');
+            }
+        } else if (n.type === 'REQUEST_REJECTED') {
+            if (user?.role === 'hospital') {
+                navigate('/dashboard/hospital/request');
+            } else {
+                navigate('/dashboard/donor/my-requests');
+            }
+        }
+    };
+
     const links = getLinks();
     const currentTitle = links.find(l => l.path === location.pathname)?.label || 'Dashboard';
 
@@ -253,26 +288,7 @@ const DashboardLayout = () => {
                                             notifications.map(n => (
                                                 <div
                                                     key={n.id}
-                                                    onClick={() => {
-                                                        handleMarkAsRead(n);
-                                                        // Navigation Logic
-                                                        if (n.type === 'EMERGENCY_ALERT' || n.type === 'URGENT_REQUEST') {
-                                                            if (user?.role === 'hospital') {
-                                                                navigate('/dashboard/hospital/incoming-requests');
-                                                            } else {
-                                                                navigate('/dashboard/donor/nearby');
-                                                            }
-                                                        } else if (n.type === 'REQUEST_ACCEPTED') {
-                                                            if (user?.role === 'hospital') {
-                                                                navigate('/dashboard/hospital/incoming-requests'); // To "My Outgoing"
-                                                            } else {
-                                                                navigate('/dashboard/donor/my-requests');
-                                                            }
-                                                        } else if (n.type === 'P2P_REQUEST') {
-                                                            navigate('/dashboard/donor/nearby');
-                                                        }
-                                                        setIsNotifOpen(false);
-                                                    }}
+                                                    onClick={() => handleNotificationClick(n)}
                                                     className={`p-4 border-b border-neutral-50 hover:bg-neutral-50 cursor-pointer transition-colors ${(n.status || 'UNREAD').toUpperCase() === 'UNREAD' ? 'bg-blue-50/50' : 'opacity-75'
                                                         }`}
                                                 >
@@ -317,10 +333,7 @@ const DashboardLayout = () => {
                                     {popupNotif.message}
                                 </p>
                                 <button
-                                    onClick={() => {
-                                        setPopupNotif(null);
-                                        navigate('/dashboard/donor/nearby');
-                                    }}
+                                    onClick={() => handleNotificationClick(popupNotif)}
                                     className="mt-3 text-xs font-black text-red-600 hover:text-red-700 uppercase tracking-wide"
                                 >
                                     View Request →
