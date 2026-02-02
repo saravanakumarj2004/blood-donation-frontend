@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { hospitalAPI } from '../../../services/api';
 import { Inbox, CheckCircle, XCircle, Clock, Baby, AlertCircle, MapPin, Trash2, Truck } from 'lucide-react';
@@ -10,6 +11,7 @@ import { Inbox, CheckCircle, XCircle, Clock, Baby, AlertCircle, MapPin, Trash2, 
  * Allows Accept/Reject actions which update localStorage.
  */
 const IncomingRequests = () => {
+    const navigate = useNavigate();
     const { user } = useAuth();
     const [requests, setRequests] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -163,12 +165,16 @@ const IncomingRequests = () => {
 
                                         {/* Actions */}
                                         <div className="flex items-center gap-3">
-                                            {req.status === 'Accepted' && req.acceptedBy ? (
+                                            {(req.status === 'Accepted' || req.status === 'Dispatched') && req.acceptedBy ? (
                                                 <button
                                                     onClick={() => triggerConfirm(req.id, 'Completed')}
-                                                    className="px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 hover:bg-emerald-700 hover:scale-105 transition-all flex items-center gap-2"
+                                                    className={`px-6 py-3 text-white font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 ${req.status === 'Dispatched'
+                                                        ? 'bg-indigo-600 shadow-indigo-500/30 hover:bg-indigo-700 hover:scale-105'
+                                                        : 'bg-emerald-600 shadow-emerald-500/30 hover:bg-emerald-700 hover:scale-105'
+                                                        }`}
                                                 >
-                                                    <CheckCircle size={18} /> Confirm Receipt/Donation
+                                                    <CheckCircle size={18} />
+                                                    {req.status === 'Dispatched' ? 'Confirm Receipt' : 'Confirm Donation'}
                                                 </button>
                                             ) : req.status === 'Completed' ? (
                                                 <span className="px-4 py-2 bg-neutral-100 text-neutral-400 font-bold rounded-lg cursor-not-allowed">Completed</span>
@@ -277,19 +283,28 @@ const IncomingRequests = () => {
                                                     </div>
                                                 )}
 
-                                                {/* ACCEPTED / DISPATCHED STATE */}
-                                                {(req.status === 'Accepted' || req.status === 'Dispatched') && (
+                                                {/* ACCEPTED STATE -> DISPATCH ACTION */}
+                                                {req.status === 'Accepted' && (
                                                     <div className="flex flex-col items-end gap-3 w-full">
-                                                        <div className={`px-5 py-2 text-sm font-black uppercase tracking-wide rounded-xl flex items-center gap-2 border ${req.status === 'Dispatched' ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : 'bg-emerald-50 text-emerald-700 border-emerald-100'
-                                                            }`}>
-                                                            {req.status === 'Dispatched' ? <><Truck size={16} /> Dispatched & On Way</> : <><CheckCircle size={16} /> Accepted</>}
+                                                        <div className="px-5 py-2 bg-emerald-50 text-emerald-700 border border-emerald-100 text-sm font-black uppercase tracking-wide rounded-xl flex items-center gap-2">
+                                                            <CheckCircle size={16} /> Accepted
                                                         </div>
                                                         <button
-                                                            onClick={() => triggerConfirm(req.id, 'Completed')}
-                                                            className="w-full px-8 py-3 bg-emerald-500 text-white font-bold rounded-2xl hover:bg-emerald-600 shadow-lg shadow-emerald-500/20 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                                                            onClick={() => navigate('/dashboard/hospital/dispatch')}
+                                                            className="w-full px-8 py-3 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
                                                         >
-                                                            <Inbox size={20} /> Confirm Delivery
+                                                            <Truck size={20} /> Dispatch Now
                                                         </button>
+                                                    </div>
+                                                )}
+
+                                                {/* DISPATCHED STATE -> WAITING */}
+                                                {req.status === 'Dispatched' && (
+                                                    <div className="flex flex-col items-end gap-3 w-full">
+                                                        <div className="px-5 py-2 bg-indigo-50 text-indigo-700 border border-indigo-100 text-sm font-black uppercase tracking-wide rounded-xl flex items-center gap-2">
+                                                            <Truck size={16} /> Dispatched
+                                                        </div>
+                                                        <span className="text-xs font-bold text-neutral-400">Waiting for Receiver Confirmation</span>
                                                     </div>
                                                 )}
 
