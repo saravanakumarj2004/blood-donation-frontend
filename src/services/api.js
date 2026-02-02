@@ -9,6 +9,25 @@ const api = axios.create({
     },
 });
 
+// Add a request interceptor to inject the token
+api.interceptors.request.use(
+    (config) => {
+        const storedUser = localStorage.getItem('bloodDonationUser');
+        if (storedUser) {
+            try {
+                const user = JSON.parse(storedUser);
+                if (user?.token) {
+                    config.headers.Authorization = `Bearer ${user.token}`;
+                }
+            } catch (e) {
+                console.error("Error parsing user token:", e);
+            }
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
 export const authAPI = {
     login: async (credentials) => {
         try {
