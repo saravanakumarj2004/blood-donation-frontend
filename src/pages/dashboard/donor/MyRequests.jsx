@@ -295,111 +295,111 @@ const MyRequests = () => {
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
-                            )}
 
-                        {/* Cancel Button for Active/Pending/Accepted */}
-                        {(req.status === 'Active' || req.status === 'Pending' || req.status === 'Accepted') && (
-                            <div className="mt-4 pt-4 border-t border-dashed border-neutral-200">
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleCancelClick(req.id);
-                                    }}
-                                    disabled={processingId === req.id}
-                                    className="w-full py-3 text-red-500 font-bold border border-red-200 rounded-xl hover:bg-red-50 transition-colors text-sm flex items-center justify-center gap-2"
-                                >
-                                    {processingId === req.id ? <Clock size={16} className="animate-spin" /> : <AlertTriangle size={16} />}
-                                    Cancel Request
-                                </button>
-                            </div>
-                        )}
+                                    )}
 
-                        {/* Acceptance Details Section */}
-                        {(req.status === 'Accepted' || req.status === 'Dispatched') && (req.acceptedDonorName || req.responderName) && (
-                            <div className="mt-4 p-6 bg-green-50 rounded-2xl border border-green-100 space-y-4 animate-scale-in">
-                                <h4 className="font-bold text-green-800 flex items-center gap-2">
-                                    <User size={20} /> Donor Details (Coming to Help)
-                                </h4>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <div className="bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                                            <User size={20} />
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-bold text-neutral-400 uppercase">Name</p>
-                                            <p className="font-bold text-neutral-800">{req.acceptedDonorName || req.responderName || 'Unknown Donor'}</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                                            <Phone size={20} />
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-bold text-neutral-400 uppercase">Phone</p>
-                                            <p className="font-bold text-neutral-800">{req.acceptedDonorPhone || req.responderPhone || 'Hidden'}</p>
-                                        </div>
-                                    </div>
-
-                                    {(req.acceptedDonorLocation || req.responderLocation) && (
-                                        <div className="md:col-span-2 bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                                                <Navigation size={20} />
-                                            </div>
-                                            <div className="flex-1">
-                                                <p className="text-xs font-bold text-neutral-400 uppercase">Live Location</p>
-                                                <a
-                                                    href={`https://www.google.com/maps/search/?api=1&query=${req.acceptedDonorLocation || req.responderLocation}`}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="font-bold text-blue-600 hover:underline break-all"
-                                                >
-                                                    Open in Maps ({req.acceptedDonorLocation || req.responderLocation})
-                                                </a>
-                                            </div>
+                                    {/* Cancel Button for Active/Pending/Accepted */}
+                                    {(req.status === 'Active' || req.status === 'Pending' || req.status === 'Accepted') && (
+                                        <div className="mt-4 pt-4 border-t border-dashed border-neutral-200">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleCancelClick(req.id);
+                                                }}
+                                                disabled={processingId === req.id}
+                                                className="w-full py-3 text-red-500 font-bold border border-red-200 rounded-xl hover:bg-red-50 transition-colors text-sm flex items-center justify-center gap-2"
+                                            >
+                                                {processingId === req.id ? <Clock size={16} className="animate-spin" /> : <AlertTriangle size={16} />}
+                                                Cancel Request
+                                            </button>
                                         </div>
                                     )}
 
-                                    {/* Dispatch Note */}
-                                    {req.status === 'Dispatched' && (
-                                        <div className="md:col-span-2 bg-indigo-50 p-4 rounded-xl border border-indigo-100 shadow-sm flex items-center gap-3">
-                                            <Truck className="text-indigo-600" />
-                                            <div>
-                                                <p className="font-bold text-indigo-900">Vehicle Dispatched</p>
-                                                <p className="text-xs text-indigo-700">The hospital has dispatched the units. They should arrive shortly.</p>
+                                    {/* Acceptance Details Section */}
+                                    {(req.status === 'Accepted' || req.status === 'Dispatched') && (req.acceptedDonorName || req.responderName) && (
+                                        <div className="mt-4 p-6 bg-green-50 rounded-2xl border border-green-100 space-y-4 animate-scale-in">
+                                            <h4 className="font-bold text-green-800 flex items-center gap-2">
+                                                <User size={20} /> Donor Details (Coming to Help)
+                                            </h4>
+                                            <div className="grid md:grid-cols-2 gap-4">
+                                                <div className="bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                                        <User size={20} />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-bold text-neutral-400 uppercase">Name</p>
+                                                        <p className="font-bold text-neutral-800">{req.acceptedDonorName || req.responderName || 'Unknown Donor'}</p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                                        <Phone size={20} />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-bold text-neutral-400 uppercase">Phone</p>
+                                                        <p className="font-bold text-neutral-800">{req.acceptedDonorPhone || req.responderPhone || 'Hidden'}</p>
+                                                    </div>
+                                                </div>
+
+                                                {(req.acceptedDonorLocation || req.responderLocation) && (
+                                                    <div className="md:col-span-2 bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
+                                                        <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                                            <Navigation size={20} />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <p className="text-xs font-bold text-neutral-400 uppercase">Live Location</p>
+                                                            <a
+                                                                href={`https://www.google.com/maps/search/?api=1&query=${req.acceptedDonorLocation || req.responderLocation}`}
+                                                                target="_blank"
+                                                                rel="noreferrer"
+                                                                className="font-bold text-blue-600 hover:underline break-all"
+                                                            >
+                                                                Open in Maps ({req.acceptedDonorLocation || req.responderLocation})
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {/* Dispatch Note */}
+                                                {req.status === 'Dispatched' && (
+                                                    <div className="md:col-span-2 bg-indigo-50 p-4 rounded-xl border border-indigo-100 shadow-sm flex items-center gap-3">
+                                                        <Truck className="text-indigo-600" />
+                                                        <div>
+                                                            <p className="font-bold text-indigo-900">Vehicle Dispatched</p>
+                                                            <p className="text-xs text-indigo-700">The hospital has dispatched the units. They should arrive shortly.</p>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                <div className="md:col-span-2 pt-2">
+                                                    <button
+                                                        disabled={processingId === req.id}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleConfirmClick(req.id);
+                                                        }}
+                                                        className={`w-full py-4 font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 ${processingId === req.id
+                                                            ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed shadow-none'
+                                                            : 'bg-green-600 text-white shadow-green-200 hover:bg-green-700 hover:shadow-xl'
+                                                            }`}
+                                                    >
+                                                        {processingId === req.id ? (
+                                                            <><Clock size={20} className="animate-spin" /> Processing...</>
+                                                        ) : (
+                                                            <><CheckCircle size={20} /> Confirm Donation Received</>
+                                                        )}
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     )}
-
-                                    <div className="md:col-span-2 pt-2">
-                                        <button
-                                            disabled={processingId === req.id}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleConfirmClick(req.id);
-                                            }}
-                                            className={`w-full py-4 font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 ${processingId === req.id
-                                                ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed shadow-none'
-                                                : 'bg-green-600 text-white shadow-green-200 hover:bg-green-700 hover:shadow-xl'
-                                                }`}
-                                        >
-                                            {processingId === req.id ? (
-                                                <><Clock size={20} className="animate-spin" /> Processing...</>
-                                            ) : (
-                                                <><CheckCircle size={20} /> Confirm Donation Received</>
-                                            )}
-                                        </button>
-                                    </div>
                                 </div>
-                            </div>
+                            ))
                         )}
                     </div>
-                ))
-            )}
-        </div>
-    )
-}
+                )
+            }
         </div >
     );
 };
