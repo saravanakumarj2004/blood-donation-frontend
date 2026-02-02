@@ -124,6 +124,7 @@ export const donorAPI = {
     // New Feature: P2P
     createRequest: (data) => api.post('/donor/requests/', data).then(res => res.data),
     completeRequest: (requestId) => api.post('/donor/requests/complete/', { requestId }).then(res => res.data),
+    cancelRequest: (requestId, userId) => api.post('/donor/requests/cancel/', { requestId, userId }).then(res => res.data),
     getActiveLocations: async () => { // New Endpoint
         const response = await api.get('/locations/active/');
         return response.data;
