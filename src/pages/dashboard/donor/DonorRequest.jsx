@@ -260,6 +260,7 @@ const DonorRequest = () => {
                                         onChange={setSelectedCities}
                                         placeholder={availableCities.length === 0 ? "No active donors found" : "Select Areas"}
                                         icon={MapPin}
+                                        closeOnSelect={true}
                                     />
                                 )}
                             </div>

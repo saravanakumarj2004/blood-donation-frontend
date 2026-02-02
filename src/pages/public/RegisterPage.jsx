@@ -12,7 +12,9 @@ import {
     CheckCircle,
     Phone,
     Calendar,
-    AlertCircle
+    AlertCircle,
+    Eye,
+    EyeOff
 } from 'lucide-react';
 import CustomSelect from '../../components/CustomSelect';
 
@@ -33,6 +35,9 @@ const RegisterPage = () => {
         securityQuestion: '',
         securityAnswer: ''
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const securityQuestions = [
         "What is your mother's maiden name?",
@@ -131,6 +136,7 @@ const RegisterPage = () => {
         try {
             const response = await authAPI.register({
                 ...formData,
+                email: formData.email.toLowerCase(),
                 role: role
             });
 
@@ -489,16 +495,23 @@ const RegisterPage = () => {
                                         <Lock size={20} />
                                     </div>
                                     <input
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         name="password"
                                         value={formData.password}
                                         onChange={handleChange}
-                                        className={`w-full pl-10 pr-4 py-3 rounded-xl border bg-neutral-50 focus:bg-white outline-none transition-all ${errors.password
+                                        className={`w-full pl-10 pr-10 py-3 rounded-xl border bg-neutral-50 focus:bg-white outline-none transition-all ${errors.password
                                             ? 'border-error focus:ring-2 focus:ring-error/20'
                                             : 'border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20'
                                             }`}
                                         placeholder="••••••"
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-400 hover:text-neutral-600 transition-colors"
+                                    >
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
                                 </div>
                                 {errors.password && <p className="mt-1 text-xs text-error font-medium">{errors.password}</p>}
                             </div>
@@ -509,16 +522,23 @@ const RegisterPage = () => {
                                         <Lock size={20} />
                                     </div>
                                     <input
-                                        type="password"
+                                        type={showConfirmPassword ? "text" : "password"}
                                         name="confirmPassword"
                                         value={formData.confirmPassword}
                                         onChange={handleChange}
-                                        className={`w-full pl-10 pr-4 py-3 rounded-xl border bg-neutral-50 focus:bg-white outline-none transition-all ${errors.confirmPassword
+                                        className={`w-full pl-10 pr-10 py-3 rounded-xl border bg-neutral-50 focus:bg-white outline-none transition-all ${errors.confirmPassword
                                             ? 'border-error focus:ring-2 focus:ring-error/20'
                                             : 'border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20'
                                             }`}
                                         placeholder="••••••"
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-400 hover:text-neutral-600 transition-colors"
+                                    >
+                                        {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
                                 </div>
                                 {errors.confirmPassword && <p className="mt-1 text-xs text-error font-medium">{errors.confirmPassword}</p>}
                             </div>

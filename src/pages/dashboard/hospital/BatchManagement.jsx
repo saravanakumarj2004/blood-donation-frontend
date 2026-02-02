@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import { hospitalAPI } from '../../../services/api';
-import { Droplet, Calendar, Archive, AlertCircle, Building2, User, FileText, ArrowRightLeft, TrendingDown, X, Plus, Minus } from 'lucide-react';
+import { Droplet, Calendar, Archive, AlertCircle, Building2, User, FileText, ArrowRightLeft, TrendingDown, X, Plus, Minus, Mail, Phone } from 'lucide-react';
 
 const BatchManagement = () => {
     const { user } = useAuth();
@@ -436,10 +436,34 @@ const IncomingBatchesView = ({ batches, onUseUnit, onDiscardUnit }) => {
                                         <span className="text-neutral-400 font-medium flex items-center gap-1"><AlertCircle size={14} /> Expires</span>
                                         <span className="font-bold text-red-600">{new Date(batch.expiryDate).toLocaleDateString()}</span>
                                     </div>
-                                    {batch.fromHospitalId && (
-                                        <div className="flex justify-between text-sm">
+                                    {batch.donorDetails?.name ? (
+                                        <div className="space-y-1 pt-2 border-t border-neutral-200 mt-2">
+                                            <div className="flex justify-between text-sm">
+                                                <span className="text-neutral-400 font-medium flex items-center gap-1"><User size={14} /> Donor</span>
+                                                <span className="font-bold text-neutral-800">{batch.donorDetails.name}</span>
+                                            </div>
+                                            {batch.donorDetails.phone && (
+                                                <div className="flex justify-between text-sm">
+                                                    <span className="text-neutral-400 font-medium flex items-center gap-1"><Phone size={14} /> Phone</span>
+                                                    <a href={`tel:${batch.donorDetails.phone}`} className="font-bold text-blue-600 hover:underline">{batch.donorDetails.phone}</a>
+                                                </div>
+                                            )}
+                                            {batch.donorDetails.email && (
+                                                <div className="flex justify-between text-sm">
+                                                    <span className="text-neutral-400 font-medium flex items-center gap-1"><Mail size={14} /> Email</span>
+                                                    <span className="font-bold text-neutral-600 truncate max-w-[150px]" title={batch.donorDetails.email}>{batch.donorDetails.email}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : batch.fromHospitalId ? (
+                                        <div className="flex justify-between text-sm pt-2 border-t border-neutral-200 mt-2">
                                             <span className="text-neutral-400 font-medium flex items-center gap-1"><ArrowRightLeft size={14} /> From</span>
-                                            <span className="font-bold text-purple-600">Hospital Transfer</span>
+                                            <span className="font-bold text-purple-600">{batch.sourceName || "Hospital Transfer"}</span>
+                                        </div>
+                                    ) : (
+                                        <div className="flex justify-between text-sm pt-2 border-t border-neutral-200 mt-2">
+                                            <span className="text-neutral-400 font-medium flex items-center gap-1"><User size={14} /> Source</span>
+                                            <span className="font-bold text-neutral-600">{batch.sourceName}</span>
                                         </div>
                                     )}
                                 </div>

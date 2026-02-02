@@ -7,7 +7,8 @@ const MultiSelect = ({
     onChange,
     placeholder = "Select options",
     icon: Icon,
-    className = ""
+    className = "",
+    closeOnSelect = false // New Prop
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef(null);
@@ -29,6 +30,7 @@ const MultiSelect = ({
             onChange(value.filter(v => v !== val));
         } else {
             onChange([...value, val]);
+            if (closeOnSelect) setIsOpen(false); // Auto-close logic
         }
     };
 

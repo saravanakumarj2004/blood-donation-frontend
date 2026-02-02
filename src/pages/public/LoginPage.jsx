@@ -9,7 +9,9 @@ import {
     User,
     Building2,
     ShieldCheck,
-    CheckCircle
+    CheckCircle,
+    Eye,
+    EyeOff
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -27,6 +29,7 @@ const LoginPage = () => {
         email: '',
         password: ''
     });
+    const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [generalError, setGeneralError] = useState('');
@@ -74,7 +77,7 @@ const LoginPage = () => {
             // await new Promise(resolve => setTimeout(resolve, 800)); // Remove delay
 
             const result = await login({
-                email: formData.email,
+                email: formData.email.toLowerCase(),
                 password: formData.password,
                 role: role
             });
@@ -220,16 +223,23 @@ const LoginPage = () => {
                                         <Lock size={20} />
                                     </div>
                                     <input
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         name="password"
                                         value={formData.password}
                                         onChange={handleChange}
-                                        className={`w-full pl-10 pr-4 py-3 rounded-xl border bg-neutral-50 focus:bg-white outline-none transition-all ${errors.password
+                                        className={`w-full pl-10 pr-10 py-3 rounded-xl border bg-neutral-50 focus:bg-white outline-none transition-all ${errors.password
                                             ? 'border-error focus:ring-2 focus:ring-error/20'
                                             : 'border-neutral-200 focus:border-primary focus:ring-2 focus:ring-primary/20'
                                             }`}
                                         placeholder="••••••••"
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-400 hover:text-neutral-600 transition-colors"
+                                    >
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
                                 </div>
                                 {errors.password && <p className="mt-1 text-xs text-error font-medium">{errors.password}</p>}
                             </div>
