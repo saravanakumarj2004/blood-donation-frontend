@@ -64,6 +64,15 @@ const MyRequests = () => {
         }
     };
 
+    // Helper for safe date parsing
+    const safeDate = (dateStr) => {
+        if (!dateStr) return new Date();
+        const cleanStr = (dateStr.includes('T') && !dateStr.endsWith('Z') && !dateStr.includes('+'))
+            ? dateStr + 'Z'
+            : dateStr;
+        return new Date(cleanStr);
+    };
+
     return (
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in pb-20 relative">
             {/* Toast Notification */}
@@ -158,7 +167,7 @@ const MyRequests = () => {
                                                 <Clock size={14} />
                                                 {(() => {
                                                     try {
-                                                        const d = new Date(req.createdAt || req.date);
+                                                        const d = safeDate(req.createdAt || req.date);
                                                         if (isNaN(d.getTime())) return "Check Details";
                                                         const now = new Date();
                                                         const isToday = d.toDateString() === now.toDateString();
