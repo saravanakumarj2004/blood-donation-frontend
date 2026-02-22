@@ -59,7 +59,8 @@ const DonorRequest = () => {
             setSelectedCities([]);
         } catch (error) {
             console.error(error);
-            setFeedback({ type: 'error', message: 'Failed to create request.' });
+            const errorMsg = error.response?.data?.error || 'Failed to create request.';
+            setFeedback({ type: 'error', message: errorMsg });
         }
     };
 
