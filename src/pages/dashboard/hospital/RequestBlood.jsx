@@ -205,19 +205,19 @@ const RequestBlood = () => {
             {feedback && (
                 <div className={`fixed top-24 right-6 z-50 px-6 py-4 rounded-xl shadow-lg border flex items-center gap-3 animate-slide-in-right ${feedback.type === 'success' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' :
                     feedback.type === 'error' ? 'bg-rose-50 text-rose-800 border-rose-200' :
-                        'bg-blue-50 text-blue-800 border-blue-200'
+                        'bg-rose-50 text-rose-800 border-rose-200'
                     }`}>
                     {feedback.type === 'success' ? <CheckCircle size={20} className="text-emerald-500" /> :
                         feedback.type === 'error' ? <AlertCircle size={20} className="text-red-500" /> :
-                            <Bell size={20} className="text-blue-500" />}
+                            <Bell size={20} className="text-rose-500" />}
                     <span className="font-bold">{feedback.message}</span>
                     <button onClick={() => setFeedback(null)} className="ml-2 hover:bg-black/5 p-1 rounded-full"><AlertCircle className="opacity-0" size={16} /></button>
                 </div>
             )}
 
-            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                    <Search className="text-blue-600" size={32} /> Request Blood
+                    <Search className="text-rose-600" size={32} /> Request Blood
                 </h1>
                 <p className="text-slate-500 font-medium ml-11">Search the hospital network or find eligible donors directly.</p>
             </div>
@@ -225,9 +225,9 @@ const RequestBlood = () => {
             <div className="grid lg:grid-cols-12 gap-6">
                 {/* Search Panel */}
                 <div className="lg:col-span-4">
-                    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm sticky top-8 z-30">
+                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] sticky top-8 z-30">
                         <h4 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
-                            <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+                            <div className="p-2 bg-rose-50 rounded-lg text-rose-600">
                                 <Search size={20} />
                             </div>
                             Search Parameters
@@ -251,12 +251,12 @@ const RequestBlood = () => {
                                     max="50"
                                     value={searchParams.units}
                                     onChange={(e) => setSearchParams({ ...searchParams, units: e.target.value })}
-                                    className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800"
+                                    className="w-full px-4 py-2.5 rounded-lg border border-slate-100 bg-white focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800"
                                 />
                             </div>
                             <button
                                 type="submit"
-                                className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="w-full py-3 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:bg-rose-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                 disabled={isSearching}
                             >
                                 {isSearching ? "Searching..." : "Find Blood Stock"}
@@ -268,7 +268,7 @@ const RequestBlood = () => {
                 {/* Results Panel */}
                 <div className="lg:col-span-8">
                     {!hasSearched && !showDonorSearch && (
-                        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm text-center">
+                        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-dashed border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-center">
                             <div className="w-16 h-16 bg-slate-50 flex items-center justify-center rounded-full mb-4 border border-slate-100">
                                 <Search size={32} className="text-slate-400" />
                             </div>
@@ -286,10 +286,10 @@ const RequestBlood = () => {
                             </h3>
                             <div className="grid gap-4 mt-4">
                                 {results.map(hospital => (
-                                    <div key={hospital.id} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                                    <div key={hospital.id} className="bg-white p-6 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] transition-shadow">
                                         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                                             <div className="flex items-center gap-5 w-full sm:w-auto">
-                                                <div className="w-14 h-14 bg-blue-50 rounded-xl border border-blue-100 flex items-center justify-center text-blue-600 font-bold text-xl">
+                                                <div className="w-14 h-14 bg-rose-50 rounded-xl border border-rose-100 flex items-center justify-center text-rose-600 font-bold text-xl">
                                                     {hospital.name[0]}
                                                 </div>
                                                 <div>
@@ -305,7 +305,7 @@ const RequestBlood = () => {
                                                 disabled={reqStatus[hospital.id] === 'sent'}
                                                 className={`px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors ${reqStatus[hospital.id] === 'sent'
                                                     ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default'
-                                                    : 'bg-blue-600 text-white hover:bg-blue-700 shadow-sm'}`}
+                                                    : 'bg-gradient-to-r from-rose-500 to-rose-600 text-white hover:from-rose-600 hover:to-rose-700 shadow-[0_2px_8px_rgba(0,0,0,0.04)]'}`}
                                             >
                                                 {reqStatus[hospital.id] === 'sent' ? 'Request Sent' : 'Request Transfer'}
                                             </button>
@@ -330,9 +330,9 @@ const RequestBlood = () => {
                                 </p>
                             </div>
 
-                            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                 <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
-                                    <Building2 className="text-blue-600" size={24} /> Find Eligible Donors
+                                    <Building2 className="text-rose-600" size={24} /> Find Eligible Donors
                                 </h3>
 
                                 {/* Request Details Form */}
@@ -342,19 +342,19 @@ const RequestBlood = () => {
                                         <input
                                             type="text"
                                             placeholder="Patient Name"
-                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all"
                                             value={reqDetails.patientName}
                                             onChange={e => setReqDetails({ ...reqDetails, patientName: e.target.value })}
                                         />
                                         <input
                                             type="tel"
                                             placeholder="Patient Contact (Optional)"
-                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all"
                                             value={reqDetails.patientNumber}
                                             onChange={e => setReqDetails({ ...reqDetails, patientNumber: e.target.value })}
                                         />
                                         <select
-                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all"
                                             value={reqDetails.urgency}
                                             onChange={e => setReqDetails({ ...reqDetails, urgency: e.target.value })}
                                         >
@@ -368,14 +368,14 @@ const RequestBlood = () => {
                                         <input
                                             type="text"
                                             placeholder="Attender Name"
-                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all"
                                             value={reqDetails.attenderName}
                                             onChange={e => setReqDetails({ ...reqDetails, attenderName: e.target.value })}
                                         />
                                         <input
                                             type="tel"
                                             placeholder="Attender Contact"
-                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                            className="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all"
                                             value={reqDetails.attenderNumber}
                                             onChange={e => setReqDetails({ ...reqDetails, attenderNumber: e.target.value })}
                                         />
@@ -383,14 +383,14 @@ const RequestBlood = () => {
                                             <input
                                                 type="text"
                                                 placeholder="Hospital Name"
-                                                className="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-sm text-slate-500 cursor-not-allowed"
+                                                className="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 text-sm text-slate-500 cursor-not-allowed"
                                                 value={reqDetails.hospitalName}
                                                 readOnly
                                             />
                                             <input
                                                 type="text"
                                                 placeholder="Location"
-                                                className="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-sm text-slate-500 cursor-not-allowed"
+                                                className="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 text-sm text-slate-500 cursor-not-allowed"
                                                 value={reqDetails.location}
                                                 readOnly
                                             />
@@ -412,7 +412,7 @@ const RequestBlood = () => {
                                     <button
                                         onClick={handleDonorSearch}
                                         disabled={isSearchingDonors || selectedCities.length === 0}
-                                        className="py-2.5 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition-colors disabled:opacity-50 h-[42px] flex items-center justify-center whitespace-nowrap"
+                                        className="py-2.5 px-6 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:bg-rose-700 transition-colors disabled:opacity-50 h-[42px] flex items-center justify-center whitespace-nowrap"
                                     >
                                         {isSearchingDonors ? 'Scanning...' : 'Search Donors'}
                                     </button>
@@ -422,9 +422,9 @@ const RequestBlood = () => {
                             {/* Donor Results Table */}
                             {eligibleDonors.length > 0 ? (
                                 <div className="space-y-6 mt-6 border-t border-slate-100 pt-6">
-                                    <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                                    <div className="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                         <table className="w-full text-left">
-                                            <thead className="bg-slate-50 text-slate-500 font-semibold text-xs uppercase border-b border-slate-200">
+                                            <thead className="bg-slate-50 text-slate-500 font-semibold text-xs uppercase border-b border-slate-100">
                                                 <tr>
                                                     <th className="px-6 py-4">Donor Name</th>
                                                     <th className="px-6 py-4">Blood Group</th>
@@ -455,7 +455,7 @@ const RequestBlood = () => {
                                         ) : (
                                             <button
                                                 onClick={handleBroadcast}
-                                                className="px-6 py-2.5 bg-rose-600 text-white font-semibold rounded-lg shadow-sm hover:bg-rose-700 transition-colors flex items-center gap-2"
+                                                className="px-6 py-2.5 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:bg-rose-700 transition-colors flex items-center gap-2"
                                             >
                                                 <Bell size={18} className="fill-current" /> Send Alert to {eligibleDonors.length} Donors
                                             </button>

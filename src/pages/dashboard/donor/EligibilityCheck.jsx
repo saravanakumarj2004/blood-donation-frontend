@@ -82,7 +82,7 @@ const EligibilityCheck = () => {
                             </div>
                             <input type="checkbox" className="hidden" checked={form.medication} onChange={e => setForm({ ...form, medication: e.target.checked })} />
                             <div className="flex-1">
-                                <div className="font-bold text-neutral-800 flex items-center gap-2"><Pill size={16} className="text-blue-500" /> Taking Medication?</div>
+                                <div className="font-bold text-neutral-800 flex items-center gap-2"><Pill size={16} className="text-rose-500" /> Taking Medication?</div>
                                 <div className="text-xs font-bold text-neutral-400 ml-6">Antibiotics, Steroids, etc.</div>
                             </div>
                         </label>

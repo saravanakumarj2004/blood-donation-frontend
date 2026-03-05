@@ -154,18 +154,18 @@ const DonorProfile = () => {
                                 <p className="text-neutral-500 font-medium">{formData.occupation}</p>
                             </div>
 
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-sm font-bold tracking-wide uppercase border border-blue-100">
+                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 text-rose-600 text-sm font-bold tracking-wide uppercase border border-rose-100">
                                 <Shield size={14} /> {user?.role?.toUpperCase()}
                             </div>
 
                             <div className="mt-8 grid grid-cols-2 gap-4 text-left">
-                                <div className="p-4 bg-white/80 rounded-2xl border border-white shadow-sm">
+                                <div className="p-4 bg-white/80 rounded-2xl border border-white shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                     <div className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-1">Blood Group</div>
                                     <div className="text-2xl font-black text-primary flex items-center gap-1">
                                         <Droplet size={20} className="fill-current" /> {formData.bloodGroup}
                                     </div>
                                 </div>
-                                <div className="p-4 bg-white/80 rounded-2xl border border-white shadow-sm">
+                                <div className="p-4 bg-white/80 rounded-2xl border border-white shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                     <div className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-1">Lives Saved</div>
                                     <div className="text-2xl font-black text-emerald-500 flex items-center gap-1">
                                         <Heart size={20} className="fill-current" /> {formData.livesSaved}
@@ -299,7 +299,7 @@ const DonorProfile = () => {
                     </div>
 
                     <h4 className="text-xl font-bold text-neutral-900 mb-8 flex items-center gap-2 pt-8 border-t border-dashed border-neutral-200">
-                        <span className="w-2 h-8 bg-blue-500 rounded-full" />
+                        <span className="w-2 h-8 bg-rose-500 rounded-full" />
                         Address Details
                     </h4>
 

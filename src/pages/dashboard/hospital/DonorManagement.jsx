@@ -43,7 +43,7 @@ const DonorManagement = () => {
             {/* Modal for View Details */}
             {selectedDonor && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-lg w-full relative animate-scale-in border border-slate-200">
+                    <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-lg w-full relative animate-scale-in border border-slate-100">
                         <button
                             onClick={() => setSelectedDonor(null)}
                             className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 transition-colors"
@@ -52,12 +52,12 @@ const DonorManagement = () => {
                         </button>
 
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100">
+                            <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center text-rose-600 border border-rose-100">
                                 <User size={32} />
                             </div>
                             <div>
                                 <h2 className="text-xl font-bold text-slate-900">{selectedDonor.name}</h2>
-                                <span className={`inline-block mt-1 px-3 py-1 rounded-full text-xs font-bold border ${selectedDonor.eligible ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                                <span className={`inline-block mt-1 px-3 py-1 rounded-full text-xs font-bold border ${selectedDonor.eligible ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-100'}`}>
                                     {selectedDonor.eligible ? 'Eligible to Donate' : 'Not Eligible'}
                                 </span>
                             </div>
@@ -78,7 +78,7 @@ const DonorManagement = () => {
                             <div className="space-y-4">
                                 <h3 className="font-bold text-slate-900 border-b border-slate-100 pb-2">Contact Information</h3>
                                 <div className="flex items-center gap-3 text-slate-700">
-                                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100">
+                                    <div className="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center text-rose-600 border border-rose-100">
                                         <Phone size={18} />
                                     </div>
                                     <span className="font-semibold text-sm">{selectedDonor.mobile}</span>
@@ -93,10 +93,10 @@ const DonorManagement = () => {
                         </div>
 
                         <div className="mt-8 flex gap-3">
-                            <button className="flex-1 py-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors text-sm shadow-sm">
+                            <button className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold hover:bg-rose-700 transition-colors text-sm shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                 Request Donation
                             </button>
-                            <button className="flex-1 py-2.5 rounded-lg border border-slate-200 text-slate-700 font-semibold hover:bg-slate-50 transition-colors text-sm">
+                            <button className="flex-1 py-2.5 rounded-lg border border-slate-100 text-slate-700 font-semibold hover:bg-slate-50 transition-colors text-sm">
                                 Update History
                             </button>
                         </div>
@@ -104,9 +104,9 @@ const DonorManagement = () => {
                 </div>
             )}
 
-            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                    <User className="text-blue-600" size={32} /> Donor Management
+                    <User className="text-rose-600" size={32} /> Donor Management
                 </h1>
                 <p className="text-slate-500 font-medium ml-11">Search and manage registered donors information.</p>
             </div>
@@ -117,20 +117,20 @@ const DonorManagement = () => {
                     <input
                         type="text"
                         placeholder="Search donors by name, blood group, or phone..."
-                        className="w-full pl-11 pr-4 py-3 rounded-lg bg-white border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm shadow-sm"
+                        className="w-full pl-11 pr-4 py-3 rounded-lg bg-white border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
                         value={search}
                         onChange={e => setSearch(e.target.value.replace(/\b\w/g, c => c.toUpperCase()))}
                     />
                 </div>
-                <button className="px-6 py-3 bg-white rounded-lg border border-slate-200 font-semibold text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors shadow-sm text-sm">
+                <button className="px-6 py-3 bg-white rounded-lg border border-slate-100 font-semibold text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-sm">
                     <Filter size={18} /> Filter
                 </button>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-200">
+                        <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100">
                             <tr>
                                 <th className="px-6 py-4">Donor Name</th>
                                 <th className="px-6 py-4">Blood Group</th>
@@ -145,7 +145,7 @@ const DonorManagement = () => {
                                 <tr key={donor.id} className="hover:bg-slate-50 transition-colors group">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100">
+                                            <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-rose-600 border border-rose-100">
                                                 <User size={18} />
                                             </div>
                                             <span className="font-bold text-slate-900">{donor.name}</span>
@@ -161,7 +161,7 @@ const DonorManagement = () => {
                                                 <CheckCircle size={12} className="fill-current" /> Eligible
                                             </span>
                                         ) : (
-                                            <span className="inline-flex items-center gap-1.5 text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md text-xs font-bold border border-slate-200">
+                                            <span className="inline-flex items-center gap-1.5 text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md text-xs font-bold border border-slate-100">
                                                 <XCircle size={12} className="fill-current" /> 30 Days Left
                                             </span>
                                         )}
@@ -179,7 +179,7 @@ const DonorManagement = () => {
                                     <td className="px-6 py-4 text-right">
                                         <button
                                             onClick={() => setSelectedDonor(donor)}
-                                            className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                                            className="text-sm font-semibold text-rose-600 hover:text-rose-700 transition-colors"
                                         >
                                             View Details
                                         </button>

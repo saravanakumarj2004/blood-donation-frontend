@@ -71,15 +71,15 @@ const HospitalAppointments = () => {
 
     return (
         <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
-            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                    <Calendar className="text-blue-600" size={32} />
+                    <Calendar className="text-rose-600" size={32} />
                     Manage Appointments
                 </h2>
                 <p className="text-slate-500 font-medium ml-11">View and process upcoming donor appointments.</p>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 overflow-hidden">
                 {isLoading ? (
                     <div className="p-20 text-center text-slate-500 animate-pulse font-medium">Loading appointments...</div>
                 ) : error ? (
@@ -90,7 +90,7 @@ const HospitalAppointments = () => {
                     </div>
                 ) : appointments.length === 0 ? (
                     <div className="p-20 text-center flex flex-col items-center justify-center">
-                        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-dashed border-slate-300">
+                        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-dashed border-slate-200">
                             <Calendar size={32} className="text-slate-300" />
                         </div>
                         <h3 className="text-xl font-bold text-slate-900 mb-2">No Appointments Found</h3>
@@ -99,7 +99,7 @@ const HospitalAppointments = () => {
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
-                            <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-200">
+                            <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100">
                                 <tr>
                                     <th className="px-6 py-4">Date & Time</th>
                                     <th className="px-6 py-4">Donor Name</th>
@@ -117,14 +117,14 @@ const HospitalAppointments = () => {
                                                     {new Date(apt.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                                                 </span>
                                                 <span className="text-sm text-slate-500 font-medium flex items-center gap-1.5 mt-1">
-                                                    <Clock size={14} className="text-blue-500" />
+                                                    <Clock size={14} className="text-rose-500" />
                                                     {apt.time ? new Date(`2000-01-01T${apt.time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Time TBD'}
                                                 </span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-bold border border-blue-100">
+                                                <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-rose-600 font-bold border border-rose-100">
                                                     <User size={18} />
                                                 </div>
                                                 <span className="font-bold text-slate-900">{apt.donorName || 'Donor'}</span>
@@ -139,7 +139,7 @@ const HospitalAppointments = () => {
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex px-2.5 py-1 rounded-md text-xs font-bold border ${apt.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
                                                     apt.status === 'Cancelled' || apt.status === 'Rejected' ? 'bg-rose-50 text-rose-700 border-rose-200' :
-                                                        'bg-blue-50 text-blue-700 border-blue-200'
+                                                        'bg-rose-50 text-rose-700 border-rose-200'
                                                 }`}>
                                                 {apt.status}
                                             </span>
@@ -152,13 +152,13 @@ const HospitalAppointments = () => {
                                                         value={rejectionReason}
                                                         onChange={(e) => setRejectionReason(e.target.value)}
                                                         placeholder="Reason..."
-                                                        className="px-3 py-1.5 rounded-lg border border-slate-200 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all w-48"
+                                                        className="px-3 py-1.5 rounded-lg border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all w-48"
                                                         autoFocus
                                                     />
                                                     <button onClick={() => confirmReject(apt)} className="p-1.5 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg hover:bg-rose-100 transition-colors">
                                                         <CheckCircle size={16} />
                                                     </button>
-                                                    <button onClick={cancelReject} className="p-1.5 bg-slate-50 text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors">
+                                                    <button onClick={cancelReject} className="p-1.5 bg-slate-50 text-slate-600 border border-slate-100 rounded-lg hover:bg-slate-100 transition-colors">
                                                         <XCircle size={16} />
                                                     </button>
                                                 </div>
@@ -185,13 +185,13 @@ const HospitalAppointments = () => {
                                                         <>
                                                             <button
                                                                 onClick={() => handleStatusUpdate(apt.id, 'Completed', apt.donorId)}
-                                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 font-semibold text-xs rounded-lg hover:bg-blue-100 transition-colors"
+                                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 text-rose-700 border border-rose-200 font-semibold text-xs rounded-lg hover:bg-rose-100 transition-colors"
                                                             >
                                                                 <CheckCircle size={14} /> Confirm
                                                             </button>
                                                             <button
                                                                 onClick={() => handleStatusUpdate(apt.id, 'Cancelled', apt.donorId)}
-                                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 text-slate-600 border border-slate-200 font-semibold text-xs rounded-lg hover:bg-slate-100 transition-colors"
+                                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 text-slate-600 border border-slate-100 font-semibold text-xs rounded-lg hover:bg-slate-100 transition-colors"
                                                             >
                                                                 <XCircle size={14} /> Cancel
                                                             </button>

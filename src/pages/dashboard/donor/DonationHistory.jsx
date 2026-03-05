@@ -52,7 +52,7 @@ const DonationHistory = () => {
             {/* Background Decor */}
             <div className="fixed inset-0 pointer-events-none -z-10">
                 <div className="absolute top-40 left-20 w-[400px] h-[400px] bg-green-50/50 rounded-full blur-[80px]" />
-                <div className="absolute bottom-20 right-20 w-[400px] h-[400px] bg-blue-50/50 rounded-full blur-[80px]" />
+                <div className="absolute bottom-20 right-20 w-[400px] h-[400px] bg-rose-50/50 rounded-full blur-[80px]" />
             </div>
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white/40 backdrop-blur-md border border-white/60 p-8 rounded-[2.5rem] shadow-xl shadow-neutral-100/50">
@@ -68,7 +68,7 @@ const DonationHistory = () => {
                 <div className="flex items-center gap-3">
                     <button
                         onClick={toggleFilter}
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold shadow-sm transition-all ${filterType !== 'All'
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all ${filterType !== 'All'
                             ? 'bg-primary text-white border-primary shadow-primary/30 hover:bg-primary-dark'
                             : 'bg-white/80 border-white/50 text-neutral-600 hover:bg-white'
                             }`}

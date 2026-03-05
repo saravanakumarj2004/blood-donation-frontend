@@ -149,19 +149,19 @@ const BatchManagement = () => {
 
     return (
         <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
-            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                    <Archive className="text-blue-600" size={32} /> Batch Management
+                    <Archive className="text-rose-600" size={32} /> Batch Management
                 </h1>
                 <p className="text-slate-500 font-medium ml-11">Track blood batches, usage, and transfers with full traceability.</p>
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-6 border-b border-slate-200 px-2 mt-4">
+            <div className="flex gap-6 border-b border-slate-100 px-2 mt-4">
                 <button
                     onClick={() => setActiveTab('incoming')}
                     className={`pb-4 px-2 font-semibold transition-all flex items-center gap-2 ${activeTab === 'incoming'
-                        ? 'border-b-2 border-blue-600 text-blue-700'
+                        ? 'border-b-2 border-rose-600 text-rose-700'
                         : 'text-slate-500 hover:text-slate-700'
                         }`}
                 >
@@ -224,7 +224,7 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
 
     return (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-8 relative animate-scale-in my-8 border border-slate-200">
+            <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-8 relative animate-scale-in my-8 border border-slate-100">
                 {/* Close Button */}
                 <button
                     onClick={onClose}
@@ -236,7 +236,7 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
                 {/* Header */}
                 <div className="mb-6 pb-4 border-b border-slate-100">
                     <h2 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                        <Droplet className="text-blue-600" size={24} />
+                        <Droplet className="text-rose-600" size={24} />
                         Use Blood Unit
                     </h2>
                     <p className="text-sm text-slate-500 mt-1">
@@ -251,11 +251,11 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
                         <label className="block text-sm font-semibold text-slate-700 mb-2">
                             Quantity <span className="text-rose-600">*</span>
                         </label>
-                        <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
                             <button
                                 type="button"
                                 onClick={decrementQuantity}
-                                className="w-10 h-10 rounded-lg bg-white border border-slate-300 flex items-center justify-center hover:bg-slate-50 hover:text-blue-600 transition-colors disabled:opacity-50"
+                                className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50 hover:text-rose-600 transition-colors disabled:opacity-50"
                                 disabled={form.quantity <= 1}
                             >
                                 <Minus size={16} />
@@ -267,7 +267,7 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
                             <button
                                 type="button"
                                 onClick={incrementQuantity}
-                                className="w-10 h-10 rounded-lg bg-white border border-slate-300 flex items-center justify-center hover:bg-slate-50 hover:text-blue-600 transition-colors disabled:opacity-50"
+                                className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-50 hover:text-rose-600 transition-colors disabled:opacity-50"
                                 disabled={form.quantity >= maxUnits}
                             >
                                 <Plus size={16} />
@@ -287,7 +287,7 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
                                 placeholder="e.g., IP12345 or OP67890"
                                 value={form.patientId}
                                 onChange={(e) => setForm(prev => ({ ...prev, patientId: e.target.value }))}
-                                className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all text-sm"
+                                className="w-full px-4 py-2.5 rounded-lg border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all text-sm"
                             />
                         </div>
 
@@ -301,7 +301,7 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
                                 placeholder="e.g., CASE-789"
                                 value={form.referenceId}
                                 onChange={(e) => setForm(prev => ({ ...prev, referenceId: e.target.value }))}
-                                className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all text-sm"
+                                className="w-full px-4 py-2.5 rounded-lg border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all text-sm"
                             />
                         </div>
                     </div>
@@ -315,10 +315,10 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
                             type="datetime-local"
                             value={form.issueDateTime}
                             onChange={(e) => setForm(prev => ({ ...prev, issueDateTime: e.target.value }))}
-                            className="w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-medium text-sm text-slate-700"
+                            className="w-full px-4 py-2.5 rounded-lg border border-slate-100 bg-slate-50 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-medium text-sm text-slate-700"
                         />
                         <p className="text-xs text-slate-500 mt-1 ml-1 flex items-center gap-1">
-                            <AlertCircle size={12} className="text-blue-500" /> Auto-detected current date & time
+                            <AlertCircle size={12} className="text-rose-500" /> Auto-detected current date & time
                         </p>
                     </div>
 
@@ -334,7 +334,7 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
                                 placeholder="e.g., ICU, Emergency"
                                 value={form.ward}
                                 onChange={(e) => setForm(prev => ({ ...prev, ward: e.target.value }))}
-                                className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all text-sm"
+                                className="w-full px-4 py-2.5 rounded-lg border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all text-sm"
                             />
                         </div>
 
@@ -348,7 +348,7 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
                                 placeholder="e.g., Dr. John Smith"
                                 value={form.doctorName}
                                 onChange={(e) => setForm(prev => ({ ...prev, doctorName: e.target.value }))}
-                                className="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all text-sm"
+                                className="w-full px-4 py-2.5 rounded-lg border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all text-sm"
                             />
                         </div>
                     </div>
@@ -358,13 +358,13 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
                 <div className="flex gap-3 mt-8 pt-6 border-t border-slate-100">
                     <button
                         onClick={onClose}
-                        className="flex-1 px-6 py-2.5 bg-white border border-slate-200 text-slate-600 font-semibold rounded-lg hover:bg-slate-50 transition-colors"
+                        className="flex-1 px-6 py-2.5 bg-white border border-slate-100 text-slate-600 font-semibold rounded-lg hover:bg-slate-50 transition-colors"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={onSubmit}
-                        className="flex-1 px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-sm flex items-center justify-center gap-2"
+                        className="flex-1 px-6 py-2.5 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold rounded-lg hover:bg-rose-700 transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center justify-center gap-2"
                     >
                         <Droplet size={18} className="fill-current" />
                         Use {form.quantity} Unit{form.quantity > 1 ? 's' : ''}
@@ -379,7 +379,7 @@ const UseUnitModal = ({ batch, form, setForm, onSubmit, onClose }) => {
 const IncomingBatchesView = ({ batches = [], onUseUnit, onDiscardUnit }) => {
     if (!batches || batches.length === 0) {
         return (
-            <div className="col-span-full p-12 text-center bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm mt-4">
+            <div className="col-span-full p-12 text-center bg-white rounded-2xl border border-dashed border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] mt-4">
                 <p className="text-slate-500 font-semibold">No active batches found.</p>
             </div>
         );
@@ -398,8 +398,8 @@ const IncomingBatchesView = ({ batches = [], onUseUnit, onDiscardUnit }) => {
                     }, {})
             ).map(([group, groupBatches]) => (
                 <div key={group} className="space-y-4">
-                    <h2 className="text-xl font-bold text-slate-800 flex items-center gap-3 border-b border-slate-200 pb-2">
-                        <span className={`px-3 py-1 rounded-md text-sm border ${String(group).includes('+') ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-indigo-50 text-indigo-700 border-indigo-200'}`}>
+                    <h2 className="text-xl font-bold text-slate-800 flex items-center gap-3 border-b border-slate-100 pb-2">
+                        <span className={`px-3 py-1 rounded-md text-sm border ${String(group).includes('+') ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-indigo-50 text-indigo-700 border-indigo-200'}`}>
                             {group}
                         </span>
                         <span className="text-sm text-slate-500 font-semibold">
@@ -409,11 +409,11 @@ const IncomingBatchesView = ({ batches = [], onUseUnit, onDiscardUnit }) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {groupBatches.map(batch => (
-                            <div key={batch._id || batch.id} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col gap-5 hover:shadow-md transition-shadow">
+                            <div key={batch._id || batch.id} className="bg-white p-6 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 flex flex-col gap-5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] transition-shadow">
                                 {/* Header */}
                                 <div className="flex justify-between items-start">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold bg-slate-50 border border-slate-200 text-slate-700">
+                                        <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold bg-slate-50 border border-slate-100 text-slate-700">
                                             {batch.bloodGroup}
                                         </div>
                                         <div>
@@ -438,7 +438,7 @@ const IncomingBatchesView = ({ batches = [], onUseUnit, onDiscardUnit }) => {
                                         <span className="font-bold text-rose-600">{new Date(batch.expiryDate).toLocaleDateString()}</span>
                                     </div>
                                     {batch.donorDetails?.name ? (
-                                        <div className="space-y-1.5 pt-2.5 border-t border-slate-200 mt-2">
+                                        <div className="space-y-1.5 pt-2.5 border-t border-slate-100 mt-2">
                                             <div className="flex justify-between text-xs">
                                                 <span className="text-slate-500 font-semibold flex items-center gap-1.5"><User size={12} className="text-slate-400" /> Donor</span>
                                                 <span className="font-bold text-slate-700">{batch.donorDetails.name}</span>
@@ -446,7 +446,7 @@ const IncomingBatchesView = ({ batches = [], onUseUnit, onDiscardUnit }) => {
                                             {batch.donorDetails.phone && (
                                                 <div className="flex justify-between text-xs">
                                                     <span className="text-slate-500 font-semibold flex items-center gap-1.5"><Phone size={12} className="text-slate-400" /> Phone</span>
-                                                    <a href={`tel:${batch.donorDetails.phone}`} className="font-semibold text-blue-600 hover:underline">{batch.donorDetails.phone}</a>
+                                                    <a href={`tel:${batch.donorDetails.phone}`} className="font-semibold text-rose-600 hover:underline">{batch.donorDetails.phone}</a>
                                                 </div>
                                             )}
                                             {batch.donorDetails.email && (
@@ -457,12 +457,12 @@ const IncomingBatchesView = ({ batches = [], onUseUnit, onDiscardUnit }) => {
                                             )}
                                         </div>
                                     ) : batch.fromHospitalId ? (
-                                        <div className="flex justify-between text-xs pt-2.5 border-t border-slate-200 mt-2">
+                                        <div className="flex justify-between text-xs pt-2.5 border-t border-slate-100 mt-2">
                                             <span className="text-slate-500 font-semibold flex items-center gap-1.5"><Building2 size={12} className="text-slate-400" /> From</span>
                                             <span className="font-bold text-indigo-700">{batch.sourceName || "Hospital Transfer"}</span>
                                         </div>
                                     ) : (
-                                        <div className="flex justify-between text-xs pt-2.5 border-t border-slate-200 mt-2">
+                                        <div className="flex justify-between text-xs pt-2.5 border-t border-slate-100 mt-2">
                                             <span className="text-slate-500 font-semibold flex items-center gap-1.5"><User size={12} className="text-slate-400" /> Source</span>
                                             <span className="font-bold text-slate-700">{batch.sourceName}</span>
                                         </div>
@@ -478,14 +478,14 @@ const IncomingBatchesView = ({ batches = [], onUseUnit, onDiscardUnit }) => {
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => onDiscardUnit(batch._id || batch.id)}
-                                            className="p-2.5 bg-white border border-slate-200 text-slate-400 rounded-lg hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition-colors"
+                                            className="p-2.5 bg-white border border-slate-100 text-slate-400 rounded-lg hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition-colors"
                                             title="Discard damaged or expired unit"
                                         >
                                             <Archive size={18} />
                                         </button>
                                         <button
                                             onClick={() => onUseUnit(batch)}
-                                            className="px-4 py-2.5 bg-blue-600 text-white font-semibold text-sm rounded-lg shadow-sm hover:bg-blue-700 transition-colors flex items-center gap-2"
+                                            className="px-4 py-2.5 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold text-sm rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:bg-rose-700 transition-colors flex items-center gap-2"
                                         >
                                             <Droplet size={16} className="fill-current" /> Use Unit
                                         </button>
@@ -506,7 +506,7 @@ const OutgoingBatchesView = ({ batches = [] }) => {
 
     if (!batches || batches.length === 0) {
         return (
-            <div className="col-span-full p-12 text-center bg-white rounded-2xl border border-dashed border-slate-300 mt-4">
+            <div className="col-span-full p-12 text-center bg-white rounded-2xl border border-dashed border-slate-200 mt-4">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-50 border border-slate-100 mb-4">
                     <TrendingDown size={32} className="text-slate-400" />
                 </div>
@@ -525,10 +525,10 @@ const OutgoingBatchesView = ({ batches = [] }) => {
                 return (
                     <div
                         key={batch._id || batch.id}
-                        className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col"
+                        className="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col"
                     >
                         {/* Decorative Top Line */}
-                        <div className={`h-1 w-full ${isPatientUsage ? 'bg-indigo-500' : 'bg-blue-500'}`}></div>
+                        <div className={`h-1 w-full ${isPatientUsage ? 'bg-indigo-500' : 'bg-rose-500'}`}></div>
 
                         {/* Content */}
                         <div className="p-6 flex flex-col flex-1">
@@ -538,12 +538,12 @@ const OutgoingBatchesView = ({ batches = [] }) => {
                                 <div className="flex items-center gap-3">
                                     <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${isPatientUsage
                                         ? 'bg-indigo-50 border-indigo-100 text-indigo-600'
-                                        : 'bg-blue-50 border-blue-100 text-blue-600'
+                                        : 'bg-rose-50 border-rose-100 text-rose-600'
                                         }`}>
                                         {isPatientUsage ? <User size={20} /> : <Building2 size={20} />}
                                     </div>
                                     <div>
-                                        <h3 className={`text-base font-bold ${isPatientUsage ? 'text-indigo-700' : 'text-blue-700'
+                                        <h3 className={`text-base font-bold ${isPatientUsage ? 'text-indigo-700' : 'text-rose-700'
                                             }`}>
                                             {isPatientUsage ? 'Patient Usage' : 'Hospital Transfer'}
                                         </h3>
@@ -564,14 +564,14 @@ const OutgoingBatchesView = ({ batches = [] }) => {
                                 <div className="text-right">
                                     <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold border ${isPatientUsage
                                         ? 'bg-indigo-50 border-indigo-100 text-indigo-700'
-                                        : 'bg-blue-50 border-blue-100 text-blue-700'
+                                        : 'bg-rose-50 border-rose-100 text-rose-700'
                                         }`}>
                                         <Droplet size={14} />
                                         <span className="text-lg">{batch.quantity}</span>
                                         <span className="text-[10px] uppercase tracking-wider font-semibold opacity-80">Unit{batch.quantity > 1 ? 's' : ''}</span>
                                     </div>
                                     <div className="mt-1.5">
-                                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase border border-slate-200 text-slate-600 bg-slate-50">
+                                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase border border-slate-100 text-slate-600 bg-slate-50">
                                             {batch.bloodGroup}
                                         </span>
                                     </div>
@@ -641,8 +641,8 @@ const OutgoingBatchesView = ({ batches = [] }) => {
                                     <button
                                         onClick={() => setExpandedBatch(isExpanded ? null : (batch._id || batch.id))}
                                         className={`w-full py-2.5 px-4 rounded-lg flex items-center justify-between transition-colors border text-sm font-semibold ${isExpanded
-                                            ? 'bg-slate-50 border-slate-200 text-slate-700'
-                                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                                            ? 'bg-slate-50 border-slate-100 text-slate-700'
+                                            : 'bg-white border-slate-100 text-slate-600 hover:bg-slate-50'
                                             }`}
                                     >
                                         <span className="flex items-center gap-2">

@@ -177,7 +177,7 @@ const LoginPage = () => {
                                 key={r.id}
                                 onClick={() => handleRoleChange(r.id)}
                                 className={`flex flex-col items-center justify-center py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${role === r.id
-                                    ? 'bg-white shadow-sm text-primary ring-1 ring-neutral-200/50'
+                                    ? 'bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-primary ring-1 ring-neutral-200/50'
                                     : 'text-neutral-500 hover:text-neutral-700 hover:bg-neutral-200/50'
                                     }`}
                             >

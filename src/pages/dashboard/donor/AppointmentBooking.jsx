@@ -143,7 +143,7 @@ const AppointmentBooking = () => {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex p-1 bg-white rounded-2xl border border-neutral-200 shadow-sm w-fit">
+            <div className="flex p-1 bg-white rounded-2xl border border-neutral-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] w-fit">
                 <button
                     onClick={() => setActiveTab('new')}
                     className={`flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === 'new'
@@ -194,7 +194,7 @@ const AppointmentBooking = () => {
                         ) : (
                             <>
                                 {!eligibility.isEligible && (
-                                    <div className="mb-8 p-6 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-4 text-amber-900 shadow-sm animate-fade-in-up">
+                                    <div className="mb-8 p-6 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-4 text-amber-900 shadow-[0_2px_8px_rgba(0,0,0,0.04)] animate-fade-in-up">
                                         <AlertCircle size={28} className="text-amber-600 shrink-0 mt-1" />
                                         <div>
                                             <h3 className="font-bold text-lg">Waiting Period Active</h3>
@@ -345,7 +345,7 @@ const AppointmentBooking = () => {
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center gap-2 mt-2">
-                                                    <span className="text-xs font-bold bg-blue-50 text-blue-600 px-2 py-1 rounded-lg">Pledged: {apt.units} Units</span>
+                                                    <span className="text-xs font-bold bg-rose-50 text-rose-600 px-2 py-1 rounded-lg">Pledged: {apt.units} Units</span>
                                                     {apt.rejectionReason && (
                                                         <span className="text-xs font-bold bg-red-50 text-error px-2 py-1 rounded-lg">Reason: {apt.rejectionReason}</span>
                                                     )}
@@ -354,7 +354,7 @@ const AppointmentBooking = () => {
                                         </div>
                                         <div>
                                             <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border ${apt.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
-                                                apt.status === 'Accepted' ? 'bg-blue-50 text-blue-700 border-blue-100' :
+                                                apt.status === 'Accepted' ? 'bg-rose-50 text-rose-700 border-rose-100' :
                                                     apt.status === 'Rejected' ? 'bg-red-50 text-error border-red-100' :
                                                         apt.status === 'Cancelled' ? 'bg-red-50 text-error border-red-100' :
                                                             'bg-amber-50 text-amber-700 border-amber-100'

@@ -25,7 +25,7 @@ const DonorSettings = () => {
             <div className="space-y-6">
                 {/* Appearance */}
                 <div className="bg-white/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-xl border border-white/60">
-                    <h3 className="text-lg font-black text-neutral-900 mb-6 flex items-center gap-2"><Eye size={20} className="text-blue-500" /> Appearance</h3>
+                    <h3 className="text-lg font-black text-neutral-900 mb-6 flex items-center gap-2"><Eye size={20} className="text-rose-500" /> Appearance</h3>
                     <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-2xl">
                         <div className="flex items-center gap-4">
                             <div className="w-10 h-10 bg-neutral-900 rounded-full flex items-center justify-center text-white"><Moon size={18} /></div>
@@ -35,7 +35,7 @@ const DonorSettings = () => {
                             </div>
                         </div>
                         <button onClick={() => toggle('darkMode')} className={`w-14 h-8 rounded-full p-1 transition-colors ${settings.darkMode ? 'bg-neutral-900' : 'bg-neutral-200'}`}>
-                            <div className={`w-6 h-6 bg-white rounded-full shadow-sm transition-transform ${settings.darkMode ? 'translate-x-6' : 'translate-x-0'}`} />
+                            <div className={`w-6 h-6 bg-white rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-transform ${settings.darkMode ? 'translate-x-6' : 'translate-x-0'}`} />
                         </button>
                     </div>
                 </div>
@@ -54,20 +54,20 @@ const DonorSettings = () => {
                                 </div>
                             </div>
                             <button onClick={() => toggle('emergencyAlerts')} className={`w-14 h-8 rounded-full p-1 transition-colors ${settings.emergencyAlerts ? 'bg-red-500' : 'bg-neutral-200'}`}>
-                                <div className={`w-6 h-6 bg-white rounded-full shadow-sm transition-transform ${settings.emergencyAlerts ? 'translate-x-6' : 'translate-x-0'}`} />
+                                <div className={`w-6 h-6 bg-white rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-transform ${settings.emergencyAlerts ? 'translate-x-6' : 'translate-x-0'}`} />
                             </button>
                         </div>
 
                         <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-2xl">
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600"><MapPin size={18} /></div>
+                                <div className="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center text-rose-600"><MapPin size={18} /></div>
                                 <div>
                                     <div className="font-bold text-neutral-900">Location Sharing</div>
                                     <div className="text-xs font-bold text-neutral-400">Allow locating for nearby requests</div>
                                 </div>
                             </div>
-                            <button onClick={() => toggle('locationSharing')} className={`w-14 h-8 rounded-full p-1 transition-colors ${settings.locationSharing ? 'bg-blue-500' : 'bg-neutral-200'}`}>
-                                <div className={`w-6 h-6 bg-white rounded-full shadow-sm transition-transform ${settings.locationSharing ? 'translate-x-6' : 'translate-x-0'}`} />
+                            <button onClick={() => toggle('locationSharing')} className={`w-14 h-8 rounded-full p-1 transition-colors ${settings.locationSharing ? 'bg-rose-500' : 'bg-neutral-200'}`}>
+                                <div className={`w-6 h-6 bg-white rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-transform ${settings.locationSharing ? 'translate-x-6' : 'translate-x-0'}`} />
                             </button>
                         </div>
                     </div>

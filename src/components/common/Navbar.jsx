@@ -46,9 +46,9 @@ const Navbar = () => {
                     <img
                         src={logo}
                         alt="BloodStock Logo"
-                        className="w-10 h-10 object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300"
+                        className="w-10 h-10 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.04)] group-hover:scale-110 transition-transform duration-300"
                     />
-                    <span className={`font-extrabold text-2xl tracking-tight ${isScrolled ? 'text-neutral-900' : 'text-neutral-900'}`}>
+                    <span className={`font-bold text-2xl tracking-tight ${isScrolled ? 'text-neutral-900' : 'text-neutral-900'}`}>
                         Blood<span className="text-primary">Stock</span>
                     </span>
                 </Link>
@@ -72,7 +72,7 @@ const Navbar = () => {
                     <Link to="/login" className="text-neutral-600 font-medium hover:text-primary transition-colors">
                         Log In
                     </Link>
-                    <Link to="/register" className="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold rounded-full shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5">
+                    <Link to="/register" className="px-5 py-2.5 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-bold rounded-full shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5">
                         Join Now
                     </Link>
                 </div>

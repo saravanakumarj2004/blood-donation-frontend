@@ -61,9 +61,9 @@ const BloodDispatch = () => {
                 </div>
             )}
 
-            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                    <Truck className="text-blue-600" size={32} /> Blood Dispatch
+                    <Truck className="text-rose-600" size={32} /> Blood Dispatch
                 </h1>
                 <p className="text-slate-500 font-medium ml-11">Manage logistics and shipment of blood units.</p>
             </div>
@@ -76,7 +76,7 @@ const BloodDispatch = () => {
                         <div
                             key={req.id}
                             onClick={() => setSelectedReq(req)}
-                            className={`p-5 rounded-xl border cursor-pointer transition-all shadow-sm ${selectedReq?.id === req.id ? 'bg-blue-50 border-blue-300 ring-1 ring-blue-500' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-md'}`}
+                            className={`p-5 rounded-xl border cursor-pointer transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] ${selectedReq?.id === req.id ? 'bg-rose-50 border-rose-300 ring-1 ring-rose-500' : 'bg-white border-slate-100 hover:border-rose-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)]'}`}
                         >
                             <div className="flex justify-between items-start">
                                 <div>
@@ -91,7 +91,7 @@ const BloodDispatch = () => {
                         </div>
                     ))}
                     {pendingDispatches.length === 0 && (
-                        <div className="p-8 text-center bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm">
+                        <div className="p-8 text-center bg-white rounded-2xl border border-dashed border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                             <Truck className="mx-auto text-slate-300 mb-3" size={32} />
                             <p className="text-slate-500 font-semibold text-sm">No pending dispatches</p>
                         </div>
@@ -100,16 +100,16 @@ const BloodDispatch = () => {
 
                 {/* Dispatch Form */}
                 <div>
-                    <div className={`bg-white p-6 rounded-2xl shadow-sm border border-slate-200 transition-opacity ${!selectedReq ? 'opacity-50 pointer-events-none' : ''}`}>
+                    <div className={`bg-white p-6 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 transition-opacity ${!selectedReq ? 'opacity-50 pointer-events-none' : ''}`}>
                         <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                            <Package className="text-blue-600" size={24} /> Dispatch Details
+                            <Package className="text-rose-600" size={24} /> Dispatch Details
                         </h3>
                         <form onSubmit={handleSubmit} className="space-y-5">
                             <div>
                                 <label className="block text-sm font-bold text-slate-700 mb-2">Dispatch Date & Time</label>
                                 <div className="relative">
                                     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                                    <input type="datetime-local" className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                    <input type="datetime-local" className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all"
                                         value={form.dispatchDate} onChange={e => setForm({ ...form, dispatchDate: e.target.value })} required
                                     />
                                 </div>
@@ -129,7 +129,7 @@ const BloodDispatch = () => {
                                 <label className="block text-sm font-bold text-slate-700 mb-2">Dispatched By</label>
                                 <div className="relative">
                                     <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                                    <input type="text" className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                    <input type="text" className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all"
                                         placeholder="Staff Name / ID"
                                         value={form.dispatchedBy} onChange={e => setForm({ ...form, dispatchedBy: e.target.value })} required
                                     />
@@ -140,14 +140,14 @@ const BloodDispatch = () => {
                                 <label className="block text-sm font-bold text-slate-700 mb-2">Tracking / Vehicle Number</label>
                                 <div className="relative">
                                     <Package className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                                    <input type="text" className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                                    <input type="text" className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all"
                                         placeholder="e.g. TN-01-AB-1234"
                                         value={form.trackingId} onChange={e => setForm({ ...form, trackingId: e.target.value })} required
                                     />
                                 </div>
                             </div>
 
-                            <button type="submit" className="w-full py-3 mt-6 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-sm">
+                            <button type="submit" className="w-full py-3 mt-6 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:bg-rose-700 transition-colors flex items-center justify-center gap-2 text-sm">
                                 <CheckCircle size={18} /> Confirm Dispatch
                             </button>
                         </form>

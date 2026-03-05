@@ -57,19 +57,19 @@ const HospitalProfile = () => {
 
     return (
         <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <div>
                     <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                        <Building2 className="text-blue-600" size={32} />
+                        <Building2 className="text-rose-600" size={32} />
                         Hospital Profile
                     </h2>
                     <p className="text-slate-500 font-medium ml-11">Manage your hospital identity and contact info.</p>
                 </div>
                 <button
                     onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-                    className={`flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg font-semibold transition-all shadow-sm text-sm ${isEditing
-                        ? 'bg-blue-600 text-white hover:bg-blue-700'
-                        : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+                    className={`flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg font-semibold transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-sm ${isEditing
+                        ? 'bg-gradient-to-r from-rose-500 to-rose-600 text-white hover:bg-rose-700'
+                        : 'bg-white text-slate-700 border border-slate-100 hover:bg-slate-50'
                         }`}
                 >
                     {isEditing ? <><Save size={18} /> Save Changes</> : <><Edit2 size={18} /> Edit Profile</>}
@@ -79,12 +79,12 @@ const HospitalProfile = () => {
             <div className="grid lg:grid-cols-12 gap-6">
                 {/* Left Col: Identity Card */}
                 <div className="lg:col-span-4 space-y-6">
-                    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 text-center relative overflow-hidden group">
-                        <div className="absolute top-0 left-0 w-full h-24 bg-blue-600 opacity-10" />
+                    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 text-center relative overflow-hidden group">
+                        <div className="absolute top-0 left-0 w-full h-24 bg-rose-600 opacity-10" />
 
                         <div className="relative z-10 mt-2">
-                            <div className="w-32 h-32 mx-auto bg-white rounded-full p-1.5 shadow-sm border border-slate-100 relative group-hover:scale-105 transition-transform duration-500">
-                                <div className="w-full h-full rounded-full bg-blue-50 flex items-center justify-center text-4xl font-bold text-blue-600 border border-blue-100 shadow-inner overflow-hidden">
+                            <div className="w-32 h-32 mx-auto bg-white rounded-full p-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 relative group-hover:scale-105 transition-transform duration-500">
+                                <div className="w-full h-full rounded-full bg-rose-50 flex items-center justify-center text-4xl font-bold text-rose-600 border border-rose-100 shadow-inner overflow-hidden">
                                     <Building2 size={48} />
                                 </div>
                             </div>
@@ -94,7 +94,7 @@ const HospitalProfile = () => {
                                 <p className="text-slate-500 font-medium text-sm mt-1">Healthcare Provider</p>
                             </div>
 
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold tracking-wide border border-blue-200 uppercase mt-2">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold tracking-wide border border-rose-200 uppercase mt-2">
                                 <Shield size={14} /> HOSPITAL LICENSE
                             </div>
                         </div>
@@ -103,9 +103,9 @@ const HospitalProfile = () => {
 
                 {/* Right Col: Details Form */}
                 <div className="lg:col-span-8">
-                    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 relative overflow-hidden">
+                    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 relative overflow-hidden">
                         <h4 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                            <span className="w-1 h-6 bg-blue-600 rounded-full" />
+                            <span className="w-1 h-6 bg-rose-600 rounded-full" />
                             General Information
                         </h4>
 
@@ -113,13 +113,13 @@ const HospitalProfile = () => {
                             <div>
                                 <label className="block text-sm font-bold text-slate-700 mb-2">Hospital Name</label>
                                 <div className="relative group">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-rose-600 transition-colors">
                                         <Building2 size={18} />
                                     </div>
                                     <input
                                         type="text"
                                         name="name"
-                                        className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                                        className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-100 bg-slate-50 focus:bg-white focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                                         value={formData.name}
                                         onChange={handleChange}
                                         disabled={!isEditing}
@@ -136,7 +136,7 @@ const HospitalProfile = () => {
                                     <input
                                         type="email"
                                         name="email"
-                                        className="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-200 bg-slate-100 text-slate-500 cursor-not-allowed font-semibold text-sm"
+                                        className="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-100 bg-slate-100 text-slate-500 cursor-not-allowed font-semibold text-sm"
                                         value={formData.email}
                                         disabled={true}
                                     />
@@ -149,13 +149,13 @@ const HospitalProfile = () => {
                             <div>
                                 <label className="block text-sm font-bold text-slate-700 mb-2">Contact Number</label>
                                 <div className="relative group">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-rose-600 transition-colors">
                                         <Phone size={18} />
                                     </div>
                                     <input
                                         type="tel"
                                         name="phone"
-                                        className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                                        className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-100 bg-slate-50 focus:bg-white focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                                         value={formData.phone}
                                         onChange={handleChange}
                                         disabled={!isEditing}
@@ -167,18 +167,18 @@ const HospitalProfile = () => {
                         {/* Location Details section moved inside the card */}
                         <div className="mb-8 pt-6 border-t border-slate-100">
                             <h4 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
-                                <span className="w-1 h-6 bg-blue-600 rounded-full" />
+                                <span className="w-1 h-6 bg-rose-600 rounded-full" />
                                 Location Details
                             </h4>
                             <div>
                                 <label className="block text-sm font-bold text-slate-700 mb-2">Hospital Address</label>
                                 <div className="relative group">
-                                    <div className="absolute top-3 left-3 pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                                    <div className="absolute top-3 left-3 pointer-events-none text-slate-400 group-focus-within:text-rose-600 transition-colors">
                                         <MapPin size={18} />
                                     </div>
                                     <textarea
                                         name="address"
-                                        className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm resize-none disabled:opacity-60 disabled:cursor-not-allowed"
+                                        className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-100 bg-slate-50 focus:bg-white focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm resize-none disabled:opacity-60 disabled:cursor-not-allowed"
                                         rows="3"
                                         value={formData.address}
                                         onChange={handleChange}
@@ -197,14 +197,14 @@ const HospitalProfile = () => {
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 mb-2">New Password</label>
                                     <div className="relative group max-w-md">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-rose-600 transition-colors">
                                             <Lock size={18} />
                                         </div>
                                         <input
                                             type="password"
                                             name="password"
                                             placeholder="Enter new password (min 6 chars)"
-                                            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
+                                            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-100 bg-slate-50 focus:bg-white focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                                             onChange={handleChange}
                                         />
                                     </div>

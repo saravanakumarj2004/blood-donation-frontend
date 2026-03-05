@@ -240,7 +240,7 @@ const DonorRequest = () => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-6 animate-fade-in">
                     <div className="bg-white rounded-[2.5rem] p-8 max-w-lg w-full shadow-2xl animate-scale-in">
                         <div className="text-center space-y-3 mb-8">
-                            <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
+                            <div className="w-20 h-20 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
                                 <MapPin size={40} className="fill-current" />
                             </div>
                             <h2 className="text-3xl font-black text-neutral-900">Broadcast Range</h2>

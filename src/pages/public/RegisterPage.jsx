@@ -230,7 +230,7 @@ const RegisterPage = () => {
                                 key={r.id}
                                 onClick={() => setRole(r.id)}
                                 className={`flex flex-row items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold transition-all duration-200 ${role === r.id
-                                    ? 'bg-white shadow-sm text-neutral-900 ring-1 ring-neutral-200/50'
+                                    ? 'bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-neutral-900 ring-1 ring-neutral-200/50'
                                     : 'text-neutral-500 hover:text-neutral-700 hover:bg-neutral-200/50'
                                     }`}
                             >

@@ -28,7 +28,7 @@ const MyRequests = () => {
         switch (status) {
             case 'Accepted': return 'bg-green-100 text-green-700 border-green-200';
             case 'Dispatched': return 'bg-indigo-100 text-indigo-700 border-indigo-200';
-            case 'Completed': return 'bg-blue-100 text-blue-700 border-blue-200';
+            case 'Completed': return 'bg-rose-100 text-rose-700 border-rose-200';
             case 'Rejected': return 'bg-red-100 text-red-700 border-red-200';
             case 'Expired': return 'bg-neutral-100 text-neutral-500 border-neutral-200';
             default: return 'bg-yellow-100 text-yellow-700 border-yellow-200';
@@ -187,7 +187,7 @@ const MyRequests = () => {
                 </div>
                 <button
                     onClick={() => { setLoading(true); const fetchRequests = async () => { try { const data = await donorAPI.getMyRequests(user.id); setRequests(data); } catch (e) { console.error(e); } finally { setLoading(false); } }; fetchRequests(); }}
-                    className="p-3 bg-white text-neutral-600 rounded-xl shadow-sm hover:shadow-md hover:text-red-600 transition-all"
+                    className="p-3 bg-white text-neutral-600 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] hover:text-red-600 transition-all"
                     title="Refresh Status"
                 >
                     <Clock size={24} className={loading ? 'animate-spin' : ''} />
@@ -254,17 +254,17 @@ const MyRequests = () => {
 
                                     {/* Donor Tracking Stats for Active/Rejected Requests */}
                                     {(req.status === 'Active' || req.status === 'Rejected') && (
-                                        <div className="mt-4 p-5 bg-gradient-to-br from-neutral-50 to-white rounded-2xl border border-neutral-200 shadow-sm">
+                                        <div className="mt-4 p-5 bg-gradient-to-br from-neutral-50 to-white rounded-2xl border border-neutral-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                             <div className="flex items-center gap-2 mb-4">
                                                 <User size={16} className="text-neutral-600" />
                                                 <h4 className="font-bold text-neutral-700 text-sm uppercase tracking-wide">Donor Tracking</h4>
                                             </div>
                                             <div className="grid grid-cols-3 gap-3">
-                                                <div className="p-4 bg-blue-50 rounded-xl border border-blue-100 text-center">
-                                                    <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
-                                                        <span className="text-blue-600 font-black text-sm">{req.notifiedDonorCount || 0}</span>
+                                                <div className="p-4 bg-rose-50 rounded-xl border border-rose-100 text-center">
+                                                    <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-rose-100 flex items-center justify-center">
+                                                        <span className="text-rose-600 font-black text-sm">{req.notifiedDonorCount || 0}</span>
                                                     </div>
-                                                    <p className="text-xs font-bold text-blue-600 uppercase">Notified</p>
+                                                    <p className="text-xs font-bold text-rose-600 uppercase">Notified</p>
                                                 </div>
                                                 <div className="p-4 bg-red-50 rounded-xl border border-red-100 text-center">
                                                     <div className="w-8 h-8 mx-auto mb-2 rounded-full bg-red-100 flex items-center justify-center">
@@ -322,7 +322,7 @@ const MyRequests = () => {
                                                 <User size={20} /> Donor Details (Coming to Help)
                                             </h4>
                                             <div className="grid md:grid-cols-2 gap-4">
-                                                <div className="bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
+                                                <div className="bg-white p-4 rounded-xl border border-green-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center gap-3">
                                                     <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
                                                         <User size={20} />
                                                     </div>
@@ -332,7 +332,7 @@ const MyRequests = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
+                                                <div className="bg-white p-4 rounded-xl border border-green-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center gap-3">
                                                     <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
                                                         <Phone size={20} />
                                                     </div>
@@ -343,7 +343,7 @@ const MyRequests = () => {
                                                 </div>
 
                                                 {(req.acceptedDonorLocation || req.responderLocation) && (
-                                                    <div className="md:col-span-2 bg-white p-4 rounded-xl border border-green-100 shadow-sm flex items-center gap-3">
+                                                    <div className="md:col-span-2 bg-white p-4 rounded-xl border border-green-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center gap-3">
                                                         <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
                                                             <Navigation size={20} />
                                                         </div>
@@ -353,7 +353,7 @@ const MyRequests = () => {
                                                                 href={`https://www.google.com/maps/search/?api=1&query=${req.acceptedDonorLocation || req.responderLocation}`}
                                                                 target="_blank"
                                                                 rel="noreferrer"
-                                                                className="font-bold text-blue-600 hover:underline break-all"
+                                                                className="font-bold text-rose-600 hover:underline break-all"
                                                             >
                                                                 Open in Maps ({req.acceptedDonorLocation || req.responderLocation})
                                                             </a>
@@ -363,7 +363,7 @@ const MyRequests = () => {
 
                                                 {/* Dispatch Note */}
                                                 {req.status === 'Dispatched' && (
-                                                    <div className="md:col-span-2 bg-indigo-50 p-4 rounded-xl border border-indigo-100 shadow-sm flex items-center gap-3">
+                                                    <div className="md:col-span-2 bg-indigo-50 p-4 rounded-xl border border-indigo-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center gap-3">
                                                         <Truck className="text-indigo-600" />
                                                         <div>
                                                             <p className="font-bold text-indigo-900">Vehicle Dispatched</p>

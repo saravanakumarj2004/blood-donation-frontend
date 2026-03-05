@@ -71,16 +71,16 @@ const BloodStock = () => {
 
     return (
         <div className="max-w-7xl mx-auto space-y-8 animate-fade-in relative bg-slate-50 min-h-screen p-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <div>
                     <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                        <Droplet className="text-blue-600" size={32} /> Blood Stock Inventory
+                        <Droplet className="text-rose-600" size={32} /> Blood Stock Inventory
                     </h2>
                     <p className="text-slate-500 font-medium mt-1 ml-11">Manage and monitor blood units in real-time.</p>
                 </div>
                 <button
                     onClick={() => navigate('/dashboard/hospital/batches')}
-                    className="flex items-center gap-2 px-6 py-3 bg-white text-slate-700 font-semibold rounded-xl shadow-sm hover:shadow hover:text-blue-600 border border-slate-200 transition-all active:scale-95"
+                    className="flex items-center gap-2 px-6 py-3 bg-white text-slate-700 font-semibold rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow hover:text-rose-600 border border-slate-100 transition-all active:scale-95"
                 >
                     <Download size={20} />
                     Manage Batches
@@ -89,7 +89,7 @@ const BloodStock = () => {
 
             {/* Active Filters Banner */}
             {showLowOnly && (
-                <div className="flex items-center justify-between bg-white border border-rose-200 rounded-2xl p-4 shadow-sm">
+                <div className="flex items-center justify-between bg-white border border-rose-200 rounded-2xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-rose-50 border border-rose-100 rounded-lg text-rose-600">
                             <AlertTriangle size={20} />
@@ -99,7 +99,7 @@ const BloodStock = () => {
                             <span className="text-sm text-slate-500 font-medium">Viewing only critical or low units</span>
                         </div>
                     </div>
-                    <button onClick={toggleLowFilter} className="text-sm font-bold text-slate-500 hover:text-rose-600 transition-colors bg-slate-50 hover:bg-rose-50 px-4 py-2 rounded-lg border border-slate-200 hover:border-rose-200">
+                    <button onClick={toggleLowFilter} className="text-sm font-bold text-slate-500 hover:text-rose-600 transition-colors bg-slate-50 hover:bg-rose-50 px-4 py-2 rounded-lg border border-slate-100 hover:border-rose-200">
                         Clear Filter
                     </button>
                 </div>
@@ -111,11 +111,11 @@ const BloodStock = () => {
                         <div
                             key={item.type}
                             onClick={() => navigate(`/dashboard/hospital/batches?bloodGroup=${encodeURIComponent(item.type)}`)}
-                            className="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-200 group flex flex-col justify-between"
+                            className="cursor-pointer bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] hover:border-rose-300 transition-all duration-200 group flex flex-col justify-between"
                         >
                             <div className="flex items-start justify-between mb-6">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold bg-slate-50 border border-slate-200 text-slate-800 shadow-sm">
+                                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold bg-slate-50 border border-slate-100 text-slate-800 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                         {item.type}
                                     </div>
                                     <div>
@@ -142,7 +142,7 @@ const BloodStock = () => {
                                 </div>
                                 <div className="text-right">
                                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Last Updated</p>
-                                    <p className="text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200">
+                                    <p className="text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-100">
                                         {item.lastUpdated}
                                     </p>
                                 </div>
@@ -150,7 +150,7 @@ const BloodStock = () => {
                         </div>
                     ))
                 ) : (
-                    <div className="col-span-full py-12 text-center text-slate-500 font-semibold bg-white rounded-2xl border border-dashed border-slate-300">
+                    <div className="col-span-full py-12 text-center text-slate-500 font-semibold bg-white rounded-2xl border border-dashed border-slate-200">
                         No units found matching criteria.
                     </div>
                 )}
@@ -158,8 +158,8 @@ const BloodStock = () => {
 
             {/* Expiring Units Alert - Only show if there are expiring units */}
             {totalExpiring > 0 && (
-                <div className={`bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start gap-4 shadow-sm ${showExpiringOnly ? 'ring-2 ring-amber-400 ring-offset-2' : ''}`}>
-                    <div className="p-3 bg-white border border-amber-100 rounded-xl text-amber-600 shadow-sm">
+                <div className={`bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start gap-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] ${showExpiringOnly ? 'ring-2 ring-amber-400 ring-offset-2' : ''}`}>
+                    <div className="p-3 bg-white border border-amber-100 rounded-xl text-amber-600 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                         <AlertTriangle size={24} />
                     </div>
                     <div>

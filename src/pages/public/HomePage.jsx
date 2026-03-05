@@ -36,7 +36,7 @@ const HomePage = () => {
             <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-red-50/30">
                 {/* Background Decor */}
                 <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -z-10 animate-pulse" />
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-400/5 rounded-full blur-3xl -z-10" />
+                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-rose-400/5 rounded-full blur-3xl -z-10" />
 
                 <div className="container mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-16 items-center">
 
@@ -47,7 +47,7 @@ const HomePage = () => {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="space-y-8 z-10"
                     >
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 text-error font-bold text-xs uppercase tracking-wider border border-red-100 shadow-sm">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 text-error font-bold text-xs uppercase tracking-wider border border-red-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                             <span className="relative flex h-2.5 w-2.5">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-error"></span>
@@ -57,7 +57,7 @@ const HomePage = () => {
 
                         <h1 className="text-5xl lg:text-7xl font-black leading-[1.1] tracking-tight text-neutral-900">
                             Give the Gift of <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-rose-500 to-rose-600 drop-shadow-sm">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-rose-500 to-rose-600 drop-shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                 Life & Hope.
                             </span>
                         </h1>
@@ -75,7 +75,7 @@ const HomePage = () => {
                             </Link>
                             <button
                                 onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })}
-                                className="px-8 py-4 bg-white text-neutral-700 font-bold rounded-full shadow-sm border border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300 hover:shadow-md transition-all duration-300 flex items-center gap-2"
+                                className="px-8 py-4 bg-white text-neutral-700 font-bold rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] transition-all duration-300 flex items-center gap-2"
                             >
                                 How It Works <ChevronRight size={18} />
                             </button>
@@ -160,9 +160,9 @@ const HomePage = () => {
                                 icon: Globe,
                                 title: 'Real-Time Tracking',
                                 desc: 'Live monitoring of blood stock levels across all district hospitals ensuring zero delays in emergencies.',
-                                color: 'text-blue-600',
-                                bg: 'bg-blue-50',
-                                shadow: 'shadow-blue-200'
+                                color: 'text-rose-600',
+                                bg: 'bg-rose-50',
+                                shadow: 'shadow-rose-200'
                             },
                             {
                                 icon: Shield,
@@ -188,7 +188,7 @@ const HomePage = () => {
                             >
                                 <div className={`absolute top-0 right-0 w-32 h-32 ${feature.bg} rounded-bl-[100px] opacity-50 transition-transform group-hover:scale-110`} />
 
-                                <div className={`relative w-16 h-16 ${feature.bg} ${feature.color} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-md`}>
+                                <div className={`relative w-16 h-16 ${feature.bg} ${feature.color} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.04)]`}>
                                     <feature.icon size={32} />
                                 </div>
                                 <h3 className="text-2xl font-bold text-neutral-900 mb-4">{feature.title}</h3>

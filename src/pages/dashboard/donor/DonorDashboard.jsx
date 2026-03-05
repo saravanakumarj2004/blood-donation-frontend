@@ -111,7 +111,7 @@ const DonorDashboard = () => {
             unit: 'Date',
             icon: Calendar,
             color: 'from-blue-400 to-indigo-500',
-            iconColor: 'text-blue-500'
+            iconColor: 'text-rose-500'
         }
     ];
 
@@ -120,7 +120,7 @@ const DonorDashboard = () => {
             {/* Background Decor */}
             <div className="fixed inset-0 pointer-events-none -z-10">
                 <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-red-100/40 rounded-full blur-[100px]" />
-                <div className="absolute bottom-10 right-10 w-[600px] h-[600px] bg-blue-100/40 rounded-full blur-[100px]" />
+                <div className="absolute bottom-10 right-10 w-[600px] h-[600px] bg-rose-100/40 rounded-full blur-[100px]" />
             </div>
 
             {/* Notifications Banner */}
@@ -165,7 +165,7 @@ const DonorDashboard = () => {
                                         <div>
                                             <p className="font-bold text-neutral-800 text-sm leading-relaxed">{notif.message}</p>
                                             <div className="flex items-center gap-2 mt-2">
-                                                <span className="text-xs text-neutral-500 font-bold bg-white px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+                                                <span className="text-xs text-neutral-500 font-bold bg-white px-2 py-1 rounded-md shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center gap-1">
                                                     <Clock size={12} /> {dateString}
                                                 </span>
                                                 {isExpired && (
@@ -243,7 +243,7 @@ const DonorDashboard = () => {
                 </button>
 
                 <button onClick={() => navigate('/dashboard/donor/nearby')} className="group p-6 bg-white/60 hover:bg-white backdrop-blur-md rounded-[2rem] border border-white/60 shadow-lg hover:shadow-xl transition-all text-left relative overflow-hidden">
-                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                         <MapPin size={24} className="fill-current" />
                     </div>
                     <div className="font-black text-neutral-900 text-lg flex items-center gap-2">
@@ -288,7 +288,7 @@ const DonorDashboard = () => {
                             </span>
                         </div>
                         <div>
-                            <div className="text-4xl font-black text-neutral-900 tracking-tight mb-1 group-hover:scale-105 transition-transform origin-left">
+                            <div className="font-syne text-3xl font-bold tracking-normal text-neutral-900 tracking-tight mb-1 group-hover:scale-105 transition-transform origin-left">
                                 {stat.value}
                             </div>
                             <div className="text-neutral-500 font-bold text-sm tracking-wide uppercase">{stat.label}</div>
@@ -351,7 +351,7 @@ const DonorDashboard = () => {
                 <section className="h-full flex flex-col space-y-6">
                     <div className="flex items-center justify-between px-2">
                         <h2 className="text-2xl font-bold text-neutral-900 flex items-center gap-3">
-                            <div className="p-2 bg-blue-100 text-blue-600 rounded-xl">
+                            <div className="p-2 bg-rose-100 text-rose-600 rounded-xl">
                                 <Clock size={24} />
                             </div>
                             History
@@ -359,12 +359,12 @@ const DonorDashboard = () => {
                     </div>
 
                     <div className="bg-white/60 backdrop-blur-xl rounded-[2.5rem] p-6 border border-white/60 shadow-xl shadow-neutral-100/50 flex flex-col flex-1 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl" />
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/5 rounded-full blur-3xl" />
 
                         {history.length > 0 ? (
                             <div className="space-y-4 relative z-10">
                                 {history.map((item, idx) => (
-                                    <div key={idx} className="flex items-center gap-4 p-4 bg-white/80 rounded-2xl border border-white shadow-sm">
+                                    <div key={idx} className="flex items-center gap-4 p-4 bg-white/80 rounded-2xl border border-white shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                         <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center shrink-0">
                                             <CheckCircle size={20} />
                                         </div>
@@ -404,11 +404,11 @@ const DonorDashboard = () => {
                 <div className="fixed bottom-6 right-6 z-50 animate-slide-in-right">
                     <div className={`px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 border ${feedback.type === 'success' ? 'bg-white border-emerald-100 text-emerald-800' :
                         feedback.type === 'error' ? 'bg-white border-red-100 text-red-800' :
-                            'bg-white border-blue-100 text-blue-800'
+                            'bg-white border-rose-100 text-rose-800'
                         }`}>
                         {feedback.type === 'success' ? <CheckCircle className="text-emerald-500" size={24} /> :
                             feedback.type === 'error' ? <AlertCircle className="text-red-500" size={24} /> :
-                                <Bell className="text-blue-500" size={24} />}
+                                <Bell className="text-rose-500" size={24} />}
                         <span className="font-bold">{feedback.message}</span>
                     </div>
                 </div>

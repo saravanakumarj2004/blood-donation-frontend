@@ -110,19 +110,19 @@ const IncomingRequests = () => {
 
     return (
         <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
-            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                    <Inbox className="text-blue-600" size={32} /> Incoming Requests
+                    <Inbox className="text-rose-600" size={32} /> Incoming Requests
                 </h1>
                 <p className="text-slate-500 font-medium ml-11">Review and manage blood transfer requests.</p>
             </div>
 
             {/* TABS */}
-            <div className="flex gap-6 border-b border-slate-200 px-2 mt-4">
+            <div className="flex gap-6 border-b border-slate-100 px-2 mt-4">
                 <button
                     onClick={() => setActiveTab('incoming')}
                     className={`pb-4 px-2 font-semibold transition-all flex items-center gap-2 ${activeTab === 'incoming'
-                        ? 'border-b-2 border-blue-600 text-blue-700'
+                        ? 'border-b-2 border-rose-600 text-rose-700'
                         : 'text-slate-500 hover:text-slate-700'
                         }`}
                 >
@@ -131,7 +131,7 @@ const IncomingRequests = () => {
                 <button
                     onClick={() => setActiveTab('outgoing')}
                     className={`pb-4 px-2 font-semibold transition-all flex items-center gap-2 ${activeTab === 'outgoing'
-                        ? 'border-b-2 border-blue-600 text-blue-700'
+                        ? 'border-b-2 border-rose-600 text-rose-700'
                         : 'text-slate-500 hover:text-slate-700'
                         }`}
                 >
@@ -147,7 +147,7 @@ const IncomingRequests = () => {
                     {activeTab === 'outgoing' && (
                         <div>
                             {getMyBroadcasts().length === 0 ? (
-                                <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm flex flex-col items-center">
+                                <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col items-center">
                                     <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100">
                                         <Inbox size={32} className="text-slate-400" />
                                     </div>
@@ -157,9 +157,9 @@ const IncomingRequests = () => {
                             ) : (
                                 <div className="grid gap-6">
                                     {getMyBroadcasts().map(req => (
-                                        <div key={req.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow">
+                                        <div key={req.id} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] transition-shadow">
                                             <div className="flex items-center gap-6 w-full md:w-auto">
-                                                <div className="w-16 h-16 bg-blue-50 text-blue-700 border border-blue-100 rounded-xl flex items-center justify-center font-bold text-xl">
+                                                <div className="w-16 h-16 bg-rose-50 text-rose-700 border border-rose-100 rounded-xl flex items-center justify-center font-bold text-xl">
                                                     {req.bloodGroup}
                                                 </div>
                                                 <div>
@@ -192,7 +192,7 @@ const IncomingRequests = () => {
                                                 {(req.status === 'Accepted' || req.status === 'Dispatched') && req.acceptedBy ? (
                                                     <button
                                                         onClick={() => triggerConfirm(req.id, 'Completed')}
-                                                        className={`flex-1 md:flex-none px-6 py-2.5 text-white font-semibold rounded-lg shadow-sm transition-all flex items-center justify-center gap-2 ${req.status === 'Dispatched'
+                                                        className={`flex-1 md:flex-none px-6 py-2.5 text-white font-semibold rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all flex items-center justify-center gap-2 ${req.status === 'Dispatched'
                                                             ? 'bg-indigo-600 hover:bg-indigo-700'
                                                             : 'bg-emerald-600 hover:bg-emerald-700'
                                                             }`}
@@ -201,16 +201,16 @@ const IncomingRequests = () => {
                                                         {req.status === 'Dispatched' ? 'Confirm Receipt' : 'Confirm Donation'}
                                                     </button>
                                                 ) : req.status === 'Completed' ? (
-                                                    <span className="px-4 py-2 bg-slate-50 text-slate-400 font-bold rounded-lg border border-slate-200 cursor-not-allowed text-sm">Completed</span>
+                                                    <span className="px-4 py-2 bg-slate-50 text-slate-400 font-bold rounded-lg border border-slate-100 cursor-not-allowed text-sm">Completed</span>
                                                 ) : (
-                                                    <span className="px-3 py-1.5 border border-blue-200 text-blue-700 font-bold rounded-lg bg-blue-50 text-xs uppercase tracking-wider">
+                                                    <span className="px-3 py-1.5 border border-rose-200 text-rose-700 font-bold rounded-lg bg-rose-50 text-xs uppercase tracking-wider">
                                                         Active
                                                     </span>
                                                 )}
 
                                                 <button
                                                     onClick={() => handleDelete(req.id)}
-                                                    className="p-2.5 text-slate-400 border border-slate-200 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 rounded-lg transition-colors bg-white shadow-sm"
+                                                    className="p-2.5 text-slate-400 border border-slate-100 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 rounded-lg transition-colors bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
                                                     title="Delete Broadcast"
                                                 >
                                                     <Trash2 size={16} />
@@ -227,7 +227,7 @@ const IncomingRequests = () => {
                     {activeTab === 'incoming' && (
                         <div>
                             {getIncomingRequests().length === 0 ? (
-                                <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm flex flex-col items-center">
+                                <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col items-center">
                                     <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100">
                                         <Inbox size={32} className="text-slate-400" />
                                     </div>
@@ -237,9 +237,9 @@ const IncomingRequests = () => {
                             ) : (
                                 <div className="space-y-6">
                                     {getIncomingRequests().map(req => (
-                                        <div key={req.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-6 hover:shadow-md transition-shadow items-start md:items-center justify-between">
+                                        <div key={req.id} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col md:flex-row gap-6 hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] transition-shadow items-start md:items-center justify-between">
                                             <div className="flex items-center gap-6 w-full md:w-auto">
-                                                <div className={`w-16 h-16 rounded-xl flex items-center justify-center font-bold text-xl border ${req.type === 'EMERGENCY_ALERT' ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-blue-50 border-blue-200 text-blue-700'
+                                                <div className={`w-16 h-16 rounded-xl flex items-center justify-center font-bold text-xl border ${req.type === 'EMERGENCY_ALERT' ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-rose-50 border-rose-200 text-rose-700'
                                                     }`}>
                                                     {req.bloodGroup}
                                                 </div>
@@ -272,7 +272,7 @@ const IncomingRequests = () => {
                                                     <>
                                                         <button
                                                             onClick={() => setAnsweringId(req.id)}
-                                                            className="w-full sm:w-auto px-6 py-2.5 bg-white text-slate-700 font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm"
+                                                            className="w-full sm:w-auto px-6 py-2.5 bg-white text-slate-700 font-semibold rounded-lg border border-slate-100 hover:bg-slate-50 transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
                                                         >
                                                             Respond
                                                         </button>
@@ -281,11 +281,11 @@ const IncomingRequests = () => {
 
                                                 {/* ANSWERING STATE */}
                                                 {answeringId === req.id && (
-                                                    <div className="flex flex-col gap-3 w-full sm:w-64 animate-fade-in bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                                    <div className="flex flex-col gap-3 w-full sm:w-64 animate-fade-in bg-slate-50 p-3 rounded-xl border border-slate-100">
                                                         <textarea
                                                             autoFocus
                                                             placeholder="Add a message..."
-                                                            className="w-full p-2.5 rounded-lg border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none resize-none h-20"
+                                                            className="w-full p-2.5 rounded-lg border border-slate-100 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none resize-none h-20"
                                                             value={replyMessage}
                                                             onChange={e => setReplyMessage(e.target.value)}
                                                         />
@@ -298,13 +298,13 @@ const IncomingRequests = () => {
                                                             </button>
                                                             <button
                                                                 onClick={() => triggerConfirm(req.id, 'Rejected', replyMessage)}
-                                                                className="px-3 py-1.5 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 font-semibold rounded-md text-xs shadow-sm transition-colors"
+                                                                className="px-3 py-1.5 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 font-semibold rounded-md text-xs shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-colors"
                                                             >
                                                                 Reject
                                                             </button>
                                                             <button
                                                                 onClick={() => triggerConfirm(req.id, 'Accepted', replyMessage)}
-                                                                className="px-3 py-1.5 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 shadow-sm text-xs transition-colors"
+                                                                className="px-3 py-1.5 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold rounded-md hover:from-rose-600 hover:to-rose-700 shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-xs transition-colors"
                                                             >
                                                                 Accept
                                                             </button>
@@ -320,7 +320,7 @@ const IncomingRequests = () => {
                                                         </div>
                                                         <button
                                                             onClick={() => navigate('/dashboard/hospital/dispatch')}
-                                                            className="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 shadow-sm transition-all flex items-center justify-center gap-2 text-sm"
+                                                            className="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all flex items-center justify-center gap-2 text-sm"
                                                         >
                                                             <Truck size={16} /> Dispatch Now
                                                         </button>
@@ -339,7 +339,7 @@ const IncomingRequests = () => {
 
                                                 {/* COMPLETED/REJECTED STATE */}
                                                 {(req.status === 'Completed' || req.status === 'Rejected') && (
-                                                    <span className={`px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 uppercase tracking-wider border shadow-sm ${req.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-rose-50 text-rose-700 border-rose-200'
+                                                    <span className={`px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 uppercase tracking-wider border shadow-[0_2px_8px_rgba(0,0,0,0.04)] ${req.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-rose-50 text-rose-700 border-rose-200'
                                                         }`}>
                                                         {req.status === 'Completed' ? <CheckCircle size={14} /> : <XCircle size={14} />}
                                                         {req.status}
@@ -357,7 +357,7 @@ const IncomingRequests = () => {
             {/* Confirmation Dialog */}
             {confirmAction && (
                 <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-                    <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl border border-slate-200 animate-scale-in">
+                    <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl border border-slate-100 animate-scale-in">
                         <h3 className="text-xl font-bold text-slate-800 mb-2">Are you sure?</h3>
                         <p className="text-slate-500 font-medium text-sm mb-6">
                             {confirmAction.status === 'Completed' ? 'Confirming delivery will update stock levels permanently.' :
@@ -368,14 +368,14 @@ const IncomingRequests = () => {
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setConfirmAction(null)}
-                                className="flex-1 py-2.5 text-slate-600 bg-white border border-slate-200 font-semibold hover:bg-slate-50 rounded-lg transition-colors text-sm"
+                                className="flex-1 py-2.5 text-slate-600 bg-white border border-slate-100 font-semibold hover:bg-slate-50 rounded-lg transition-colors text-sm"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleAction}
-                                className={`flex-1 py-2.5 text-white font-semibold rounded-lg shadow-sm text-sm transition-colors
-                                    ${confirmAction.status === 'Rejected' || confirmAction.status === 'Delete' ? 'bg-rose-600 hover:bg-rose-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+                                className={`flex-1 py-2.5 text-white font-semibold rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] text-sm transition-colors
+                                    ${confirmAction.status === 'Rejected' || confirmAction.status === 'Delete' ? 'bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700' : 'bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700'}`}
                             >
                                 {confirmAction.status === 'Delete' ? 'Delete' : 'Confirm'}
                             </button>
@@ -389,11 +389,11 @@ const IncomingRequests = () => {
                 <div className="fixed bottom-6 right-6 z-50 animate-slide-in-right">
                     <div className={`px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 border bg-white ${feedback.type === 'success' ? 'border-emerald-200 text-emerald-800' :
                         feedback.type === 'error' ? 'border-rose-200 text-rose-800' :
-                            'border-blue-200 text-blue-800'
+                            'border-rose-200 text-rose-800'
                         }`}>
                         {feedback.type === 'success' ? <CheckCircle className="text-emerald-500" size={20} /> :
                             feedback.type === 'error' ? <XCircle className="text-rose-500" size={20} /> :
-                                <Inbox className="text-blue-500" size={20} />}
+                                <Inbox className="text-rose-500" size={20} />}
                         <span className="font-semibold text-sm">{feedback.message}</span>
                     </div>
                 </div>

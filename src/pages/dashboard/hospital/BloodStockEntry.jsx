@@ -89,14 +89,14 @@ const BloodStockEntry = () => {
                 </div>
             )}
 
-            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                    <Database className="text-blue-600" size={32} /> Blood Stock Entry
+                    <Database className="text-rose-600" size={32} /> Blood Stock Entry
                 </h1>
                 <p className="text-slate-500 font-medium ml-11">Log new blood units into the inventory system.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="bg-white p-6 md:p-8 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 {/* Blood Group */}
                 <div className="space-y-2">
@@ -131,7 +131,7 @@ const BloodStockEntry = () => {
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="number" min="1" max="100"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             placeholder="e.g. 5"
                             value={form.units}
                             onChange={e => handleInput('units', e.target.value)}
@@ -147,7 +147,7 @@ const BloodStockEntry = () => {
                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="date"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             value={form.collectedDate}
                             onChange={e => handleInput('collectedDate', e.target.value)}
                             required
@@ -162,7 +162,7 @@ const BloodStockEntry = () => {
                         <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="date"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             value={form.expiryDate}
                             readOnly
                         />
@@ -176,7 +176,7 @@ const BloodStockEntry = () => {
                         <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="text"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             placeholder="e.g. Fridge A-12"
                             value={form.location}
                             onChange={e => handleInput('location', e.target.value)}
@@ -205,7 +205,7 @@ const BloodStockEntry = () => {
                         <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="text"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-100 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             placeholder="e.g. John Doe / City Blood Bank"
                             value={form.sourceName}
                             onChange={e => handleInput('sourceName', e.target.value)}
@@ -218,7 +218,7 @@ const BloodStockEntry = () => {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-3 bg-blue-600 text-white font-semibold text-base rounded-lg shadow-sm hover:bg-blue-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full py-3 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold text-base rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:bg-rose-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                         {isLoading ? 'Processing...' : 'ADD ENTRY'}
                     </button>

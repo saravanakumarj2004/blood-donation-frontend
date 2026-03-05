@@ -44,7 +44,7 @@ const RequestHistory = () => {
         switch (status.toLowerCase()) {
             case 'completed': return 'bg-emerald-50 text-emerald-700 border-emerald-100';
             case 'rejected': return 'bg-red-50 text-error border-red-100';
-            case 'accepted': return 'bg-blue-50 text-blue-700 border-blue-100';
+            case 'accepted': return 'bg-rose-50 text-rose-700 border-rose-100';
             case 'dispatched': return 'bg-indigo-50 text-indigo-700 border-indigo-100';
             default: return 'bg-neutral-100 text-neutral-600 border-neutral-200';
         }
@@ -52,10 +52,10 @@ const RequestHistory = () => {
 
     return (
         <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                 <div>
                     <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                        <Calendar className="text-blue-600" size={32} /> Request History
+                        <Calendar className="text-rose-600" size={32} /> Request History
                     </h2>
                     <p className="text-slate-500 font-medium ml-11">Archive of all blood transfers and emergency requests.</p>
                 </div>
@@ -66,7 +66,7 @@ const RequestHistory = () => {
                         <input
                             type="text"
                             placeholder="Search history..."
-                            className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-semibold text-slate-700 bg-slate-50 focus:bg-white"
+                            className="w-full pl-10 pr-4 py-2.5 border border-slate-100 rounded-lg text-sm focus:ring-1 focus:ring-rose-500 focus:border-rose-500 outline-none transition-all font-semibold text-slate-700 bg-slate-50 focus:bg-white"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -75,12 +75,12 @@ const RequestHistory = () => {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl w-fit border border-slate-200">
+            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl w-fit border border-slate-100">
                 {['all', 'sent', 'received'].map(tab => (
                     <button
                         key={tab}
                         onClick={() => setFilter(tab)}
-                        className={`px-5 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${filter === tab ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                        className={`px-5 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${filter === tab ? 'bg-white text-rose-700 shadow-[0_2px_8px_rgba(0,0,0,0.04)]' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
                             }`}
                     >
                         {tab === 'all' ? 'All History' : tab === 'sent' ? 'Sent (Outgoing)' : 'Received (Incoming)'}
@@ -89,7 +89,7 @@ const RequestHistory = () => {
             </div>
 
             {/* Table */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 overflow-hidden">
                 {isLoading ? (
                     <div className="p-12 text-center text-slate-500 font-medium">Loading history...</div>
                 ) : filteredRequests.length === 0 ? (
@@ -97,7 +97,7 @@ const RequestHistory = () => {
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
-                            <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-200">
+                            <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100">
                                 <tr>
                                     <th className="px-6 py-4">Date</th>
                                     <th className="px-6 py-4">Type</th>
@@ -114,7 +114,7 @@ const RequestHistory = () => {
                                             <div className="text-xs text-slate-500 font-medium uppercase mt-0.5">{new Date(req.date || req.timestamp).toLocaleTimeString()}</div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-md border ${req.isOutgoing ? 'text-blue-700 bg-blue-50 border-blue-200' : 'text-purple-700 bg-purple-50 border-purple-200'
+                                            <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-md border ${req.isOutgoing ? 'text-rose-700 bg-rose-50 border-rose-200' : 'text-purple-700 bg-purple-50 border-purple-200'
                                                 }`}>
                                                 {req.isOutgoing ? <ArrowUpRight size={14} /> : <ArrowDownLeft size={14} />}
                                                 {req.isOutgoing ? 'Sent' : 'Received'}
@@ -136,7 +136,7 @@ const RequestHistory = () => {
                                                 {req.status}
                                             </span>
                                             {req.responseMessage && (
-                                                <div className="mt-2 text-xs bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200 max-w-[200px] shadow-sm">
+                                                <div className="mt-2 text-xs bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200 max-w-[200px] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                                                     <span className="font-bold block text-[10px] uppercase text-yellow-600 mb-0.5">Note from {req.hospitalName}:</span>
                                                     "{req.responseMessage}"
                                                 </div>
