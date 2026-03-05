@@ -51,22 +51,22 @@ const RequestHistory = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto space-y-6">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <div>
-                    <h2 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
-                        <Calendar className="text-primary" size={28} /> Request History
+                    <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                        <Calendar className="text-blue-600" size={32} /> Request History
                     </h2>
-                    <p className="text-neutral-500 mt-1">Archive of all blood transfers and emergency requests.</p>
+                    <p className="text-slate-500 font-medium ml-11">Archive of all blood transfers and emergency requests.</p>
                 </div>
 
                 <div className="flex items-center gap-3">
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={16} />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                         <input
                             type="text"
                             placeholder="Search history..."
-                            className="pl-9 pr-4 py-2 border border-neutral-200 rounded-lg text-sm focus:ring-2 focus:ring-primary/20 outline-none"
+                            className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-semibold text-slate-700 bg-slate-50 focus:bg-white"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -75,12 +75,12 @@ const RequestHistory = () => {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex items-center gap-1 bg-neutral-100 p-1 rounded-xl w-fit">
+            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl w-fit border border-slate-200">
                 {['all', 'sent', 'received'].map(tab => (
                     <button
                         key={tab}
                         onClick={() => setFilter(tab)}
-                        className={`px-4 py-2 rounded-lg text-sm font-bold capitalize transition-all ${filter === tab ? 'bg-white text-neutral-900 shadow-sm' : 'text-neutral-500 hover:text-neutral-700'
+                        className={`px-5 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${filter === tab ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
                             }`}
                     >
                         {tab === 'all' ? 'All History' : tab === 'sent' ? 'Sent (Outgoing)' : 'Received (Incoming)'}
@@ -89,46 +89,46 @@ const RequestHistory = () => {
             </div>
 
             {/* Table */}
-            <div className="bg-white rounded-2xl shadow-sm border border-neutral-100 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 {isLoading ? (
-                    <div className="p-12 text-center text-neutral-500">Loading history...</div>
+                    <div className="p-12 text-center text-slate-500 font-medium">Loading history...</div>
                 ) : filteredRequests.length === 0 ? (
-                    <div className="p-12 text-center text-neutral-500">No records found matching your filters.</div>
+                    <div className="p-12 text-center text-slate-500 font-medium">No records found matching your filters.</div>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
-                            <thead className="bg-neutral-50 text-neutral-500 text-sm uppercase tracking-wider">
+                            <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-200">
                                 <tr>
-                                    <th className="px-6 py-4 font-semibold">Date</th>
-                                    <th className="px-6 py-4 font-semibold">Type</th>
-                                    <th className="px-6 py-4 font-semibold">Other Party</th>
-                                    <th className="px-6 py-4 font-semibold">Details</th>
-                                    <th className="px-6 py-4 font-semibold">Status</th>
+                                    <th className="px-6 py-4">Date</th>
+                                    <th className="px-6 py-4">Type</th>
+                                    <th className="px-6 py-4">Other Party</th>
+                                    <th className="px-6 py-4">Details</th>
+                                    <th className="px-6 py-4">Status</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-neutral-100">
+                            <tbody className="divide-y divide-slate-100">
                                 {filteredRequests.map(req => (
-                                    <tr key={req.id} className="hover:bg-neutral-50/50 transition-colors">
-                                        <td className="px-6 py-4 text-sm text-neutral-600">
-                                            {new Date(req.date || req.timestamp).toLocaleDateString()}
-                                            <div className="text-xs text-neutral-400">{new Date(req.date || req.timestamp).toLocaleTimeString()}</div>
+                                    <tr key={req.id} className="hover:bg-slate-50 transition-colors">
+                                        <td className="px-6 py-4">
+                                            <div className="font-semibold text-slate-900">{new Date(req.date || req.timestamp).toLocaleDateString()}</div>
+                                            <div className="text-xs text-slate-500 font-medium uppercase mt-0.5">{new Date(req.date || req.timestamp).toLocaleTimeString()}</div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <div className={`inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded ${req.isOutgoing ? 'text-blue-600 bg-blue-50' : 'text-purple-600 bg-purple-50'
+                                            <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-md border ${req.isOutgoing ? 'text-blue-700 bg-blue-50 border-blue-200' : 'text-purple-700 bg-purple-50 border-purple-200'
                                                 }`}>
-                                                {req.isOutgoing ? <ArrowUpRight size={12} /> : <ArrowDownLeft size={12} />}
+                                                {req.isOutgoing ? <ArrowUpRight size={14} /> : <ArrowDownLeft size={14} />}
                                                 {req.isOutgoing ? 'Sent' : 'Received'}
                                             </div>
-                                            <div className="text-xs text-neutral-400 mt-1">{req.type === 'P2P' ? 'Direct P2P' : 'Emergency'}</div>
+                                            <div className="text-xs text-slate-500 font-semibold mt-1">{req.type === 'P2P' ? 'Direct P2P' : 'Emergency'}</div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <div className="font-bold text-neutral-900">{req.hospitalName || req.requesterName || 'Unknown'}</div>
-                                            <div className="text-xs text-neutral-500">{req.location || 'Network Hospital'}</div>
+                                            <div className="font-bold text-slate-900">{req.hospitalName || req.requesterName || 'Unknown'}</div>
+                                            <div className="text-xs text-slate-500 font-medium mt-0.5">{req.location || 'Network Hospital'}</div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
-                                                <span className="font-bold text-lg text-primary">{req.bloodGroup}</span>
-                                                <span className="text-sm text-neutral-600">{req.units} Units</span>
+                                                <span className="font-bold text-base text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-100">{req.bloodGroup}</span>
+                                                <span className="text-sm font-semibold text-slate-600">{req.units} Units</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
@@ -136,7 +136,7 @@ const RequestHistory = () => {
                                                 {req.status}
                                             </span>
                                             {req.responseMessage && (
-                                                <div className="mt-2 text-xs bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-100 max-w-[200px]">
+                                                <div className="mt-2 text-xs bg-yellow-50 text-yellow-800 p-2 rounded-lg border border-yellow-200 max-w-[200px] shadow-sm">
                                                     <span className="font-bold block text-[10px] uppercase text-yellow-600 mb-0.5">Note from {req.hospitalName}:</span>
                                                     "{req.responseMessage}"
                                                 </div>

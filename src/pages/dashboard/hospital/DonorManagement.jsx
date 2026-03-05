@@ -39,64 +39,64 @@ const DonorManagement = () => {
     // Client-side filtering removed.
 
     return (
-        <div className="max-w-7xl mx-auto space-y-8 animate-fade-in relative">
+        <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
             {/* Modal for View Details */}
             {selectedDonor && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full relative animate-scale-in">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-lg w-full relative animate-scale-in border border-slate-200">
                         <button
                             onClick={() => setSelectedDonor(null)}
-                            className="absolute top-4 right-4 p-2 rounded-full hover:bg-neutral-100 transition-colors"
+                            className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 transition-colors"
                         >
-                            <XCircle size={24} className="text-neutral-400" />
+                            <XCircle size={24} className="text-slate-400" />
                         </button>
 
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center text-primary">
+                            <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100">
                                 <User size={32} />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-neutral-800">{selectedDonor.name}</h2>
-                                <span className={`px-3 py-1 rounded-full text-sm font-bold ${selectedDonor.eligible ? 'bg-emerald-50 text-emerald-600' : 'bg-neutral-100 text-neutral-500'}`}>
+                                <h2 className="text-xl font-bold text-slate-900">{selectedDonor.name}</h2>
+                                <span className={`inline-block mt-1 px-3 py-1 rounded-full text-xs font-bold border ${selectedDonor.eligible ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
                                     {selectedDonor.eligible ? 'Eligible to Donate' : 'Not Eligible'}
                                 </span>
                             </div>
                         </div>
 
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-100">
-                                    <p className="text-sm text-neutral-400 font-bold mb-1">Blood Group</p>
-                                    <p className="text-xl font-black text-error">{selectedDonor.bloodGroup}</p>
+                                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                                    <p className="text-xs text-slate-500 font-bold mb-1 uppercase tracking-wide">Blood Group</p>
+                                    <p className="text-xl font-bold text-rose-600">{selectedDonor.bloodGroup}</p>
                                 </div>
-                                <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-100">
-                                    <p className="text-sm text-neutral-400 font-bold mb-1">Last Donation</p>
-                                    <p className="text-lg font-bold text-neutral-700">{selectedDonor.lastDonation || 'Never'}</p>
+                                <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                                    <p className="text-xs text-slate-500 font-bold mb-1 uppercase tracking-wide">Last Donation</p>
+                                    <p className="text-lg font-bold text-slate-900">{selectedDonor.lastDonation || 'Never'}</p>
                                 </div>
                             </div>
 
-                            <div className="space-y-3">
-                                <h3 className="font-bold text-neutral-900 border-b pb-2">Contact Information</h3>
-                                <div className="flex items-center gap-3 text-neutral-600">
-                                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                                        <Phone size={20} />
+                            <div className="space-y-4">
+                                <h3 className="font-bold text-slate-900 border-b border-slate-100 pb-2">Contact Information</h3>
+                                <div className="flex items-center gap-3 text-slate-700">
+                                    <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100">
+                                        <Phone size={18} />
                                     </div>
-                                    <span className="font-medium">{selectedDonor.mobile}</span>
+                                    <span className="font-semibold text-sm">{selectedDonor.mobile}</span>
                                 </div>
-                                <div className="flex items-center gap-3 text-neutral-600">
-                                    <div className="w-10 h-10 rounded-lg bg-violet-50 flex items-center justify-center text-violet-600">
-                                        <Mail size={20} />
+                                <div className="flex items-center gap-3 text-slate-700">
+                                    <div className="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100">
+                                        <Mail size={18} />
                                     </div>
-                                    <span className="font-medium">{selectedDonor.email}</span>
+                                    <span className="font-semibold text-sm">{selectedDonor.email}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="mt-8 flex gap-3">
-                            <button className="flex-1 py-3 rounded-xl bg-primary text-white font-bold hover:brightness-110 transition-all">
+                            <button className="flex-1 py-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors text-sm shadow-sm">
                                 Request Donation
                             </button>
-                            <button className="flex-1 py-3 rounded-xl border border-neutral-200 text-neutral-600 font-bold hover:bg-neutral-50 transition-all">
+                            <button className="flex-1 py-2.5 rounded-lg border border-slate-200 text-slate-700 font-semibold hover:bg-slate-50 transition-colors text-sm">
                                 Update History
                             </button>
                         </div>
@@ -104,82 +104,82 @@ const DonorManagement = () => {
                 </div>
             )}
 
-            <div className="flex flex-col gap-4 backdrop-blur-md bg-white/40 p-8 rounded-[2rem] border border-white/60 shadow-lg">
-                <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-600 flex items-center gap-3">
-                    <span className="text-4xl">🧍</span> Donor Management
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                    <User className="text-blue-600" size={32} /> Donor Management
                 </h1>
-                <p className="text-neutral-500 font-medium ml-12">Search and manage registered donors information.</p>
+                <p className="text-slate-500 font-medium ml-11">Search and manage registered donors information.</p>
             </div>
 
             <div className="flex flex-col md:flex-row gap-4">
                 <div className="relative flex-1">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-neutral-400" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                     <input
                         type="text"
                         placeholder="Search donors by name, blood group, or phone..."
-                        className="w-full pl-14 pr-6 py-4 rounded-2xl bg-white/80 border border-neutral-200 focus:ring-4 focus:ring-primary/10 outline-none transition-all font-bold text-neutral-700 shadow-sm"
+                        className="w-full pl-11 pr-4 py-3 rounded-lg bg-white border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm shadow-sm"
                         value={search}
                         onChange={e => setSearch(e.target.value.replace(/\b\w/g, c => c.toUpperCase()))}
                     />
                 </div>
-                <button className="px-6 py-4 bg-white/80 rounded-2xl border border-neutral-200 font-bold text-neutral-600 flex items-center gap-2 hover:bg-white transition-all shadow-sm">
-                    <Filter size={20} /> Filter
+                <button className="px-6 py-3 bg-white rounded-lg border border-slate-200 font-semibold text-slate-700 flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors shadow-sm text-sm">
+                    <Filter size={18} /> Filter
                 </button>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-xl border border-white/60 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead className="bg-neutral-50/80 text-neutral-400 text-xs font-bold uppercase tracking-wider">
+                        <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-200">
                             <tr>
-                                <th className="px-8 py-6">Donor Name</th>
-                                <th className="px-8 py-6">Blood Group</th>
-                                <th className="px-8 py-6">Last Donation</th>
-                                <th className="px-8 py-6">Status</th>
-                                <th className="px-8 py-6">Contact Info</th>
-                                <th className="px-8 py-6 text-right">Actions</th>
+                                <th className="px-6 py-4">Donor Name</th>
+                                <th className="px-6 py-4">Blood Group</th>
+                                <th className="px-6 py-4">Last Donation</th>
+                                <th className="px-6 py-4">Status</th>
+                                <th className="px-6 py-4">Contact Info</th>
+                                <th className="px-6 py-4 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-neutral-100/50">
+                        <tbody className="divide-y divide-slate-100">
                             {filteredDonors.map(donor => (
-                                <tr key={donor.id} className="hover:bg-blue-50/30 transition-colors group">
-                                    <td className="px-8 py-5">
+                                <tr key={donor.id} className="hover:bg-slate-50 transition-colors group">
+                                    <td className="px-6 py-4">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-500">
-                                                <User size={20} />
+                                            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100">
+                                                <User size={18} />
                                             </div>
-                                            <span className="font-bold text-neutral-800">{donor.name}</span>
+                                            <span className="font-bold text-slate-900">{donor.name}</span>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-5">
-                                        <span className="px-3 py-1 bg-red-50 text-error font-black rounded-lg text-sm border border-red-100">{donor.bloodGroup}</span>
+                                    <td className="px-6 py-4">
+                                        <span className="px-2.5 py-1 bg-rose-50 text-rose-700 font-bold rounded-md text-xs border border-rose-200">{donor.bloodGroup}</span>
                                     </td>
-                                    <td className="px-8 py-5 font-medium text-neutral-600">{donor.lastDonation || 'Never'}</td>
-                                    <td className="px-8 py-5">
+                                    <td className="px-6 py-4 font-medium text-slate-600 text-sm">{donor.lastDonation || 'Never'}</td>
+                                    <td className="px-6 py-4">
                                         {donor.eligible ? (
-                                            <span className="inline-flex items-center gap-1.5 text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-xs font-bold border border-emerald-100">
+                                            <span className="inline-flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md text-xs font-bold border border-emerald-200">
                                                 <CheckCircle size={12} className="fill-current" /> Eligible
                                             </span>
                                         ) : (
-                                            <span className="inline-flex items-center gap-1.5 text-neutral-400 bg-neutral-50 px-3 py-1 rounded-full text-xs font-bold border border-neutral-200">
+                                            <span className="inline-flex items-center gap-1.5 text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md text-xs font-bold border border-slate-200">
                                                 <XCircle size={12} className="fill-current" /> 30 Days Left
                                             </span>
                                         )}
                                     </td>
-                                    <td className="px-8 py-5">
+                                    <td className="px-6 py-4">
                                         <div className="flex gap-2">
-                                            <button className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors" title={donor.mobile}>
+                                            <button className="p-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors" title={donor.mobile}>
                                                 <Phone size={16} />
                                             </button>
-                                            <button className="p-2 rounded-lg bg-violet-50 text-violet-600 hover:bg-violet-100 transition-colors" title={donor.email}>
+                                            <button className="p-2 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors" title={donor.email}>
                                                 <Mail size={16} />
                                             </button>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-5 text-right">
+                                    <td className="px-6 py-4 text-right">
                                         <button
                                             onClick={() => setSelectedDonor(donor)}
-                                            className="text-sm font-bold text-neutral-400 hover:text-primary transition-colors underline decoration-dashed"
+                                            className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
                                         >
                                             View Details
                                         </button>
@@ -188,7 +188,7 @@ const DonorManagement = () => {
                             ))}
                             {filteredDonors.length === 0 && (
                                 <tr>
-                                    <td colSpan="6" className="text-center py-12 text-neutral-400 font-medium">No donors found.</td>
+                                    <td colSpan="6" className="text-center py-12 text-slate-500 font-medium">No donors found.</td>
                                 </tr>
                             )}
                         </tbody>

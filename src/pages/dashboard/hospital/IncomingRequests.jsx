@@ -109,117 +109,111 @@ const IncomingRequests = () => {
     };
 
     return (
-        <div className="max-w-5xl mx-auto space-y-8 animate-fade-in relative">
-            {/* ... Background and Header ... */}
-            <div className="fixed inset-0 pointer-events-none -z-10">
-                <div className="absolute top-40 right-40 w-[300px] h-[300px] bg-purple-100/50 rounded-full blur-[80px]" />
-                <div className="absolute bottom-40 left-20 w-[300px] h-[300px] bg-blue-100/50 rounded-full blur-[80px]" />
-            </div>
-
-            <div className="backdrop-blur-md bg-white/40 p-8 rounded-[2.5rem] border border-white/60 shadow-lg shadow-neutral-100/50 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div>
-                    <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-600 flex items-center gap-3">
-                        <Inbox className="text-primary" size={32} /> Incoming Requests
-                    </h2>
-                    <p className="text-neutral-500 font-medium mt-2 ml-11">Review and manage blood transfer requests.</p>
-                </div>
+        <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                    <Inbox className="text-blue-600" size={32} /> Incoming Requests
+                </h1>
+                <p className="text-slate-500 font-medium ml-11">Review and manage blood transfer requests.</p>
             </div>
 
             {/* TABS */}
-            <div className="flex gap-4 border-b border-neutral-200">
+            <div className="flex gap-6 border-b border-slate-200 px-2 mt-4">
                 <button
                     onClick={() => setActiveTab('incoming')}
-                    className={`px-6 py-3 font-bold transition-all ${activeTab === 'incoming'
-                        ? 'border-b-4 border-purple-600 text-purple-600'
-                        : 'text-neutral-400 hover:text-neutral-600'
+                    className={`pb-4 px-2 font-semibold transition-all flex items-center gap-2 ${activeTab === 'incoming'
+                        ? 'border-b-2 border-blue-600 text-blue-700'
+                        : 'text-slate-500 hover:text-slate-700'
                         }`}
                 >
-                    📥 Incoming Requests (To You)
+                    <Inbox size={18} /> Incoming Requests (To You)
                 </button>
                 <button
                     onClick={() => setActiveTab('outgoing')}
-                    className={`px-6 py-3 font-bold transition-all ${activeTab === 'outgoing'
-                        ? 'border-b-4 border-blue-600 text-blue-600'
-                        : 'text-neutral-400 hover:text-neutral-600'
+                    className={`pb-4 px-2 font-semibold transition-all flex items-center gap-2 ${activeTab === 'outgoing'
+                        ? 'border-b-2 border-blue-600 text-blue-700'
+                        : 'text-slate-500 hover:text-slate-700'
                         }`}
                 >
-                    📢 My Sent Requests
+                    <AlertCircle size={18} /> My Sent Requests
                 </button>
             </div>
 
             {isLoading ? (
-                <div className="p-12 text-center text-neutral-400 font-medium animate-pulse">Loading active requests...</div>
+                <div className="p-12 text-center text-slate-400 font-semibold animate-pulse">Loading active requests...</div>
             ) : (
-                <div className="space-y-12">
+                <div className="space-y-6 mt-6">
                     {/* TAB: MY SENT REQUESTS (Outgoing) */}
                     {activeTab === 'outgoing' && (
                         <div>
                             {getMyBroadcasts().length === 0 ? (
-                                <div className="text-center py-20 bg-white/60 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-sm flex flex-col items-center">
-                                    <div className="w-20 h-20 bg-neutral-50 rounded-full flex items-center justify-center mb-6 shadow-inner">
-                                        <Inbox size={40} className="text-neutral-300" />
+                                <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm flex flex-col items-center">
+                                    <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100">
+                                        <Inbox size={32} className="text-slate-400" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-neutral-800">No Sent Requests</h3>
-                                    <p className="text-neutral-400 mt-2 font-medium max-w-xs mx-auto">You haven't sent any blood requests recently.</p>
+                                    <h3 className="text-xl font-bold text-slate-800">No Sent Requests</h3>
+                                    <p className="text-slate-500 mt-2 font-medium max-w-xs mx-auto">You haven't sent any blood requests recently.</p>
                                 </div>
                             ) : (
                                 <div className="grid gap-6">
                                     {getMyBroadcasts().map(req => (
-                                        <div key={req.id} className="bg-gradient-to-r from-blue-50/50 to-white backdrop-blur-xl p-8 rounded-[2rem] border border-blue-100 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 group">
-                                            <div className="flex items-center gap-6">
-                                                <div className="w-16 h-16 bg-blue-100/50 text-blue-600 rounded-2xl flex items-center justify-center font-black text-xl">
+                                        <div key={req.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow">
+                                            <div className="flex items-center gap-6 w-full md:w-auto">
+                                                <div className="w-16 h-16 bg-blue-50 text-blue-700 border border-blue-100 rounded-xl flex items-center justify-center font-bold text-xl">
                                                     {req.bloodGroup}
                                                 </div>
                                                 <div>
-                                                    <h4 className="font-bold text-lg text-neutral-900 flex items-center gap-2">
+                                                    <h4 className="font-bold text-slate-900 flex items-center gap-2">
                                                         To: {req.cities ? req.cities.join(', ') : req.city}
-                                                        <span className="text-xs font-bold px-2 py-1 bg-neutral-100 text-neutral-500 rounded-md uppercase">{req.urgency}</span>
+                                                        <span className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded uppercase tracking-wider">{req.urgency}</span>
                                                     </h4>
 
                                                     {/* Donor Acceptance Status */}
                                                     {req.acceptedBy ? (
-                                                        <div className="mt-2 flex items-center gap-2 text-emerald-700 font-bold bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100 w-fit animate-pulse">
-                                                            <CheckCircle size={16} /> Accepted by {req.donorName || 'Responder'}
+                                                        <div className="mt-2 text-xs flex items-center gap-1.5 text-emerald-700 font-bold bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 w-fit">
+                                                            <CheckCircle size={14} /> Accepted by {req.donorName || 'Responder'}
                                                         </div>
                                                     ) : (
-                                                        <div className="mt-2 flex items-center gap-2 text-neutral-400 font-medium text-sm">
-                                                            <Clock size={16} /> Waiting for response...
+                                                        <div className="mt-2 text-xs flex items-center gap-1.5 text-slate-500 font-semibold">
+                                                            <Clock size={14} /> Waiting for response...
                                                         </div>
                                                     )}
 
-                                                    <div className="text-sm text-neutral-400 mt-1 font-mono">
-                                                        {req.units} Units • {safeDate(req.date).toLocaleTimeString()}
+                                                    <div className="text-xs text-slate-500 mt-2 font-semibold flex items-center gap-2">
+                                                        <span>{req.units} Units</span>
+                                                        <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                                        <span>{safeDate(req.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             {/* Actions */}
-                                            <div className="flex items-center gap-3">
+                                            <div className="flex items-center gap-3 w-full md:w-auto mt-4 md:mt-0">
                                                 {(req.status === 'Accepted' || req.status === 'Dispatched') && req.acceptedBy ? (
                                                     <button
                                                         onClick={() => triggerConfirm(req.id, 'Completed')}
-                                                        className={`px-6 py-3 text-white font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 ${req.status === 'Dispatched'
-                                                            ? 'bg-indigo-600 shadow-indigo-500/30 hover:bg-indigo-700 hover:scale-105'
-                                                            : 'bg-emerald-600 shadow-emerald-500/30 hover:bg-emerald-700 hover:scale-105'
+                                                        className={`flex-1 md:flex-none px-6 py-2.5 text-white font-semibold rounded-lg shadow-sm transition-all flex items-center justify-center gap-2 ${req.status === 'Dispatched'
+                                                            ? 'bg-indigo-600 hover:bg-indigo-700'
+                                                            : 'bg-emerald-600 hover:bg-emerald-700'
                                                             }`}
                                                     >
-                                                        <CheckCircle size={18} />
+                                                        <CheckCircle size={16} />
                                                         {req.status === 'Dispatched' ? 'Confirm Receipt' : 'Confirm Donation'}
                                                     </button>
                                                 ) : req.status === 'Completed' ? (
-                                                    <span className="px-4 py-2 bg-neutral-100 text-neutral-400 font-bold rounded-lg cursor-not-allowed">Completed</span>
+                                                    <span className="px-4 py-2 bg-slate-50 text-slate-400 font-bold rounded-lg border border-slate-200 cursor-not-allowed text-sm">Completed</span>
                                                 ) : (
-                                                    <span className="px-4 py-2 border border-blue-200 text-blue-400 font-bold rounded-xl bg-blue-50/50">
+                                                    <span className="px-3 py-1.5 border border-blue-200 text-blue-700 font-bold rounded-lg bg-blue-50 text-xs uppercase tracking-wider">
                                                         Active
                                                     </span>
                                                 )}
 
                                                 <button
                                                     onClick={() => handleDelete(req.id)}
-                                                    className="p-3 text-neutral-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                                                    className="p-2.5 text-slate-400 border border-slate-200 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 rounded-lg transition-colors bg-white shadow-sm"
                                                     title="Delete Broadcast"
                                                 >
-                                                    <Trash2 size={20} />
+                                                    <Trash2 size={16} />
                                                 </button>
                                             </div>
                                         </div>
@@ -233,126 +227,124 @@ const IncomingRequests = () => {
                     {activeTab === 'incoming' && (
                         <div>
                             {getIncomingRequests().length === 0 ? (
-                                <div className="text-center py-20 bg-white/60 backdrop-blur-xl rounded-[2.5rem] border border-white/60 shadow-sm flex flex-col items-center">
-                                    <div className="w-20 h-20 bg-neutral-50 rounded-full flex items-center justify-center mb-6 shadow-inner">
-                                        <Inbox size={40} className="text-neutral-300" />
+                                <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm flex flex-col items-center">
+                                    <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-slate-100">
+                                        <Inbox size={32} className="text-slate-400" />
                                     </div>
-                                    <h3 className="text-xl font-bold text-neutral-800">No Incoming Requests</h3>
-                                    <p className="text-neutral-400 mt-2 font-medium max-w-xs mx-auto">You're all caught up! No requests requiring your attention.</p>
+                                    <h3 className="text-xl font-bold text-slate-800">No Incoming Requests</h3>
+                                    <p className="text-slate-500 mt-2 font-medium max-w-xs mx-auto">You're all caught up! No requests requiring your attention.</p>
                                 </div>
                             ) : (
                                 <div className="space-y-6">
                                     {getIncomingRequests().map(req => (
-                                        <div key={req.id} className="bg-white/80 backdrop-blur-xl p-8 rounded-[2rem] border border-white/60 shadow-lg shadow-neutral-100/50 flex flex-col gap-6 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 group">
-                                            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-                                                <div className="flex items-center gap-6 w-full md:w-auto">
-                                                    <div className={`w-20 h-20 rounded-3xl flex items-center justify-center font-black text-2xl shadow-lg transform group-hover:rotate-6 transition-transform duration-300 ${req.type === 'EMERGENCY_ALERT' ? 'bg-gradient-to-br from-red-50 to-red-100 text-error shadow-red-200' : 'bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 shadow-blue-200'
-                                                        }`}>
-                                                        {req.bloodGroup}
-                                                    </div>
-                                                    <div>
-                                                        <div className="flex items-center gap-3 mb-2">
-                                                            <h4 className="font-black text-xl text-neutral-900">{req.hospitalName}</h4>
-                                                            {req.type === 'EMERGENCY_ALERT' && (
-                                                                <span className="flex items-center gap-1 text-[10px] font-black text-white bg-error px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm animate-pulse">
-                                                                    <AlertCircle size={10} /> Emergency
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                        <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500 font-bold">
-                                                            <span className="flex items-center gap-1.5 bg-neutral-100 px-3 py-1 rounded-lg">
-                                                                <Baby size={16} className="text-primary fill-primary/20" /> <span className="text-neutral-700">{req.units} Units</span>
-                                                            </span>
-                                                            <span className="flex items-center gap-1.5 bg-neutral-100 px-3 py-1 rounded-lg">
-                                                                <Clock size={16} className="text-neutral-400" /> {req.time || safeDate(req.date).toLocaleDateString()}
-                                                            </span>
-                                                        </div>
-                                                        <div className="text-xs font-semibold text-neutral-400 mt-3 flex items-center gap-1.5 ml-1">
-                                                            <MapPin size={12} /> {req.location || 'Location Pending'}
-                                                        </div>
-                                                    </div>
+                                        <div key={req.id} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-6 hover:shadow-md transition-shadow items-start md:items-center justify-between">
+                                            <div className="flex items-center gap-6 w-full md:w-auto">
+                                                <div className={`w-16 h-16 rounded-xl flex items-center justify-center font-bold text-xl border ${req.type === 'EMERGENCY_ALERT' ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-blue-50 border-blue-200 text-blue-700'
+                                                    }`}>
+                                                    {req.bloodGroup}
                                                 </div>
-
-                                                <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-                                                    {/* ACTIVE / PENDING STATE */}
-                                                    {(req.status === 'Active' || req.status === 'Pending') && answeringId !== req.id && (
-                                                        <>
-                                                            <button
-                                                                onClick={() => setAnsweringId(req.id)}
-                                                                className="w-full sm:w-auto px-6 py-3 bg-white text-neutral-600 font-bold rounded-2xl border border-neutral-200 hover:bg-neutral-50 transition-all shadow-sm"
-                                                            >
-                                                                Respond
-                                                            </button>
-                                                        </>
-                                                    )}
-
-                                                    {/* ANSWERING STATE */}
-                                                    {answeringId === req.id && (
-                                                        <div className="flex flex-col gap-3 w-full animate-fade-in">
-                                                            <textarea
-                                                                autoFocus
-                                                                placeholder="Add a message..."
-                                                                className="w-full p-3 rounded-xl border border-neutral-200 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
-                                                                value={replyMessage}
-                                                                onChange={e => setReplyMessage(e.target.value)}
-                                                            />
-                                                            <div className="flex gap-2 justify-end">
-                                                                <button
-                                                                    onClick={() => setAnsweringId(null)}
-                                                                    className="px-4 py-2 text-neutral-400 hover:text-neutral-600 font-bold text-sm"
-                                                                >
-                                                                    Cancel
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => triggerConfirm(req.id, 'Rejected', replyMessage)}
-                                                                    className="px-4 py-2 bg-red-100 text-red-600 font-bold rounded-xl hover:bg-red-200 text-sm"
-                                                                >
-                                                                    Reject
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => triggerConfirm(req.id, 'Accepted', replyMessage)}
-                                                                    className="px-4 py-2 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-lg shadow-primary/20 text-sm"
-                                                                >
-                                                                    Accept & Send
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    )}
-
-                                                    {/* ACCEPTED STATE -> DISPATCH ACTION */}
-                                                    {req.status === 'Accepted' && (
-                                                        <div className="flex flex-col items-end gap-3 w-full">
-                                                            <div className="px-5 py-2 bg-emerald-50 text-emerald-700 border border-emerald-100 text-sm font-black uppercase tracking-wide rounded-xl flex items-center gap-2">
-                                                                <CheckCircle size={16} /> Accepted
-                                                            </div>
-                                                            <button
-                                                                onClick={() => navigate('/dashboard/hospital/dispatch')}
-                                                                className="w-full px-8 py-3 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
-                                                            >
-                                                                <Truck size={20} /> Dispatch Now
-                                                            </button>
-                                                        </div>
-                                                    )}
-
-                                                    {/* DISPATCHED STATE -> WAITING */}
-                                                    {req.status === 'Dispatched' && (
-                                                        <div className="flex flex-col items-end gap-3 w-full">
-                                                            <div className="px-5 py-2 bg-indigo-50 text-indigo-700 border border-indigo-100 text-sm font-black uppercase tracking-wide rounded-xl flex items-center gap-2">
-                                                                <Truck size={16} /> Dispatched
-                                                            </div>
-                                                            <span className="text-xs font-bold text-neutral-400">Waiting for Receiver Confirmation</span>
-                                                        </div>
-                                                    )}
-
-                                                    {/* COMPLETED/REJECTED STATE */}
-                                                    {(req.status === 'Completed' || req.status === 'Rejected') && (
-                                                        <span className={`px-5 py-2.5 rounded-2xl text-sm font-black flex items-center gap-2 uppercase tracking-wide shadow-sm ${req.status === 'Completed' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-red-50 text-error border border-red-100'
-                                                            }`}>
-                                                            {req.status === 'Completed' ? <CheckCircle size={18} /> : <XCircle size={18} />}
-                                                            {req.status}
+                                                <div>
+                                                    <div className="flex items-center gap-3 mb-1.5">
+                                                        <h4 className="font-bold text-slate-900">{req.hospitalName}</h4>
+                                                        {req.type === 'EMERGENCY_ALERT' && (
+                                                            <span className="flex items-center gap-1 text-[10px] font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                                                                <AlertCircle size={10} /> Emergency
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 font-semibold mb-2">
+                                                        <span className="flex items-center gap-1.5 bg-slate-50 border border-slate-100 px-2 py-1 rounded-md">
+                                                            <Baby size={14} className="text-slate-400" /> <span className="text-slate-700">{req.units} Units</span>
                                                         </span>
-                                                    )}
+                                                        <span className="flex items-center gap-1.5 bg-slate-50 border border-slate-100 px-2 py-1 rounded-md">
+                                                            <Clock size={14} className="text-slate-400" /> {req.time || safeDate(req.date).toLocaleDateString()}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
+                                                        <MapPin size={12} className="text-slate-400" /> {req.location || 'Location Pending'}
+                                                    </div>
                                                 </div>
+                                            </div>
+
+                                            <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                                                {/* ACTIVE / PENDING STATE */}
+                                                {(req.status === 'Active' || req.status === 'Pending') && answeringId !== req.id && (
+                                                    <>
+                                                        <button
+                                                            onClick={() => setAnsweringId(req.id)}
+                                                            className="w-full sm:w-auto px-6 py-2.5 bg-white text-slate-700 font-semibold rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm"
+                                                        >
+                                                            Respond
+                                                        </button>
+                                                    </>
+                                                )}
+
+                                                {/* ANSWERING STATE */}
+                                                {answeringId === req.id && (
+                                                    <div className="flex flex-col gap-3 w-full sm:w-64 animate-fade-in bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                                        <textarea
+                                                            autoFocus
+                                                            placeholder="Add a message..."
+                                                            className="w-full p-2.5 rounded-lg border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none resize-none h-20"
+                                                            value={replyMessage}
+                                                            onChange={e => setReplyMessage(e.target.value)}
+                                                        />
+                                                        <div className="flex gap-2 justify-end">
+                                                            <button
+                                                                onClick={() => setAnsweringId(null)}
+                                                                className="px-3 py-1.5 text-slate-500 hover:bg-slate-200 font-semibold text-xs rounded-md transition-colors"
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                            <button
+                                                                onClick={() => triggerConfirm(req.id, 'Rejected', replyMessage)}
+                                                                className="px-3 py-1.5 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 font-semibold rounded-md text-xs shadow-sm transition-colors"
+                                                            >
+                                                                Reject
+                                                            </button>
+                                                            <button
+                                                                onClick={() => triggerConfirm(req.id, 'Accepted', replyMessage)}
+                                                                className="px-3 py-1.5 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 shadow-sm text-xs transition-colors"
+                                                            >
+                                                                Accept
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {/* ACCEPTED STATE -> DISPATCH ACTION */}
+                                                {req.status === 'Accepted' && (
+                                                    <div className="flex flex-col items-end gap-2 w-full">
+                                                        <div className="px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold uppercase tracking-wider rounded flex items-center gap-1.5">
+                                                            <CheckCircle size={12} /> Accepted
+                                                        </div>
+                                                        <button
+                                                            onClick={() => navigate('/dashboard/hospital/dispatch')}
+                                                            className="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 shadow-sm transition-all flex items-center justify-center gap-2 text-sm"
+                                                        >
+                                                            <Truck size={16} /> Dispatch Now
+                                                        </button>
+                                                    </div>
+                                                )}
+
+                                                {/* DISPATCHED STATE -> WAITING */}
+                                                {req.status === 'Dispatched' && (
+                                                    <div className="flex flex-col items-end gap-2 w-full">
+                                                        <div className="px-3 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 text-[10px] font-bold uppercase tracking-wider rounded flex items-center gap-1.5">
+                                                            <Truck size={12} /> Dispatched
+                                                        </div>
+                                                        <span className="text-[10px] font-semibold text-slate-500">Waiting for receiver confirmation</span>
+                                                    </div>
+                                                )}
+
+                                                {/* COMPLETED/REJECTED STATE */}
+                                                {(req.status === 'Completed' || req.status === 'Rejected') && (
+                                                    <span className={`px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 uppercase tracking-wider border shadow-sm ${req.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-rose-50 text-rose-700 border-rose-200'
+                                                        }`}>
+                                                        {req.status === 'Completed' ? <CheckCircle size={14} /> : <XCircle size={14} />}
+                                                        {req.status}
+                                                    </span>
+                                                )}
                                             </div>
                                         </div>
                                     ))}
@@ -364,10 +356,10 @@ const IncomingRequests = () => {
             )}
             {/* Confirmation Dialog */}
             {confirmAction && (
-                <div className="fixed inset-0 bg-neutral-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-                    <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl animate-scale-in">
-                        <h3 className="text-xl font-black text-neutral-900 mb-2">Are you sure?</h3>
-                        <p className="text-neutral-500 font-medium mb-6">
+                <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+                    <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl border border-slate-200 animate-scale-in">
+                        <h3 className="text-xl font-bold text-slate-800 mb-2">Are you sure?</h3>
+                        <p className="text-slate-500 font-medium text-sm mb-6">
                             {confirmAction.status === 'Completed' ? 'Confirming delivery will update stock levels permanently.' :
                                 confirmAction.status === 'Accepted' ? 'This will notify the requesting hospital that you are sending help.' :
                                     confirmAction.status === 'Delete' ? 'Are you sure you want to delete this broadcast? This cannot be undone.' :
@@ -376,14 +368,14 @@ const IncomingRequests = () => {
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setConfirmAction(null)}
-                                className="flex-1 py-3 text-neutral-600 font-bold hover:bg-neutral-50 rounded-xl transition-colors"
+                                className="flex-1 py-2.5 text-slate-600 bg-white border border-slate-200 font-semibold hover:bg-slate-50 rounded-lg transition-colors text-sm"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleAction}
-                                className={`flex-1 py-3 text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95
-                                    ${confirmAction.status === 'Rejected' || confirmAction.status === 'Delete' ? 'bg-error shadow-red-200' : 'bg-primary shadow-primary/20'}`}
+                                className={`flex-1 py-2.5 text-white font-semibold rounded-lg shadow-sm text-sm transition-colors
+                                    ${confirmAction.status === 'Rejected' || confirmAction.status === 'Delete' ? 'bg-rose-600 hover:bg-rose-700' : 'bg-blue-600 hover:bg-blue-700'}`}
                             >
                                 {confirmAction.status === 'Delete' ? 'Delete' : 'Confirm'}
                             </button>
@@ -395,14 +387,14 @@ const IncomingRequests = () => {
             {/* Feedback Toast */}
             {feedback && (
                 <div className="fixed bottom-6 right-6 z-50 animate-slide-in-right">
-                    <div className={`px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 border ${feedback.type === 'success' ? 'bg-white border-emerald-100 text-emerald-800' :
-                        feedback.type === 'error' ? 'bg-white border-red-100 text-red-800' :
-                            'bg-white border-blue-100 text-blue-800'
+                    <div className={`px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 border bg-white ${feedback.type === 'success' ? 'border-emerald-200 text-emerald-800' :
+                        feedback.type === 'error' ? 'border-rose-200 text-rose-800' :
+                            'border-blue-200 text-blue-800'
                         }`}>
-                        {feedback.type === 'success' ? <CheckCircle className="text-emerald-500" size={24} /> :
-                            feedback.type === 'error' ? <XCircle className="text-red-500" size={24} /> :
-                                <Inbox className="text-blue-500" size={24} />}
-                        <span className="font-bold">{feedback.message}</span>
+                        {feedback.type === 'success' ? <CheckCircle className="text-emerald-500" size={20} /> :
+                            feedback.type === 'error' ? <XCircle className="text-rose-500" size={20} /> :
+                                <Inbox className="text-blue-500" size={20} />}
+                        <span className="font-semibold text-sm">{feedback.message}</span>
                     </div>
                 </div>
             )}

@@ -79,28 +79,28 @@ const BloodStockEntry = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-fade-in relative">
+        <div className="max-w-4xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
             {/* Feedback Toast */}
             {feedback && (
-                <div className={`fixed top-24 right-6 z-50 px-6 py-4 rounded-xl shadow-2xl border flex items-center gap-3 animate-slide-in-right ${feedback.type === 'success' ? 'bg-emerald-50 text-emerald-800 border-emerald-100' : 'bg-red-50 text-red-800 border-red-100'}`}>
-                    {feedback.type === 'success' ? <CheckCircle size={20} /> : <AlertTriangle size={20} />}
-                    <span className="font-bold">{feedback.message}</span>
-                    <button onClick={() => setFeedback(null)} className="ml-2 hover:bg-black/5 p-1 rounded-full"><AlertTriangle className="opacity-0" size={16} /></button>
+                <div className={`fixed top-24 right-6 z-50 px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 border bg-white animate-slide-in-right ${feedback.type === 'success' ? 'border-emerald-200 text-emerald-800' : 'border-rose-200 text-rose-800'}`}>
+                    {feedback.type === 'success' ? <CheckCircle size={20} className="text-emerald-500" /> : <AlertTriangle size={20} className="text-rose-500" />}
+                    <span className="font-semibold text-sm">{feedback.message}</span>
+                    <button onClick={() => setFeedback(null)} className="ml-2 hover:bg-slate-100 p-1 rounded-full"><AlertTriangle className="opacity-0" size={16} /></button>
                 </div>
             )}
 
-            <div className="flex flex-col gap-4 backdrop-blur-md bg-white/40 p-8 rounded-[2rem] border border-white/60 shadow-lg">
-                <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-600 flex items-center gap-3">
-                    <span className="text-4xl">➕</span> Blood Stock Entry
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                    <Database className="text-blue-600" size={32} /> Blood Stock Entry
                 </h1>
-                <p className="text-neutral-500 font-medium ml-12">Log new blood units into the inventory system.</p>
+                <p className="text-slate-500 font-medium ml-11">Log new blood units into the inventory system.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="bg-white/80 backdrop-blur-xl p-8 rounded-[2rem] shadow-xl border border-white/60 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 {/* Blood Group */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 ml-1">Blood Group</label>
+                    <label className="text-sm font-bold text-slate-700 ml-1">Blood Group</label>
                     <CustomSelect
                         options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']}
                         value={form.bloodGroup}
@@ -113,7 +113,7 @@ const BloodStockEntry = () => {
 
                 {/* Component Type */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 ml-1">Component Type</label>
+                    <label className="text-sm font-bold text-slate-700 ml-1">Component Type</label>
                     <CustomSelect
                         options={['Whole Blood', 'Platelets', 'Plasma', 'RBC']}
                         value={form.componentType}
@@ -126,12 +126,12 @@ const BloodStockEntry = () => {
 
                 {/* Units */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 ml-1">Units (Bags)</label>
+                    <label className="text-sm font-bold text-slate-700 ml-1">Units (Bags)</label>
                     <div className="relative">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="number" min="1" max="100"
-                            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-neutral-50/50 border border-neutral-200 focus:bg-white focus:border-primary outline-none transition-all font-bold text-neutral-800"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             placeholder="e.g. 5"
                             value={form.units}
                             onChange={e => handleInput('units', e.target.value)}
@@ -142,12 +142,12 @@ const BloodStockEntry = () => {
 
                 {/* Collected Date */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 ml-1">Collected Date</label>
+                    <label className="text-sm font-bold text-slate-700 ml-1">Collected Date</label>
                     <div className="relative">
-                        <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="date"
-                            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-neutral-50/50 border border-neutral-200 focus:bg-white focus:border-primary outline-none transition-all font-bold text-neutral-800"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             value={form.collectedDate}
                             onChange={e => handleInput('collectedDate', e.target.value)}
                             required
@@ -157,12 +157,12 @@ const BloodStockEntry = () => {
 
                 {/* Expiry Date */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 ml-1">Expiry Date</label>
+                    <label className="text-sm font-bold text-slate-700 ml-1">Expiry Date</label>
                     <div className="relative">
-                        <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="date"
-                            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-neutral-50/50 border border-neutral-200 focus:bg-white focus:border-primary outline-none transition-all font-bold text-neutral-800"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             value={form.expiryDate}
                             readOnly
                         />
@@ -171,12 +171,12 @@ const BloodStockEntry = () => {
 
                 {/* Storage Location */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 ml-1">Storage Location</label>
+                    <label className="text-sm font-bold text-slate-700 ml-1">Storage Location</label>
                     <div className="relative">
-                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
+                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="text"
-                            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-neutral-50/50 border border-neutral-200 focus:bg-white focus:border-primary outline-none transition-all font-bold text-neutral-800"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             placeholder="e.g. Fridge A-12"
                             value={form.location}
                             onChange={e => handleInput('location', e.target.value)}
@@ -187,7 +187,7 @@ const BloodStockEntry = () => {
 
                 {/* Source Type */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 ml-1">Source Type</label>
+                    <label className="text-sm font-bold text-slate-700 ml-1">Source Type</label>
                     <CustomSelect
                         options={['Donor', 'Blood Bank', 'Hospital Transfer']}
                         value={form.sourceType}
@@ -200,12 +200,12 @@ const BloodStockEntry = () => {
 
                 {/* Source Name */}
                 <div className="space-y-2">
-                    <label className="text-sm font-bold text-neutral-700 ml-1">Source Name / ID</label>
+                    <label className="text-sm font-bold text-slate-700 ml-1">Source Name / ID</label>
                     <div className="relative">
-                        <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
+                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                         <input
                             type="text"
-                            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-neutral-50/50 border border-neutral-200 focus:bg-white focus:border-primary outline-none transition-all font-bold text-neutral-800"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-semibold text-slate-800 text-sm"
                             placeholder="e.g. John Doe / City Blood Bank"
                             value={form.sourceName}
                             onChange={e => handleInput('sourceName', e.target.value)}
@@ -214,11 +214,11 @@ const BloodStockEntry = () => {
                     </div>
                 </div>
 
-                <div className="col-span-1 md:col-span-2 mt-4">
+                <div className="col-span-1 md:col-span-2 mt-6">
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full py-4 bg-gradient-to-r from-primary to-rose-600 text-white font-black text-lg rounded-2xl shadow-xl shadow-primary/30 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full py-3 bg-blue-600 text-white font-semibold text-base rounded-lg shadow-sm hover:bg-blue-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                         {isLoading ? 'Processing...' : 'ADD ENTRY'}
                     </button>

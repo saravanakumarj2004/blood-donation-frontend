@@ -53,62 +53,70 @@ const BloodDispatch = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto space-y-8 animate-fade-in relative">
+        <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
             {feedback && (
-                <div className={`fixed top-24 right-6 z-50 px-6 py-4 rounded-xl shadow-2xl border flex items-center gap-3 ${feedback.type === 'success' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'}`}>
-                    <span className="font-bold">{feedback.message}</span>
+                <div className={`fixed top-24 right-6 z-50 px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 border bg-white ${feedback.type === 'success' ? 'border-emerald-200 text-emerald-800' : 'border-rose-200 text-rose-800'}`}>
+                    {feedback.type === 'success' ? <CheckCircle className="text-emerald-500" size={20} /> : <AlertTriangle className="text-rose-500" size={20} />}
+                    <span className="font-semibold text-sm">{feedback.message}</span>
                 </div>
             )}
 
-            <div className="flex flex-col gap-4 backdrop-blur-md bg-white/40 p-8 rounded-[2rem] border border-white/60 shadow-lg">
-                <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center gap-3">
-                    <span className="text-4xl">🚚</span> Blood Transfer / Dispatch
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                    <Truck className="text-blue-600" size={32} /> Blood Dispatch
                 </h1>
-                <p className="text-neutral-500 font-medium ml-12">Manage logistics and shipment of blood units.</p>
+                <p className="text-slate-500 font-medium ml-11">Manage logistics and shipment of blood units.</p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-6">
                 {/* List of Pending Dispatches */}
                 <div className="space-y-4">
-                    <h3 className="text-xl font-bold text-neutral-800">Pending Dispatches</h3>
+                    <h3 className="text-xl font-bold text-slate-900">Pending Dispatches</h3>
                     {pendingDispatches.map(req => (
                         <div
                             key={req.id}
                             onClick={() => setSelectedReq(req)}
-                            className={`p-6 rounded-2xl border cursor-pointer transition-all ${selectedReq?.id === req.id ? 'bg-blue-50 border-blue-200 ring-2 ring-blue-100' : 'bg-white border-neutral-100 hover:border-blue-200'}`}
+                            className={`p-5 rounded-xl border cursor-pointer transition-all shadow-sm ${selectedReq?.id === req.id ? 'bg-blue-50 border-blue-300 ring-1 ring-blue-500' : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-md'}`}
                         >
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <h4 className="font-bold text-lg text-neutral-900">{req.hospital}</h4>
-                                    <span className="text-sm font-bold text-neutral-400">Req ID: #{req.id}</span>
+                                    <h4 className="font-bold text-slate-900">{req.hospital}</h4>
+                                    <span className="text-xs font-semibold text-slate-500">Req ID: #{req.id || req._id}</span>
                                 </div>
-                                <div className="text-right">
-                                    <span className="bg-red-50 text-red-600 px-3 py-1 rounded-lg text-sm font-black border border-red-100">{req.bloodGroup}</span>
-                                    <div className="mt-1 text-sm font-bold text-neutral-600">{req.units} Units</div>
+                                <div className="text-right flex flex-col items-end">
+                                    <span className="px-2.5 py-1 bg-rose-50 text-rose-700 rounded-md text-sm font-bold border border-rose-200">{req.bloodGroup}</span>
+                                    <div className="mt-2 text-xs font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">{req.units} Units</div>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    {pendingDispatches.length === 0 && <div className="p-8 text-center text-neutral-400 bg-white/50 rounded-2xl border border-dashed border-neutral-200">No pending dispatches</div>}
+                    {pendingDispatches.length === 0 && (
+                        <div className="p-8 text-center bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm">
+                            <Truck className="mx-auto text-slate-300 mb-3" size={32} />
+                            <p className="text-slate-500 font-semibold text-sm">No pending dispatches</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Dispatch Form */}
                 <div>
-                    <div className={`bg-white/80 backdrop-blur-xl p-8 rounded-[2rem] shadow-xl border border-white/60 ${!selectedReq ? 'opacity-50 pointer-events-none' : ''}`}>
-                        <h3 className="text-xl font-bold text-neutral-900 mb-6">Dispatch Details</h3>
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className={`bg-white p-6 rounded-2xl shadow-sm border border-slate-200 transition-opacity ${!selectedReq ? 'opacity-50 pointer-events-none' : ''}`}>
+                        <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                            <Package className="text-blue-600" size={24} /> Dispatch Details
+                        </h3>
+                        <form onSubmit={handleSubmit} className="space-y-5">
                             <div>
-                                <label className="block text-sm font-bold text-neutral-700 mb-2">Dispatch Date & Time</label>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">Dispatch Date & Time</label>
                                 <div className="relative">
-                                    <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
-                                    <input type="datetime-local" className="w-full pl-12 pr-4 py-3 rounded-xl bg-neutral-50/50 border border-neutral-200 font-bold outline-none"
+                                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                    <input type="datetime-local" className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
                                         value={form.dispatchDate} onChange={e => setForm({ ...form, dispatchDate: e.target.value })} required
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-neutral-700 mb-2">Mode of Transport</label>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">Mode of Transport</label>
                                 <CustomSelect
                                     options={['Hospital Ambulance', 'Courier Service', 'Air Lift', 'Cold Chain Transport']}
                                     value={form.transportMode}
@@ -118,10 +126,10 @@ const BloodDispatch = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-neutral-700 mb-2">Dispatched By</label>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">Dispatched By</label>
                                 <div className="relative">
-                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
-                                    <input type="text" className="w-full pl-12 pr-4 py-3 rounded-xl bg-neutral-50/50 border border-neutral-200 font-bold outline-none"
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                    <input type="text" className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
                                         placeholder="Staff Name / ID"
                                         value={form.dispatchedBy} onChange={e => setForm({ ...form, dispatchedBy: e.target.value })} required
                                     />
@@ -129,18 +137,18 @@ const BloodDispatch = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-neutral-700 mb-2">Tracking / Vehicle Number</label>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">Tracking / Vehicle Number</label>
                                 <div className="relative">
-                                    <Package className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
-                                    <input type="text" className="w-full pl-12 pr-4 py-3 rounded-xl bg-neutral-50/50 border border-neutral-200 font-bold outline-none"
+                                    <Package className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                    <input type="text" className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
                                         placeholder="e.g. TN-01-AB-1234"
                                         value={form.trackingId} onChange={e => setForm({ ...form, trackingId: e.target.value })} required
                                     />
                                 </div>
                             </div>
 
-                            <button type="submit" className="w-full py-4 mt-4 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
-                                <CheckCircle size={20} /> Confirm Dispatch
+                            <button type="submit" className="w-full py-3 mt-6 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-sm">
+                                <CheckCircle size={18} /> Confirm Dispatch
                             </button>
                         </form>
                     </div>

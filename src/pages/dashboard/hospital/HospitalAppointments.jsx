@@ -70,83 +70,81 @@ const HospitalAppointments = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto space-y-8 animate-fade-in">
-            <div>
-                <h2 className="text-3xl font-black text-neutral-900 flex items-center gap-3">
-                    <div className="p-3 bg-primary/10 rounded-2xl text-primary">
-                        <Calendar size={32} />
-                    </div>
+        <div className="max-w-7xl mx-auto space-y-6 animate-fade-in pb-20 bg-slate-50 min-h-screen p-6">
+            <div className="flex flex-col gap-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                    <Calendar className="text-blue-600" size={32} />
                     Manage Appointments
                 </h2>
-                <p className="text-neutral-500 mt-2 text-lg font-medium ml-1">View and process upcoming donor appointments.</p>
+                <p className="text-slate-500 font-medium ml-11">View and process upcoming donor appointments.</p>
             </div>
 
-            <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-xl shadow-neutral-100/50 border border-white/60 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 {isLoading ? (
-                    <div className="p-20 text-center text-neutral-500 animate-pulse font-medium">Loading appointments...</div>
+                    <div className="p-20 text-center text-slate-500 animate-pulse font-medium">Loading appointments...</div>
                 ) : error ? (
-                    <div className="p-20 text-center flex flex-col items-center justify-center text-red-500">
+                    <div className="p-20 text-center flex flex-col items-center justify-center text-rose-500">
                         <XCircle size={40} className="mb-4" />
                         <h3 className="text-xl font-bold">{error}</h3>
-                        <button onClick={fetchAppointments} className="mt-4 px-4 py-2 bg-red-100 text-red-600 rounded-lg font-bold hover:bg-red-200">Retry</button>
+                        <button onClick={fetchAppointments} className="mt-4 px-4 py-2 bg-rose-50 text-rose-600 rounded-lg font-semibold hover:bg-rose-100 transition-colors">Retry</button>
                     </div>
                 ) : appointments.length === 0 ? (
                     <div className="p-20 text-center flex flex-col items-center justify-center">
-                        <div className="w-24 h-24 bg-neutral-50 rounded-full flex items-center justify-center mb-6 border-2 border-dashed border-neutral-200">
-                            <Calendar size={40} className="text-neutral-300" />
+                        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 border border-dashed border-slate-300">
+                            <Calendar size={32} className="text-slate-300" />
                         </div>
-                        <h3 className="text-2xl font-bold text-neutral-900 mb-2">No Appointments Found</h3>
-                        <p className="text-neutral-400 font-medium">No donors have scheduled visits yet.</p>
+                        <h3 className="text-xl font-bold text-slate-900 mb-2">No Appointments Found</h3>
+                        <p className="text-slate-500 font-medium">No donors have scheduled visits yet.</p>
                     </div>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
-                            <thead className="bg-neutral-50/50 text-neutral-400 text-xs font-bold uppercase tracking-wider">
+                            <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-200">
                                 <tr>
-                                    <th className="px-8 py-6">Date & Time</th>
-                                    <th className="px-8 py-6">Donor Name</th>
-                                    <th className="px-8 py-6">Type</th>
-                                    <th className="px-8 py-6">Status</th>
-                                    <th className="px-8 py-6 text-right">Actions</th>
+                                    <th className="px-6 py-4">Date & Time</th>
+                                    <th className="px-6 py-4">Donor Name</th>
+                                    <th className="px-6 py-4">Type</th>
+                                    <th className="px-6 py-4">Status</th>
+                                    <th className="px-6 py-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-neutral-100/50">
+                            <tbody className="divide-y divide-slate-100">
                                 {appointments.map((apt) => (
-                                    <tr key={apt.id} className="hover:bg-blue-50/30 transition-colors group">
-                                        <td className="px-8 py-6">
+                                    <tr key={apt.id} className="hover:bg-slate-50 transition-colors group">
+                                        <td className="px-6 py-4">
                                             <div className="flex flex-col">
-                                                <span className="font-bold text-neutral-900 text-lg">
+                                                <span className="font-bold text-slate-900">
                                                     {new Date(apt.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                                                 </span>
-                                                <span className="text-sm text-neutral-500 font-medium flex items-center gap-1.5 mt-1">
-                                                    <Clock size={14} className="text-primary/60" />
+                                                <span className="text-sm text-slate-500 font-medium flex items-center gap-1.5 mt-1">
+                                                    <Clock size={14} className="text-blue-500" />
                                                     {apt.time ? new Date(`2000-01-01T${apt.time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Time TBD'}
                                                 </span>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-6 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-rose-600 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-primary/20">
+                                                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-bold border border-blue-100">
                                                     <User size={18} />
                                                 </div>
-                                                <span className="font-bold text-neutral-700">{apt.donorName || 'Donor'}</span>
+                                                <span className="font-bold text-slate-900">{apt.donorName || 'Donor'}</span>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
-                                            <span className="font-medium text-neutral-600">{apt.reason}</span>
-                                            <div className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 bg-primary/5 text-primary rounded-md text-xs font-bold">
+                                        <td className="px-6 py-4">
+                                            <span className="font-medium text-slate-700">{apt.reason}</span>
+                                            <div className="inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded-md text-xs font-semibold">
                                                 {apt.units || 1} Units
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
-                                            <span className={`inline-flex px-3 py-1 rounded-lg text-xs font-bold border backdrop-blur-md shadow-sm ${apt.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-100 shadow-emerald-100' :
-                                                apt.status === 'Cancelled' || apt.status === 'Rejected' ? 'bg-red-50 text-error border-red-100 shadow-red-100' :
-                                                    'bg-blue-50 text-blue-700 border-blue-100 shadow-blue-100'
+                                        <td className="px-6 py-4">
+                                            <span className={`inline-flex px-2.5 py-1 rounded-md text-xs font-bold border ${apt.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                                                    apt.status === 'Cancelled' || apt.status === 'Rejected' ? 'bg-rose-50 text-rose-700 border-rose-200' :
+                                                        'bg-blue-50 text-blue-700 border-blue-200'
                                                 }`}>
                                                 {apt.status}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-6 text-right">
+                                        <td className="px-6 py-4 text-right">
                                             {rejectingId === apt.id ? (
                                                 <div className="flex items-center justify-end gap-2 animate-fade-in-up">
                                                     <input
@@ -154,31 +152,31 @@ const HospitalAppointments = () => {
                                                         value={rejectionReason}
                                                         onChange={(e) => setRejectionReason(e.target.value)}
                                                         placeholder="Reason..."
-                                                        className="px-3 py-2 rounded-xl border border-neutral-200 text-sm focus:border-red-500 focus:ring-4 focus:ring-red-500/10 outline-none transition-all w-48"
+                                                        className="px-3 py-1.5 rounded-lg border border-slate-200 text-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all w-48"
                                                         autoFocus
                                                     />
-                                                    <button onClick={() => confirmReject(apt)} className="p-2 bg-red-500 text-white rounded-xl shadow-lg shadow-red-500/20 hover:bg-red-600 transition-colors">
-                                                        <CheckCircle size={18} />
+                                                    <button onClick={() => confirmReject(apt)} className="p-1.5 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg hover:bg-rose-100 transition-colors">
+                                                        <CheckCircle size={16} />
                                                     </button>
-                                                    <button onClick={cancelReject} className="p-2 bg-neutral-100 text-neutral-500 rounded-xl hover:bg-neutral-200 transition-colors">
-                                                        <XCircle size={18} />
+                                                    <button onClick={cancelReject} className="p-1.5 bg-slate-50 text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors">
+                                                        <XCircle size={16} />
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <div className="space-x-2">
+                                                <div className="flex items-center justify-end gap-2">
                                                     {(apt.status === 'Scheduled' || apt.status === 'Pending') && (
                                                         <>
                                                             <button
                                                                 onClick={() => handleStatusUpdate(apt.id, 'Accepted', apt.donorId)}
-                                                                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-xl hover:bg-emerald-100 hover:scale-105 transition-all"
+                                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-xs rounded-lg hover:bg-emerald-100 transition-colors"
                                                             >
-                                                                <CheckCircle size={16} /> Accept
+                                                                <CheckCircle size={14} /> Accept
                                                             </button>
                                                             <button
                                                                 onClick={() => handleRejectClick(apt.id)}
-                                                                className="inline-flex items-center gap-1.5 px-4 py-2 bg-red-50 text-error font-bold text-xs rounded-xl hover:bg-red-100 hover:scale-105 transition-all"
+                                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 text-rose-700 border border-rose-200 font-semibold text-xs rounded-lg hover:bg-rose-100 transition-colors"
                                                             >
-                                                                <XCircle size={16} /> Reject
+                                                                <XCircle size={14} /> Reject
                                                             </button>
                                                         </>
                                                     )}
@@ -187,15 +185,15 @@ const HospitalAppointments = () => {
                                                         <>
                                                             <button
                                                                 onClick={() => handleStatusUpdate(apt.id, 'Completed', apt.donorId)}
-                                                                className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-50 text-blue-700 font-bold text-xs rounded-xl hover:bg-blue-100 hover:scale-105 transition-all"
+                                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 font-semibold text-xs rounded-lg hover:bg-blue-100 transition-colors"
                                                             >
-                                                                <CheckCircle size={16} /> Confirm
+                                                                <CheckCircle size={14} /> Confirm
                                                             </button>
                                                             <button
                                                                 onClick={() => handleStatusUpdate(apt.id, 'Cancelled', apt.donorId)}
-                                                                className="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-100 text-neutral-600 font-bold text-xs rounded-xl hover:bg-neutral-200 hover:scale-105 transition-all"
+                                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 text-slate-600 border border-slate-200 font-semibold text-xs rounded-lg hover:bg-slate-100 transition-colors"
                                                             >
-                                                                <XCircle size={16} /> Cancel
+                                                                <XCircle size={14} /> Cancel
                                                             </button>
                                                         </>
                                                     )}
@@ -209,7 +207,7 @@ const HospitalAppointments = () => {
                     </div>
                 )}
             </div>
-        </div >
+        </div>
     );
 };
 

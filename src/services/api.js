@@ -209,8 +209,8 @@ export const hospitalAPI = {
         const response = await api.get(`/hospital/donors/?${params.toString()}`);
         return response.data;
     },
-    getReports: async () => {
-        const response = await api.get('/hospital/reports/');
+    getReports: async (hospitalId) => {
+        const response = await api.get(`/hospital/reports/?hospitalId=${hospitalId}`);
         return response.data;
     },
     dispatchBlood: async (data) => {

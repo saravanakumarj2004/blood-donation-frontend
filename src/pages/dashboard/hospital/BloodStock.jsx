@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import { hospitalAPI } from '../../../services/api';
-import { Download, AlertTriangle, ArrowUp, ArrowDown } from 'lucide-react';
+import { Download, AlertTriangle, ArrowUp, ArrowDown, Droplet, Calendar, AlertCircle } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
@@ -70,89 +70,79 @@ const BloodStock = () => {
     const totalExpiring = inventory.reduce((acc, item) => acc + item.expiring, 0);
 
     return (
-        <div className="max-w-7xl mx-auto space-y-8 animate-fade-in relative">
-            {/* Background Decor */}
-            <div className="fixed inset-0 pointer-events-none -z-10">
-                <div className="absolute top-20 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[80px]" />
-                <div className="absolute bottom-20 left-0 w-[400px] h-[400px] bg-blue-400/5 rounded-full blur-[80px]" />
-            </div>
-
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 backdrop-blur-sm bg-white/40 p-6 rounded-[2rem] border border-white/60 shadow-lg">
+        <div className="max-w-7xl mx-auto space-y-8 animate-fade-in relative bg-slate-50 min-h-screen p-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <div>
-                    <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-600 flex items-center gap-3">
-                        <span className="text-4xl filter drop-shadow-sm">🩸</span> Blood Stock Inventory
+                    <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                        <Droplet className="text-blue-600" size={32} /> Blood Stock Inventory
                     </h2>
-                    <p className="text-neutral-500 font-medium mt-1 ml-12">Manage and monitor blood units in real-time.</p>
+                    <p className="text-slate-500 font-medium mt-1 ml-11">Manage and monitor blood units in real-time.</p>
                 </div>
                 <button
                     onClick={() => navigate('/dashboard/hospital/batches')}
-                    className="flex items-center gap-2 px-6 py-3 bg-white text-neutral-700 font-bold rounded-2xl shadow-sm hover:shadow-lg hover:text-primary transition-all active:scale-95 border border-white/60"
+                    className="flex items-center gap-2 px-6 py-3 bg-white text-slate-700 font-semibold rounded-xl shadow-sm hover:shadow hover:text-blue-600 border border-slate-200 transition-all active:scale-95"
                 >
-                    <Download size={20} className="stroke-2" />
+                    <Download size={20} />
                     Manage Batches
                 </button>
             </div>
 
             {/* Active Filters Banner */}
             {showLowOnly && (
-                <div className="flex items-center justify-between bg-red-50 border border-red-100 rounded-2xl p-4 mx-4">
+                <div className="flex items-center justify-between bg-white border border-rose-200 rounded-2xl p-4 shadow-sm">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-red-100 rounded-lg text-red-600">
+                        <div className="p-2 bg-rose-50 border border-rose-100 rounded-lg text-rose-600">
                             <AlertTriangle size={20} />
                         </div>
                         <div>
-                            <span className="font-bold text-red-800 block">Filtering by Low Stock</span>
-                            <span className="text-xs text-red-600 font-medium">Showing units with less than 10 items</span>
+                            <span className="font-bold text-slate-900 block">Low Stock Filter Active</span>
+                            <span className="text-sm text-slate-500 font-medium">Viewing only critical or low units</span>
                         </div>
                     </div>
-                    <button onClick={toggleLowFilter} className="text-sm font-bold text-neutral-500 hover:text-neutral-800 underline decoration-dashed">
+                    <button onClick={toggleLowFilter} className="text-sm font-bold text-slate-500 hover:text-rose-600 transition-colors bg-slate-50 hover:bg-rose-50 px-4 py-2 rounded-lg border border-slate-200 hover:border-rose-200">
                         Clear Filter
                     </button>
                 </div>
             )}
 
-            <div id="inventory-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div id="inventory-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredInventory.length > 0 ? (
                     filteredInventory.map((item) => (
                         <div
                             key={item.type}
                             onClick={() => navigate(`/dashboard/hospital/batches?bloodGroup=${encodeURIComponent(item.type)}`)}
-                            className="cursor-pointer bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] border border-white/60 shadow-lg hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden"
+                            className="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-200 group flex flex-col justify-between"
                         >
-                            {/* Decorative Background Blob */}
-                            <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${item.type.includes('+') ? 'from-red-500/10 to-rose-500/10' : 'from-blue-500/10 to-indigo-500/10'} rounded-bl-full opacity-50 group-hover:scale-110 transition-transform duration-500`} />
-
-                            <div className="flex items-start justify-between relative z-10">
-                                <div className="flex items-center gap-3">
-                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black shadow-sm group-hover:scale-110 transition-transform duration-300 ${item.type.includes('+') ? 'bg-gradient-to-br from-red-50 to-rose-100 text-rose-600 border border-rose-200' : 'bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-600 border border-blue-200'
-                                        }`}>
+                            <div className="flex items-start justify-between mb-6">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold bg-slate-50 border border-slate-200 text-slate-800 shadow-sm">
                                         {item.type}
                                     </div>
                                     <div>
-                                        <h3 className="text-base font-bold text-neutral-900">Blood Group</h3>
-                                        <p className="text-xs font-medium text-neutral-400">
+                                        <h3 className="text-base font-bold text-slate-900 leading-tight">Blood Group</h3>
+                                        <p className="text-sm font-medium text-slate-500">
                                             {item.source === 'Internal & External' ? 'Mixed Sources' : 'Internal Stock'}
                                         </p>
                                     </div>
                                 </div>
                                 {(item.status === 'Low' || item.status === 'Critical') && (
-                                    <span className="px-2 py-1 rounded-lg text-[10px] font-black bg-red-100 text-red-600 animate-pulse border border-red-200 shadow-sm uppercase tracking-wide">
-                                        {item.status} Stock
+                                    <span className="px-3 py-1 rounded-md text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 uppercase tracking-wide">
+                                        {item.status}
                                     </span>
                                 )}
                             </div>
 
-                            <div className="mt-6 flex items-end justify-between relative z-10">
+                            <div className="flex items-end justify-between">
                                 <div>
-                                    <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-1">Available Units</p>
+                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Available Units</p>
                                     <div className="flex items-baseline gap-1.5">
-                                        <span className="text-4xl font-black text-neutral-800 tracking-tight">{item.total}</span>
-                                        <span className="text-sm font-bold text-neutral-400">Bags</span>
+                                        <span className="text-4xl font-bold text-slate-900 tracking-tight leading-none">{item.total}</span>
+                                        <span className="text-sm font-semibold text-slate-500">Bags</span>
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-[10px] font-bold text-neutral-400 mb-1">Last Updated</p>
-                                    <p className="text-xs font-bold text-neutral-600 bg-neutral-100 px-2 py-1 rounded-lg">
+                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Last Updated</p>
+                                    <p className="text-xs font-bold text-slate-700 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200">
                                         {item.lastUpdated}
                                     </p>
                                 </div>
@@ -160,22 +150,21 @@ const BloodStock = () => {
                         </div>
                     ))
                 ) : (
-                    <div className="col-span-full py-12 text-center text-neutral-400 font-bold bg-white/50 rounded-3xl border border-dashed border-neutral-200">
+                    <div className="col-span-full py-12 text-center text-slate-500 font-semibold bg-white rounded-2xl border border-dashed border-slate-300">
                         No units found matching criteria.
                     </div>
-                )
-                }
+                )}
             </div>
 
             {/* Expiring Units Alert - Only show if there are expiring units */}
             {totalExpiring > 0 && (
-                <div className={`bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-[2rem] p-8 flex items-start gap-6 shadow-lg shadow-amber-500/10 transition-all ${showExpiringOnly ? 'ring-2 ring-amber-400 ring-offset-2' : ''}`}>
-                    <div className="p-4 bg-white rounded-2xl text-amber-500 shadow-md">
-                        <AlertTriangle size={32} />
+                <div className={`bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start gap-4 shadow-sm ${showExpiringOnly ? 'ring-2 ring-amber-400 ring-offset-2' : ''}`}>
+                    <div className="p-3 bg-white border border-amber-100 rounded-xl text-amber-600 shadow-sm">
+                        <AlertTriangle size={24} />
                     </div>
                     <div>
-                        <h4 className="text-amber-800 font-bold text-xl mb-2">Expiring Units Alert</h4>
-                        <p className="text-amber-700/80 leading-relaxed font-medium">
+                        <h4 className="text-amber-800 font-bold text-lg mb-1">Expiring Units Alert</h4>
+                        <p className="text-amber-700/80 text-sm font-medium">
                             {totalExpiring} units across all types are expiring within the next 7 days. Consider prioritizing these for immediate use or transfer
                             to reduce wastage.
                         </p>
