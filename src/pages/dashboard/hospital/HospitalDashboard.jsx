@@ -115,39 +115,72 @@ const HospitalDashboard = () => {
     return (
         <div className="min-h-screen p-6 pb-24 space-y-6 animate-fade-in" style={{ background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)' }}>
 
-            {/* ── PREMIUM TEXTURED HERO CARD ── */}
-            <div className="relative rounded-2xl p-6 overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 animate-fade-in border border-slate-200/60 border-l-[4px] border-l-rose-500 bg-white"
+            {/* ── STUNNING DYNAMIC HERO SECTION ── */}
+            <div className="relative rounded-3xl p-8 overflow-hidden flex flex-col xl:flex-row xl:items-center justify-between gap-8 animate-fade-in shadow-2xl shadow-rose-900/5 border border-slate-800/10 group"
                 style={{
-                    background: 'linear-gradient(90deg, #fff1f2 0%, #ffffff 100%)',
-                    boxShadow: '0 4px 24px -12px rgba(244,63,94,0.15)'
+                    background: 'linear-gradient(135deg, #1e3a5f 0%, #2d1b69 50%, #be123c 100%)',
+
                 }}
             >
-                {/* Subtle Grid Pattern Overlay */}
-                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#f43f5e 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
+                {/* Dynamic Background Animated Elements */}
+                <div className="absolute top-0 right-0 w-96 h-96 bg-rose-500/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 group-hover:bg-rose-500/30 transition-colors duration-700" />
+                <div className="absolute bottom-0 left-0 w-72 h-72 bg-indigo-500/20 rounded-full blur-[60px] translate-y-1/2 -translate-x-1/4 group-hover:bg-indigo-500/30 transition-colors duration-700" />
 
-                <div className="relative z-10 flex flex-col items-start pr-6 md:pr-0">
-                    <div className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 bg-white border border-rose-100 shadow-sm mb-3">
-                        <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-[pulse_1.5s_ease-in-out_infinite]" />
-                        <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider">Live Status</span>
+                {/* Subtle Grid Pattern Overlay */}
+                <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+
+                <div className="relative z-10 flex flex-col items-start xl:pr-0">
+                    <div className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 bg-white/10 border border-white/20 backdrop-blur-md mb-4 shadow-xl">
+                        <span className="relative flex h-2.5 w-2.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
+                        </span>
+                        <span className="text-[11px] font-bold text-rose-100 uppercase tracking-widest leading-none">Live</span>
                     </div>
-                    <h1 className="text-2xl font-black tracking-tight text-slate-900 mb-1 drop-shadow-sm">
+                    <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-4 drop-shadow-md">
                         {user?.name || 'City General Hospital'}
                     </h1>
-                    <p className="text-slate-500 font-medium text-sm">
-                        Blood Inventory &middot; Requests &middot; Appointments
-                    </p>
+
+                    {/* Glassmorphic Info Tags */}
+                    <div className="flex flex-wrap items-center gap-3 text-slate-300 font-medium text-sm">
+                        <div
+                            onClick={() => navigate('/dashboard/hospital/stock')}
+                            className="flex items-center gap-2 bg-slate-800/40 hover:bg-slate-800/60 hover:text-white transition-colors px-3.5 py-2 rounded-xl border border-slate-700/50 backdrop-blur-sm cursor-pointer group/pill"
+                        >
+                            <Activity size={16} className="text-rose-400 group-hover/pill:scale-110 transition-transform" />
+                            <span>Blood Inventory</span>
+                        </div>
+                        <div
+                            onClick={() => navigate('/dashboard/hospital/incoming-requests')}
+                            className="flex items-center gap-2 bg-slate-800/40 hover:bg-slate-800/60 hover:text-white transition-colors px-3.5 py-2 rounded-xl border border-slate-700/50 backdrop-blur-sm cursor-pointer group/pill"
+                        >
+                            <Clock size={16} className="text-indigo-400 group-hover/pill:scale-110 transition-transform" />
+                            <span>Live Requests</span>
+                        </div>
+                        <div
+                            onClick={() => navigate('/dashboard/hospital/appointments')}
+                            className="flex items-center gap-2 bg-slate-800/40 hover:bg-slate-800/60 hover:text-white transition-colors px-3.5 py-2 rounded-xl border border-slate-700/50 backdrop-blur-sm cursor-pointer group/pill"
+                        >
+                            <Calendar size={16} className="text-emerald-400 group-hover/pill:scale-110 transition-transform" />
+                            <span>Appointments</span>
+                        </div>
+                    </div>
                 </div>
-                <div className="relative z-10 flex flex-wrap items-center gap-3">
-                    <button onClick={handleExport} className="flex items-center gap-2 px-5 py-2.5 bg-white text-slate-700 font-bold rounded-xl hover:bg-slate-50 border border-slate-300 transition-colors shadow-sm">
-                        <Download size={17} className="stroke-[2.5px] text-slate-400" />
+
+                <div className="relative z-10 flex flex-wrap items-center gap-4 mt-2 xl:mt-0">
+                    <button onClick={handleExport} className="flex items-center gap-2 px-6 py-3.5 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl border border-white/10 backdrop-blur-md transition-all duration-300 shadow-xl hover:-translate-y-0.5 group/btn">
+                        <Download size={18} className="stroke-[2.5px] text-rose-300 group-hover/btn:-translate-y-0.5 group-hover/btn:text-rose-200 transition-all" />
                         Export Data
                     </button>
                     <button
                         onClick={() => navigate('/dashboard/hospital/request')}
-                        className="flex items-center gap-2 px-6 py-2.5 font-bold rounded-xl transition-all text-sm text-white"
-                        style={{ background: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)', boxShadow: '0 4px 20px rgba(244,63,94,0.35)' }}
+                        className="flex items-center gap-2 px-8 py-3.5 font-bold rounded-xl transition-all duration-300 text-sm text-white hover:-translate-y-0.5 group/btn2"
+                        style={{
+                            background: 'linear-gradient(135deg, #f43f5e 0%, #be123c 100%)',
+                            boxShadow: '0 8px 24px -6px rgba(225,29,72,0.6), inset 0 1px 0 rgba(255,255,255,0.2)'
+                        }}
                     >
-                        <Plus size={18} className="stroke-[3px]" />
+                        <HeartPulse size={20} className="stroke-[2.5px] group-hover/btn2:scale-110 transition-transform" />
                         Request Blood
                     </button>
                 </div>
@@ -161,9 +194,9 @@ const HospitalDashboard = () => {
                         <p className="text-slate-500 font-bold tracking-wide animate-pulse">Loading dashboard data...</p>
                     </div>
                 ) : (
-                    <div className="space-y-6 animate-fade-in">
+                    <div className="space-y-10 animate-fade-in mt-9">
                         {/* ── STAT CARDS ── */}
-                        <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-2 xl:grid-cols-4 gap-7">
                             {[
                                 {
                                     label: 'Total Blood Units',
@@ -213,25 +246,49 @@ const HospitalDashboard = () => {
                                         gradient: 'from-blue-500 to-indigo-600',
                                         shadow: 'rgba(59, 130, 246, 0.4)',
                                         hex: '#3b82f6',
-                                        unit: 'Total Units'
+                                        unit: 'Total Units',
+                                        border: 'border-blue-200',
+                                        bg: 'bg-white', // Make card solid white
+                                        text: 'text-blue-700',
+                                        footerBg: 'bg-blue-50', // Solid light blue footer
+                                        footerBorder: 'border-blue-100',
+                                        footerHover: 'group-hover:bg-blue-100/50'
                                     },
                                     rose: {
                                         gradient: 'from-rose-500 to-pink-600',
                                         shadow: 'rgba(244, 63, 94, 0.4)',
                                         hex: '#e11d48',
-                                        unit: 'Stock Alerts'
+                                        unit: 'Stock Alerts',
+                                        border: 'border-rose-200',
+                                        bg: 'bg-white',
+                                        text: 'text-rose-700',
+                                        footerBg: 'bg-rose-50',
+                                        footerBorder: 'border-rose-100',
+                                        footerHover: 'group-hover:bg-rose-100/50'
                                     },
                                     violet: {
                                         gradient: 'from-violet-500 to-purple-600',
                                         shadow: 'rgba(124, 58, 237, 0.4)',
                                         hex: '#8b5cf6',
-                                        unit: 'Requests'
+                                        unit: 'Requests',
+                                        border: 'border-violet-200',
+                                        bg: 'bg-white',
+                                        text: 'text-violet-700',
+                                        footerBg: 'bg-violet-50',
+                                        footerBorder: 'border-violet-100',
+                                        footerHover: 'group-hover:bg-violet-100/50'
                                     },
                                     emerald: {
                                         gradient: 'from-emerald-400 to-teal-500',
                                         shadow: 'rgba(16, 185, 129, 0.4)',
                                         hex: '#10b981',
-                                        unit: 'Appointments'
+                                        unit: 'Appointments',
+                                        border: 'border-emerald-200',
+                                        bg: 'bg-white',
+                                        text: 'text-emerald-700',
+                                        footerBg: 'bg-emerald-50',
+                                        footerBorder: 'border-emerald-100',
+                                        footerHover: 'group-hover:bg-emerald-100/50'
                                     },
                                 };
                                 const t = themes[stat.theme];
@@ -241,11 +298,9 @@ const HospitalDashboard = () => {
                                     <div
                                         key={i}
                                         onClick={() => stat.path && navigate(stat.path)}
-                                        className={`group relative rounded-2xl border ${isCritical ? 'border-rose-200 bg-rose-50/10' : 'border-slate-100/60 bg-white'} hover:border-slate-200 transition-all duration-300 ease-out overflow-hidden flex flex-col cursor-pointer animate-fade-in hover:-translate-y-1`}
+                                        className={`group relative rounded-2xl border ${t.border} ${t.bg} hover:border-opacity-100 border-opacity-60 transition-all duration-300 ease-out overflow-hidden flex flex-col cursor-pointer animate-fade-in hover:-translate-y-1`}
                                         style={{
-                                            boxShadow: isCritical
-                                                ? '0 8px 30px -8px rgba(244,63,94,0.1)'
-                                                : '0 2px 8px rgba(0,0,0,0.02)',
+                                            boxShadow: `0 4px 0px -8px ${t.shadow}`,
                                             animationDelay: `${i * 100}ms`,
                                             animationFillMode: 'both'
                                         }}
@@ -254,11 +309,11 @@ const HospitalDashboard = () => {
                                             <div className="flex justify-between items-start mb-3">
                                                 <div>
                                                     {/* Category Label */}
-                                                    <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1">{stat.label}</p>
+                                                    <p className="text-[11px] font-bold uppercase tracking-widest text-zinc-600 mb-1">{stat.label}</p>
 
                                                     {/* Number & Critical Badge Row */}
                                                     <div className="flex items-center gap-3">
-                                                        <h3 className={`text-3xl font-black tracking-tight leading-none ${isCritical ? 'text-rose-600' : 'text-slate-800'}`}>
+                                                        <h3 className={`text-3xl font-black tracking-tight leading-none ${t.text}`}>
                                                             <CountUp end={stat.val} duration={2} separator="," useEasing={true} />
                                                         </h3>
                                                         {isCritical && (
@@ -313,8 +368,8 @@ const HospitalDashboard = () => {
                                         </div>
 
                                         {/* Seamless Footer */}
-                                        <div className="px-5 py-3 border-t border-slate-100 bg-slate-50 flex justify-between items-center group-hover:bg-slate-100/50 transition-colors">
-                                            <span className="text-[10px] font-bold text-slate-500 group-hover:text-slate-700 uppercase tracking-wide">View Report</span>
+                                        <div className={`px-5 py-3 border-t ${t.footerBorder} ${t.footerBg} flex justify-between items-center ${t.footerHover} transition-colors`}>
+                                            <span className="text-[10px] font-bold text-zinc-800 group-hover:text-slate-700 uppercase tracking-wide">View Report</span>
                                             <ArrowRight size={14} className="text-slate-300 group-hover:text-slate-500 group-hover:translate-x-1 transition-all" />
                                         </div>
                                     </div>
@@ -323,7 +378,7 @@ const HospitalDashboard = () => {
                         </div>
 
                         {/* ── BOTTOM GRID ── */}
-                        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10">
+                        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 mt-6 md:mt-10">
 
                             {/* Inventory Table */}
                             <div className="lg:col-span-8 bg-white rounded-2xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden">
@@ -347,13 +402,13 @@ const HospitalDashboard = () => {
                                 </div>
 
                                 <div className="overflow-x-auto">
-                                    <table className="w-full text-left">
+                                    <table className="w-full text-left table-fixed">
                                         <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100">
                                             <tr>
-                                                <th className="px-6 py-3.5">Blood Group</th>
-                                                <th className="px-6 py-3.5">Availability</th>
-                                                <th className="px-6 py-3.5">Status</th>
-                                                <th className="px-6 py-3.5 text-right">Actions</th>
+                                                <th className="px-6 py-3.5 w-1/4">Blood Group</th>
+                                                <th className="px-6 py-3.5 w-1/4">Availability</th>
+                                                <th className="px-6 py-3.5 w-1/4">Status</th>
+                                                <th className="px-6 py-3.5 w-1/4">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-50">
@@ -392,12 +447,12 @@ const HospitalDashboard = () => {
                                                         </span>
                                                     </td>
                                                     <td className="px-6 py-3.5">
-                                                        <div className="flex items-center justify-end">
+                                                        <div className="flex items-center">
                                                             <button
                                                                 onClick={() => navigate(`/dashboard/hospital/batches?bloodGroup=${encodeURIComponent(group)}`)}
-                                                                className="px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all flex items-center gap-1.5 shadow-sm"
+                                                                className="group/btn px-3.5 py-1.5 text-xs font-bold rounded-lg text-slate-600 bg-white border border-slate-200 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600 transition-all duration-300 flex items-center gap-1.5 shadow-sm hover:shadow-md"
                                                             >
-                                                                Manage <ArrowRight size={13} className="text-slate-400" />
+                                                                Manage <ArrowRight size={13} className="text-slate-400 group-hover/btn:text-rose-500 group-hover/btn:translate-x-0.5 transition-all" />
                                                             </button>
                                                         </div>
                                                     </td>

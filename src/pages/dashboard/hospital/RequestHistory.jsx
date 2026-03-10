@@ -96,14 +96,14 @@ const RequestHistory = () => {
                     <div className="p-12 text-center text-slate-500 font-medium">No records found matching your filters.</div>
                 ) : (
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left">
+                        <table className="w-full text-left table-fixed">
                             <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100">
                                 <tr>
-                                    <th className="px-6 py-4">Date</th>
-                                    <th className="px-6 py-4">Type</th>
-                                    <th className="px-6 py-4">Other Party</th>
-                                    <th className="px-6 py-4">Details</th>
-                                    <th className="px-6 py-4">Status</th>
+                                    <th className="px-6 py-4 w-1/5">Date</th>
+                                    <th className="px-6 py-4 w-1/5">Type</th>
+                                    <th className="px-6 py-4 w-1/5">Other Party</th>
+                                    <th className="px-6 py-4 w-1/5">Details</th>
+                                    <th className="px-6 py-4 w-1/5">Status</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">

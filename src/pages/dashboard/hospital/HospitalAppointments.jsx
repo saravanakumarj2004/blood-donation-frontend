@@ -98,14 +98,14 @@ const HospitalAppointments = () => {
                     </div>
                 ) : (
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left">
+                        <table className="w-full text-left table-fixed">
                             <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100">
                                 <tr>
-                                    <th className="px-6 py-4">Date & Time</th>
-                                    <th className="px-6 py-4">Donor Name</th>
-                                    <th className="px-6 py-4">Type</th>
-                                    <th className="px-6 py-4">Status</th>
-                                    <th className="px-6 py-4 text-right">Actions</th>
+                                    <th className="px-6 py-4 w-1/5">Date & Time</th>
+                                    <th className="px-6 py-4 w-1/5">Donor Name</th>
+                                    <th className="px-6 py-4 w-1/5">Type</th>
+                                    <th className="px-6 py-4 w-1/5">Status</th>
+                                    <th className="px-6 py-4 w-1/5">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -138,15 +138,15 @@ const HospitalAppointments = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`inline-flex px-2.5 py-1 rounded-md text-xs font-bold border ${apt.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                                                    apt.status === 'Cancelled' || apt.status === 'Rejected' ? 'bg-rose-50 text-rose-700 border-rose-200' :
-                                                        'bg-rose-50 text-rose-700 border-rose-200'
+                                                apt.status === 'Cancelled' || apt.status === 'Rejected' ? 'bg-rose-50 text-rose-700 border-rose-200' :
+                                                    'bg-rose-50 text-rose-700 border-rose-200'
                                                 }`}>
                                                 {apt.status}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-right">
+                                        <td className="px-6 py-4">
                                             {rejectingId === apt.id ? (
-                                                <div className="flex items-center justify-end gap-2 animate-fade-in-up">
+                                                <div className="flex items-center gap-2 animate-fade-in-up">
                                                     <input
                                                         type="text"
                                                         value={rejectionReason}
@@ -163,7 +163,7 @@ const HospitalAppointments = () => {
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <div className="flex items-center justify-end gap-2">
+                                                <div className="flex items-center gap-2">
                                                     {(apt.status === 'Scheduled' || apt.status === 'Pending') && (
                                                         <>
                                                             <button

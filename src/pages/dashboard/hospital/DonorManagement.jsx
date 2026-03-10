@@ -129,15 +129,15 @@ const DonorManagement = () => {
 
             <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-slate-100 overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left">
+                    <table className="w-full text-left table-fixed">
                         <thead className="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider border-b border-slate-100">
                             <tr>
-                                <th className="px-6 py-4">Donor Name</th>
-                                <th className="px-6 py-4">Blood Group</th>
-                                <th className="px-6 py-4">Last Donation</th>
-                                <th className="px-6 py-4">Status</th>
-                                <th className="px-6 py-4">Contact Info</th>
-                                <th className="px-6 py-4 text-right">Actions</th>
+                                <th className="px-6 py-4 w-1/6">Donor Name</th>
+                                <th className="px-6 py-4 w-1/6">Blood Group</th>
+                                <th className="px-6 py-4 w-1/6">Last Donation</th>
+                                <th className="px-6 py-4 w-1/6">Status</th>
+                                <th className="px-6 py-4 w-1/6">Contact Info</th>
+                                <th className="px-6 py-4 w-1/6">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
@@ -176,7 +176,7 @@ const DonorManagement = () => {
                                             </button>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-right">
+                                    <td className="px-6 py-4">
                                         <button
                                             onClick={() => setSelectedDonor(donor)}
                                             className="text-sm font-semibold text-rose-600 hover:text-rose-700 transition-colors"

@@ -423,13 +423,13 @@ const RequestBlood = () => {
                             {eligibleDonors.length > 0 ? (
                                 <div className="space-y-6 mt-6 border-t border-slate-100 pt-6">
                                     <div className="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-                                        <table className="w-full text-left">
+                                        <table className="w-full text-left table-fixed">
                                             <thead className="bg-slate-50 text-slate-500 font-semibold text-xs uppercase border-b border-slate-100">
                                                 <tr>
-                                                    <th className="px-6 py-4">Donor Name</th>
-                                                    <th className="px-6 py-4">Blood Group</th>
-                                                    <th className="px-6 py-4">Contact</th>
-                                                    <th className="px-6 py-4">Location</th>
+                                                    <th className="px-6 py-4 w-1/4">Donor Name</th>
+                                                    <th className="px-6 py-4 w-1/4">Blood Group</th>
+                                                    <th className="px-6 py-4 w-1/4">Contact</th>
+                                                    <th className="px-6 py-4 w-1/4">Location</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-slate-100">
